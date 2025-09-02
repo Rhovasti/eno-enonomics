@@ -1,0 +1,33 @@
+{
+  "1": {
+    "textiles": 40.0,
+    "wood": 10.0,
+    "jewelry": 500.0,
+    "iron-ore": 30.0,
+    "food": 20.0,
+    "weapons": 80.0,
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0
+  },
+  "2": {
+    "wood": 10.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "tools": 50.0,
+    "stone": 8.0
+  },
+  "3": {
+    "textiles": 40.0,
+    "wood": 10.0,
+    "machinery": 250.0,
+    "jewelry": 500.0,
+    "iron-ore": 30.0,
+    "food": 20.0,
+    "weapons": 80.0,
+    "stone": 8.0,
+    "steel": 120.0,
+    "tools": 50.0,
+    "fish": 25.0
+  }
+}

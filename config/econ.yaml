@@ -1,0 +1,315 @@
+# Economic Worldbuilding Generator Configuration
+# Main configuration file for economic simulation
+
+simulation:
+  # Trade network parameters
+  max_trade_neighbors: 8
+  max_trade_radius_km: 800
+  min_trade_quantity: 0.5
+  transport_cost_per_km: 0.02
+  
+  # Market dynamics
+  scarcity_multiplier: true
+  price_elasticity: 1.5
+  
+  # Simulation settings
+  time_steps: 1
+  seed: null  # Set to integer for deterministic runs
+  strict_validation: true
+  parallel_workers: 1
+
+# Resource definitions
+resources:
+  # Tier 0: Raw Materials
+  - resource_id: wood
+    name: Wood
+    tier: 0
+    tech_min: tribal
+    base_price: 1.0
+    transportable: true
+    perishable: false
+
+  - resource_id: stone
+    name: Stone
+    tier: 0
+    tech_min: tribal
+    base_price: 0.8
+    transportable: true
+    perishable: false
+
+  - resource_id: iron-ore
+    name: Iron Ore
+    tier: 0
+    tech_min: medieval
+    base_price: 3.0
+    transportable: true
+    perishable: false
+
+  - resource_id: food
+    name: Food
+    tier: 0
+    tech_min: tribal
+    base_price: 2.0
+    transportable: true
+    perishable: true
+
+  - resource_id: fish
+    name: Fish
+    tier: 0
+    tech_min: tribal
+    base_price: 2.5
+    transportable: true
+    perishable: true
+
+  - resource_id: coal
+    name: Coal
+    tier: 0
+    tech_min: medieval
+    base_price: 1.5
+    transportable: true
+    perishable: false
+
+  - resource_id: precious-metals
+    name: Precious Metals
+    tier: 0
+    tech_min: medieval
+    base_price: 15.0
+    transportable: true
+    perishable: false
+
+  - resource_id: gems
+    name: Gems
+    tier: 0
+    tech_min: medieval
+    base_price: 25.0
+    transportable: true
+    perishable: false
+
+  - resource_id: fiber
+    name: Fiber
+    tier: 0
+    tech_min: tribal
+    base_price: 1.2
+    transportable: true
+    perishable: false
+
+  - resource_id: seed
+    name: Seed
+    tier: 0
+    tech_min: tribal
+    base_price: 0.5
+    transportable: true
+    perishable: true
+
+  # Tier 1: Refined Goods
+  - resource_id: tools
+    name: Tools
+    tier: 1
+    tech_min: tribal
+    base_price: 5.0
+    transportable: true
+    perishable: false
+
+  - resource_id: weapons
+    name: Weapons
+    tier: 1
+    tech_min: medieval
+    base_price: 8.0
+    transportable: true
+    perishable: false
+
+  - resource_id: textiles
+    name: Textiles
+    tier: 1
+    tech_min: medieval
+    base_price: 4.0
+    transportable: true
+    perishable: false
+
+  # Tier 2: Advanced Goods
+  - resource_id: steel
+    name: Steel
+    tier: 2
+    tech_min: industrial
+    base_price: 12.0
+    transportable: true
+    perishable: false
+
+  - resource_id: machinery
+    name: Machinery
+    tier: 2
+    tech_min: industrial
+    base_price: 25.0
+    transportable: true
+    perishable: false
+
+  # Tier 3: Luxury Goods
+  - resource_id: jewelry
+    name: Jewelry
+    tier: 3
+    tech_min: medieval
+    base_price: 50.0
+    transportable: true
+    perishable: false
+
+# Production rules
+rules:
+  # Primary production (resource extraction)
+  - rule_id: farming
+    name: Farming
+    tech_min: tribal
+    inputs:
+      seed: 1.0
+    outputs:
+      food: 3.0
+    capacity_driver: agriculture
+    labor_required: 2.0
+
+  - rule_id: fishing
+    name: Fishing
+    tech_min: tribal
+    inputs: {}
+    outputs:
+      fish: 2.0
+    capacity_driver: fishing
+    labor_required: 1.5
+
+  - rule_id: forestry
+    name: Forestry
+    tech_min: tribal
+    inputs: {}
+    outputs:
+      wood: 2.5
+    capacity_driver: forestry
+    labor_required: 2.0
+
+  - rule_id: quarrying
+    name: Stone Quarrying
+    tech_min: tribal
+    inputs: {}
+    outputs:
+      stone: 2.0
+    capacity_driver: mining_potential
+    labor_required: 3.0
+
+  - rule_id: iron-mining
+    name: Iron Mining
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      iron-ore: 1.5
+    capacity_driver: mining_potential
+    labor_required: 4.0
+
+  - rule_id: coal-mining
+    name: Coal Mining
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      coal: 1.8
+    capacity_driver: mining_potential
+    labor_required: 4.5
+
+  # Secondary production (crafting/manufacturing)
+  - rule_id: toolmaking
+    name: Tool Making
+    tech_min: tribal
+    inputs:
+      wood: 2.0
+      stone: 1.0
+    outputs:
+      tools: 1.0
+    capacity_driver: craftsmanship
+    labor_required: 3.0
+
+  - rule_id: weaponsmithing
+    name: Weapon Smithing
+    tech_min: medieval
+    inputs:
+      iron-ore: 3.0
+      wood: 1.0
+    outputs:
+      weapons: 1.0
+    capacity_driver: skilled_labor
+    labor_required: 4.0
+
+  - rule_id: weaving
+    name: Textile Weaving
+    tech_min: medieval
+    inputs:
+      fiber: 2.0
+    outputs:
+      textiles: 1.5
+    capacity_driver: general_labor
+    labor_required: 2.5
+
+  - rule_id: steel-making
+    name: Steel Making
+    tech_min: industrial
+    inputs:
+      iron-ore: 4.0
+      coal: 2.0
+    outputs:
+      steel: 1.0
+    byproducts:
+      slag: 0.5
+    capacity_driver: industrial_capacity
+    labor_required: 5.0
+
+  - rule_id: machinery-production
+    name: Machinery Production
+    tech_min: industrial
+    inputs:
+      steel: 3.0
+      tools: 1.0
+    outputs:
+      machinery: 1.0
+    capacity_driver: skilled_labor
+    labor_required: 8.0
+
+  - rule_id: jewelry-crafting
+    name: Jewelry Crafting
+    tech_min: medieval
+    inputs:
+      precious-metals: 1.0
+      gems: 0.5
+    outputs:
+      jewelry: 1.0
+    capacity_driver: craftsmanship
+    labor_required: 6.0
+
+# Demand profiles by technology level
+demand_profiles:
+  - tech: tribal
+    per_capita:
+      food: 2.5
+      wood: 1.0
+      stone: 0.5
+      tools: 0.2
+      fish: 0.8
+
+  - tech: medieval
+    per_capita:
+      food: 2.0
+      wood: 0.8
+      stone: 0.3
+      iron-ore: 0.5
+      tools: 0.4
+      weapons: 0.3
+      textiles: 0.6
+      fish: 0.5
+      jewelry: 0.1
+
+  - tech: industrial
+    per_capita:
+      food: 1.8
+      wood: 0.5
+      stone: 0.2
+      iron-ore: 0.8
+      steel: 0.4
+      tools: 0.6
+      weapons: 0.2
+      textiles: 1.0
+      machinery: 0.3
+      fish: 0.4
+      jewelry: 0.2

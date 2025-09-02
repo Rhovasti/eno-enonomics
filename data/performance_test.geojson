@@ -1,0 +1,2789 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11877198.678622559,
+          4455820.521837884
+        ]
+      },
+      "properties": {
+        "Id": "1",
+        "Burg": "City",
+        "Population": 30039,
+        "tech": "industrial",
+        "Culture": "noon",
+        "Religion": "dayar",
+        "Elevation (m)": 1765
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11517451.775842283,
+          4486956.706318747
+        ]
+      },
+      "properties": {
+        "Id": "2",
+        "Burg": "Hill",
+        "Population": 48276,
+        "tech": "industrial",
+        "Culture": "night",
+        "Religion": "none",
+        "Elevation (m)": 1229,
+        "Plaza": "plaza",
+        "Temple": "temple"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11573939.03746417,
+          4453938.576024262
+        ]
+      },
+      "properties": {
+        "Id": "3",
+        "Burg": "Springs",
+        "Population": 7134,
+        "tech": "tribal",
+        "Culture": "dawn",
+        "Religion": "aumir",
+        "Elevation (m)": 528
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11222482.512272066,
+          5410445.586703251
+        ]
+      },
+      "properties": {
+        "Id": "4",
+        "Burg": "UpperBay",
+        "Population": 9036,
+        "tech": "tribal",
+        "Culture": "noon",
+        "Religion": "aumir",
+        "Elevation (m)": 1099,
+        "Citadel": "citadel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11645967.79389266,
+          4777823.948825111
+        ]
+      },
+      "properties": {
+        "Id": "5",
+        "Burg": "Ridge",
+        "Population": 83450,
+        "tech": "medieval",
+        "Culture": "dawn",
+        "Religion": "none",
+        "Elevation (m)": 1203,
+        "Citadel": "citadel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12072739.630567355,
+          5361230.880658533
+        ]
+      },
+      "properties": {
+        "Id": "6",
+        "Burg": "Bayford",
+        "Population": 129833,
+        "tech": "industrial",
+        "Culture": "dusk",
+        "Religion": "asta",
+        "Elevation (m)": 413
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11507676.658136271,
+          4550559.816046257
+        ]
+      },
+      "properties": {
+        "Id": "7",
+        "Burg": "Burgham",
+        "Population": 15298,
+        "tech": "medieval",
+        "Culture": "night",
+        "Religion": "asta",
+        "Elevation (m)": 1445,
+        "Port": "port",
+        "Temple": "temple"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12237593.722439645,
+          5222019.688229789
+        ]
+      },
+      "properties": {
+        "Id": "8",
+        "Burg": "Bridge",
+        "Population": 3679,
+        "tech": "medieval",
+        "Culture": "dawn",
+        "Religion": "dayar",
+        "Elevation (m)": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11425514.967432499,
+          4703667.846120286
+        ]
+      },
+      "properties": {
+        "Id": "9",
+        "Burg": "Valley",
+        "Population": 8629,
+        "tech": "medieval",
+        "Culture": "night",
+        "Religion": "aumir",
+        "Elevation (m)": 1899
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11745351.360792024,
+          4779594.187545621
+        ]
+      },
+      "properties": {
+        "Id": "10",
+        "Burg": "City",
+        "Population": 8910,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "aumir",
+        "Elevation (m)": 1436,
+        "Plaza": "plaza"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11166571.520063026,
+          5524610.761511531
+        ]
+      },
+      "properties": {
+        "Id": "11",
+        "Burg": "Gate",
+        "Population": 43234,
+        "tech": "medieval",
+        "Culture": "dawn",
+        "Religion": "dayar",
+        "Elevation (m)": 273,
+        "Walls": "walls"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12039974.981072929,
+          5564321.153245625
+        ]
+      },
+      "properties": {
+        "Id": "12",
+        "Burg": "Falls",
+        "Population": 95709,
+        "tech": "medieval",
+        "Culture": "night",
+        "Religion": "aumir",
+        "Elevation (m)": 412
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12155442.099779319,
+          4613541.489582609
+        ]
+      },
+      "properties": {
+        "Id": "13",
+        "Burg": "Dale",
+        "Population": 4669,
+        "tech": "medieval",
+        "Culture": "night",
+        "Religion": "dayar",
+        "Elevation (m)": 1665,
+        "Plaza": "plaza",
+        "Citadel": "citadel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11409242.253053421,
+          4755874.428878814
+        ]
+      },
+      "properties": {
+        "Id": "14",
+        "Burg": "Port",
+        "Population": 7486,
+        "tech": "tribal",
+        "Culture": "noon",
+        "Religion": "asta",
+        "Elevation (m)": 1968,
+        "Walls": "walls"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11988435.899018465,
+          5090912.863456085
+        ]
+      },
+      "properties": {
+        "Id": "15",
+        "Burg": "LowerBurg",
+        "Population": 6872,
+        "tech": "tribal",
+        "Culture": "night",
+        "Religion": "aumir",
+        "Elevation (m)": 926,
+        "Plaza": "plaza"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11527076.827827055,
+          5102254.974553334
+        ]
+      },
+      "properties": {
+        "Id": "16",
+        "Burg": "Bay",
+        "Population": 181718,
+        "tech": "industrial",
+        "Culture": "dusk",
+        "Religion": "dayar",
+        "Elevation (m)": 1343
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11278043.815694746,
+          5204574.2601012625
+        ]
+      },
+      "properties": {
+        "Id": "17",
+        "Burg": "Dale",
+        "Population": 1598,
+        "tech": "tribal",
+        "Culture": "dusk",
+        "Religion": "dayar",
+        "Elevation (m)": 604
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12170437.783750204,
+          4599889.373553334
+        ]
+      },
+      "properties": {
+        "Id": "18",
+        "Burg": "NorthFalls",
+        "Population": 28656,
+        "tech": "medieval",
+        "Culture": "night",
+        "Religion": "none",
+        "Elevation (m)": 1591,
+        "Temple": "temple",
+        "Citadel": "citadel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11174848.274473535,
+          5079510.359646446
+        ]
+      },
+      "properties": {
+        "Id": "19",
+        "Burg": "Hill",
+        "Population": 41100,
+        "tech": "industrial",
+        "Culture": "dawn",
+        "Religion": "asta",
+        "Elevation (m)": 1859,
+        "Capital": "capital"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11818622.807556411,
+          4665961.825308022
+        ]
+      },
+      "properties": {
+        "Id": "20",
+        "Burg": "Haven",
+        "Population": 7299,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "aumir",
+        "Elevation (m)": 53,
+        "Walls": "walls"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11844179.536401428,
+          4575113.706579853
+        ]
+      },
+      "properties": {
+        "Id": "21",
+        "Burg": "Hill",
+        "Population": 9756,
+        "tech": "tribal",
+        "Culture": "dusk",
+        "Religion": "dayar",
+        "Elevation (m)": 1371,
+        "Temple": "temple"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11695429.42455867,
+          5371947.523146224
+        ]
+      },
+      "properties": {
+        "Id": "22",
+        "Burg": "Dale",
+        "Population": 21049,
+        "tech": "medieval",
+        "Culture": "dawn",
+        "Religion": "dayar",
+        "Elevation (m)": 395
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11787887.78738776,
+          5195672.61155656
+        ]
+      },
+      "properties": {
+        "Id": "23",
+        "Burg": "Hill",
+        "Population": 2494,
+        "tech": "tribal",
+        "Culture": "dawn",
+        "Religion": "asta",
+        "Elevation (m)": 1224,
+        "Shanty Town": "shanty town"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11534579.408524785,
+          4906943.445967977
+        ]
+      },
+      "properties": {
+        "Id": "24",
+        "Burg": "EastGate",
+        "Population": 2144,
+        "tech": "tribal",
+        "Culture": "dawn",
+        "Religion": "aumir",
+        "Elevation (m)": 896
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11596086.795076314,
+          4644360.494893615
+        ]
+      },
+      "properties": {
+        "Id": "25",
+        "Burg": "GreatDale",
+        "Population": 6118,
+        "tech": "tribal",
+        "Culture": "night",
+        "Religion": "dayar",
+        "Elevation (m)": 46,
+        "Plaza": "plaza",
+        "Temple": "temple"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11250841.36422695,
+          5296692.152444145
+        ]
+      },
+      "properties": {
+        "Id": "26",
+        "Burg": "GreatSprings",
+        "Population": 3743,
+        "tech": "tribal",
+        "Culture": "dusk",
+        "Religion": "asta",
+        "Elevation (m)": 953,
+        "Plaza": "plaza"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11495901.745650174,
+          5406011.686705967
+        ]
+      },
+      "properties": {
+        "Id": "27",
+        "Burg": "OldBurg",
+        "Population": 9437,
+        "tech": "tribal",
+        "Culture": "dawn",
+        "Religion": "dayar",
+        "Elevation (m)": 868,
+        "Plaza": "plaza"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11876620.78971115,
+          5194626.209826101
+        ]
+      },
+      "properties": {
+        "Id": "28",
+        "Burg": "Haven",
+        "Population": 3114,
+        "tech": "industrial",
+        "Culture": "dawn",
+        "Religion": "aumir",
+        "Elevation (m)": 1395,
+        "Port": "port",
+        "Plaza": "plaza",
+        "Citadel": "citadel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11645455.323678536,
+          4952336.740224742
+        ]
+      },
+      "properties": {
+        "Id": "29",
+        "Burg": "NorthHill",
+        "Population": 8941,
+        "tech": "medieval",
+        "Culture": "dusk",
+        "Religion": "dayar",
+        "Elevation (m)": 258
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11885925.693147218,
+          4824557.244424894
+        ]
+      },
+      "properties": {
+        "Id": "30",
+        "Burg": "NewCity",
+        "Population": 28753,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "asta",
+        "Elevation (m)": 1649
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12195382.728651479,
+          4748602.700494459
+        ]
+      },
+      "properties": {
+        "Id": "31",
+        "Burg": "Point",
+        "Population": 1219,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "dayar",
+        "Elevation (m)": 178,
+        "Port": "port"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11240293.43077597,
+          4900225.1747035
+        ]
+      },
+      "properties": {
+        "Id": "32",
+        "Burg": "Ridge",
+        "Population": 5044,
+        "tech": "medieval",
+        "Culture": "dawn",
+        "Religion": "aumir",
+        "Elevation (m)": 989,
+        "Port": "port"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11877887.642392175,
+          4648228.838755005
+        ]
+      },
+      "properties": {
+        "Id": "33",
+        "Burg": "Hill",
+        "Population": 6239,
+        "tech": "medieval",
+        "Culture": "dusk",
+        "Religion": "dayar",
+        "Elevation (m)": 652,
+        "Plaza": "plaza",
+        "Temple": "temple"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11796821.431342961,
+          4567728.627168074
+        ]
+      },
+      "properties": {
+        "Id": "34",
+        "Burg": "NorthPortford",
+        "Population": 9954,
+        "tech": "tribal",
+        "Culture": "dawn",
+        "Religion": "asta",
+        "Elevation (m)": 1974,
+        "Port": "port"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11709188.014880558,
+          4784485.566669909
+        ]
+      },
+      "properties": {
+        "Id": "35",
+        "Burg": "Bridge",
+        "Population": 4584,
+        "tech": "medieval",
+        "Culture": "dawn",
+        "Religion": "dayar",
+        "Elevation (m)": 313,
+        "Citadel": "citadel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11892619.438734628,
+          4464982.059355965
+        ]
+      },
+      "properties": {
+        "Id": "36",
+        "Burg": "Port",
+        "Population": 1116,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "none",
+        "Elevation (m)": 1687,
+        "Port": "port",
+        "Walls": "walls"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11846566.79780821,
+          5132663.729279697
+        ]
+      },
+      "properties": {
+        "Id": "37",
+        "Burg": "Fieldville",
+        "Population": 8120,
+        "tech": "tribal",
+        "Culture": "dusk",
+        "Religion": "dayar",
+        "Elevation (m)": 756
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12208373.741067953,
+          4806553.397674448
+        ]
+      },
+      "properties": {
+        "Id": "38",
+        "Burg": "Cross",
+        "Population": 5774,
+        "tech": "medieval",
+        "Culture": "dawn",
+        "Religion": "none",
+        "Elevation (m)": 1239
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11239798.411523566,
+          4647795.629135052
+        ]
+      },
+      "properties": {
+        "Id": "39",
+        "Burg": "OldGroveville",
+        "Population": 1691,
+        "tech": "medieval",
+        "Culture": "dusk",
+        "Religion": "dayar",
+        "Elevation (m)": 1100
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11173517.71849958,
+          4694993.906723184
+        ]
+      },
+      "properties": {
+        "Id": "40",
+        "Burg": "Crossthorpe",
+        "Population": 3955,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "asta",
+        "Elevation (m)": 1682,
+        "Plaza": "plaza"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11213557.70922401,
+          5085749.67645438
+        ]
+      },
+      "properties": {
+        "Id": "41",
+        "Burg": "Springs",
+        "Population": 6432,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "none",
+        "Elevation (m)": 1342
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11784768.069449198,
+          5544770.997400271
+        ]
+      },
+      "properties": {
+        "Id": "42",
+        "Burg": "Crossford",
+        "Population": 2896,
+        "tech": "medieval",
+        "Culture": "dusk",
+        "Religion": "none",
+        "Elevation (m)": 150,
+        "Temple": "temple"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11725759.530157054,
+          4846108.6424735645
+        ]
+      },
+      "properties": {
+        "Id": "43",
+        "Burg": "Springs",
+        "Population": 128149,
+        "tech": "medieval",
+        "Culture": "dawn",
+        "Religion": "asta",
+        "Elevation (m)": 1475
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11682998.894616682,
+          4931932.213156455
+        ]
+      },
+      "properties": {
+        "Id": "44",
+        "Burg": "UpperGrove",
+        "Population": 2530,
+        "tech": "industrial",
+        "Culture": "dawn",
+        "Religion": "none",
+        "Elevation (m)": 1173,
+        "Walls": "walls"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11484703.197042137,
+          5052886.24665379
+        ]
+      },
+      "properties": {
+        "Id": "45",
+        "Burg": "Valley",
+        "Population": 26166,
+        "tech": "tribal",
+        "Culture": "dusk",
+        "Religion": "asta",
+        "Elevation (m)": 1082,
+        "Port": "port",
+        "Plaza": "plaza",
+        "Temple": "temple",
+        "Citadel": "citadel",
+        "Walls": "walls"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12168494.093423072,
+          5389028.440015867
+        ]
+      },
+      "properties": {
+        "Id": "46",
+        "Burg": "Point",
+        "Population": 5720,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "dayar",
+        "Elevation (m)": 326
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12017466.109227149,
+          5182283.212614779
+        ]
+      },
+      "properties": {
+        "Id": "47",
+        "Burg": "Gate",
+        "Population": 6194,
+        "tech": "tribal",
+        "Culture": "dawn",
+        "Religion": "none",
+        "Elevation (m)": 253,
+        "Walls": "walls"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12241631.825004341,
+          4876383.978681441
+        ]
+      },
+      "properties": {
+        "Id": "48",
+        "Burg": "City",
+        "Population": 1733,
+        "tech": "medieval",
+        "Culture": "dusk",
+        "Religion": "asta",
+        "Elevation (m)": 133,
+        "Plaza": "plaza"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11318348.264999516,
+          4814449.559398839
+        ]
+      },
+      "properties": {
+        "Id": "49",
+        "Burg": "Ridge",
+        "Population": 8954,
+        "tech": "medieval",
+        "Culture": "night",
+        "Religion": "asta",
+        "Elevation (m)": 1232,
+        "Walls": "walls"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11232988.995230421,
+          4687304.186348771
+        ]
+      },
+      "properties": {
+        "Id": "50",
+        "Burg": "Springs",
+        "Population": 9790,
+        "tech": "medieval",
+        "Culture": "dusk",
+        "Religion": "aumir",
+        "Elevation (m)": 161,
+        "Plaza": "plaza",
+        "Citadel": "citadel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11354954.279218728,
+          4649454.702237934
+        ]
+      },
+      "properties": {
+        "Id": "51",
+        "Burg": "Bridgeby",
+        "Population": 40421,
+        "tech": "tribal",
+        "Culture": "dawn",
+        "Religion": "none",
+        "Elevation (m)": 72,
+        "Temple": "temple"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11481086.764992658,
+          5054822.184679361
+        ]
+      },
+      "properties": {
+        "Id": "52",
+        "Burg": "NewBridgewick",
+        "Population": 6942,
+        "tech": "industrial",
+        "Culture": "noon",
+        "Religion": "none",
+        "Elevation (m)": 1563,
+        "Plaza": "plaza"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11957575.26831294,
+          5158764.702400341
+        ]
+      },
+      "properties": {
+        "Id": "53",
+        "Burg": "Dale",
+        "Population": 5005,
+        "tech": "medieval",
+        "Culture": "night",
+        "Religion": "none",
+        "Elevation (m)": 1368
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12146233.270033171,
+          5252759.276112277
+        ]
+      },
+      "properties": {
+        "Id": "54",
+        "Burg": "Haventon",
+        "Population": 3349,
+        "tech": "tribal",
+        "Culture": "night",
+        "Religion": "asta",
+        "Elevation (m)": 1886,
+        "Plaza": "plaza"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11709429.678643716,
+          5375805.117336643
+        ]
+      },
+      "properties": {
+        "Id": "55",
+        "Burg": "Point",
+        "Population": 408717,
+        "tech": "industrial",
+        "Culture": "dawn",
+        "Religion": "none",
+        "Elevation (m)": 389
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11692955.457157131,
+          4967407.462183123
+        ]
+      },
+      "properties": {
+        "Id": "56",
+        "Burg": "Valley",
+        "Population": 47170,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "dayar",
+        "Elevation (m)": 675
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12070197.803341705,
+          4779360.336819327
+        ]
+      },
+      "properties": {
+        "Id": "57",
+        "Burg": "UpperGate",
+        "Population": 1410,
+        "tech": "medieval",
+        "Culture": "dusk",
+        "Religion": "asta",
+        "Elevation (m)": 1986
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11813160.137883453,
+          5263899.561996421
+        ]
+      },
+      "properties": {
+        "Id": "58",
+        "Burg": "Point",
+        "Population": 4938,
+        "tech": "medieval",
+        "Culture": "dusk",
+        "Religion": "asta",
+        "Elevation (m)": 385
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12227292.019489886,
+          5213547.218456374
+        ]
+      },
+      "properties": {
+        "Id": "59",
+        "Burg": "Mills",
+        "Population": 9504,
+        "tech": "tribal",
+        "Culture": "night",
+        "Religion": "none",
+        "Elevation (m)": 1960,
+        "Walls": "walls"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12058341.550706567,
+          5490920.69043564
+        ]
+      },
+      "properties": {
+        "Id": "60",
+        "Burg": "UpperPoint",
+        "Population": 7549,
+        "tech": "tribal",
+        "Culture": "night",
+        "Religion": "aumir",
+        "Elevation (m)": 1301,
+        "Temple": "temple"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11900924.126581104,
+          5270364.219841818
+        ]
+      },
+      "properties": {
+        "Id": "61",
+        "Burg": "Valley",
+        "Population": 17854,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "none",
+        "Elevation (m)": 137,
+        "Port": "port"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11719951.180133507,
+          4468366.911885171
+        ]
+      },
+      "properties": {
+        "Id": "62",
+        "Burg": "Town",
+        "Population": 2100,
+        "tech": "medieval",
+        "Culture": "dawn",
+        "Religion": "none",
+        "Elevation (m)": 980,
+        "Plaza": "plaza",
+        "Temple": "temple"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11158249.382393876,
+          4595450.025004496
+        ]
+      },
+      "properties": {
+        "Id": "63",
+        "Burg": "Dale",
+        "Population": 103438,
+        "tech": "tribal",
+        "Culture": "noon",
+        "Religion": "dayar",
+        "Elevation (m)": 864,
+        "Plaza": "plaza",
+        "Citadel": "citadel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11851713.098078836,
+          4963823.657144886
+        ]
+      },
+      "properties": {
+        "Id": "64",
+        "Burg": "Valley",
+        "Population": 10146,
+        "tech": "tribal",
+        "Culture": "night",
+        "Religion": "dayar",
+        "Elevation (m)": 1357,
+        "Port": "port"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11287493.622867998,
+          5192228.570995198
+        ]
+      },
+      "properties": {
+        "Id": "65",
+        "Burg": "NorthValley",
+        "Population": 223472,
+        "tech": "industrial",
+        "Culture": "noon",
+        "Religion": "aumir",
+        "Elevation (m)": 430,
+        "Port": "port"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11603825.739269875,
+          4611085.752425474
+        ]
+      },
+      "properties": {
+        "Id": "66",
+        "Burg": "Valley",
+        "Population": 6660,
+        "tech": "medieval",
+        "Culture": "dawn",
+        "Religion": "aumir",
+        "Elevation (m)": 1677,
+        "Port": "port",
+        "Temple": "temple"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11951660.794701697,
+          4688547.54977048
+        ]
+      },
+      "properties": {
+        "Id": "67",
+        "Burg": "Point",
+        "Population": 1001,
+        "tech": "medieval",
+        "Culture": "night",
+        "Religion": "dayar",
+        "Elevation (m)": 1342,
+        "Temple": "temple"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11802120.816212317,
+          4997928.89166482
+        ]
+      },
+      "properties": {
+        "Id": "68",
+        "Burg": "LittlePort",
+        "Population": 47552,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "aumir",
+        "Elevation (m)": 35
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11207126.115614764,
+          5298760.079812667
+        ]
+      },
+      "properties": {
+        "Id": "69",
+        "Burg": "GreatFalls",
+        "Population": 31379,
+        "tech": "industrial",
+        "Culture": "dawn",
+        "Religion": "none",
+        "Elevation (m)": 1138,
+        "Temple": "temple"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11373331.086097464,
+          5092092.62990494
+        ]
+      },
+      "properties": {
+        "Id": "70",
+        "Burg": "Grove",
+        "Population": 43200,
+        "tech": "medieval",
+        "Culture": "night",
+        "Religion": "none",
+        "Elevation (m)": 1165,
+        "Plaza": "plaza"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11197441.12055659,
+          4628912.100884115
+        ]
+      },
+      "properties": {
+        "Id": "71",
+        "Burg": "WestGrove",
+        "Population": 11869,
+        "tech": "tribal",
+        "Culture": "dawn",
+        "Religion": "dayar",
+        "Elevation (m)": 839,
+        "Temple": "temple",
+        "Citadel": "citadel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11842094.121846829,
+          5470519.5079724705
+        ]
+      },
+      "properties": {
+        "Id": "72",
+        "Burg": "Daleham",
+        "Population": 24889,
+        "tech": "tribal",
+        "Culture": "noon",
+        "Religion": "aumir",
+        "Elevation (m)": 1925,
+        "Port": "port"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11647346.402297959,
+          4459551.265850007
+        ]
+      },
+      "properties": {
+        "Id": "73",
+        "Burg": "LowerRidgestead",
+        "Population": 60087,
+        "tech": "medieval",
+        "Culture": "dawn",
+        "Religion": "dayar",
+        "Elevation (m)": 1550
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11156031.62098742,
+          5449039.155651168
+        ]
+      },
+      "properties": {
+        "Id": "74",
+        "Burg": "OldCity",
+        "Population": 24810,
+        "tech": "industrial",
+        "Culture": "night",
+        "Religion": "aumir",
+        "Elevation (m)": 506,
+        "Citadel": "citadel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11640482.257187994,
+          5335779.501713639
+        ]
+      },
+      "properties": {
+        "Id": "75",
+        "Burg": "GreatBurgwick",
+        "Population": 46934,
+        "tech": "medieval",
+        "Culture": "dusk",
+        "Religion": "dayar",
+        "Elevation (m)": 1678
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12084456.270400355,
+          5377010.582553853
+        ]
+      },
+      "properties": {
+        "Id": "76",
+        "Burg": "Ford",
+        "Population": 4455,
+        "tech": "medieval",
+        "Culture": "dawn",
+        "Religion": "asta",
+        "Elevation (m)": 8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11292426.865088167,
+          5221009.267847164
+        ]
+      },
+      "properties": {
+        "Id": "77",
+        "Burg": "UpperGate",
+        "Population": 9207,
+        "tech": "medieval",
+        "Culture": "dusk",
+        "Religion": "aumir",
+        "Elevation (m)": 894
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11511716.940538464,
+          5502422.94713995
+        ]
+      },
+      "properties": {
+        "Id": "78",
+        "Burg": "Ford",
+        "Population": 3885,
+        "tech": "tribal",
+        "Culture": "noon",
+        "Religion": "dayar",
+        "Elevation (m)": 93,
+        "Port": "port"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11636394.792882424,
+          4750075.411972395
+        ]
+      },
+      "properties": {
+        "Id": "79",
+        "Burg": "Falls",
+        "Population": 33229,
+        "tech": "medieval",
+        "Culture": "dawn",
+        "Religion": "aumir",
+        "Elevation (m)": 1424
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11694458.344326463,
+          4819417.271026135
+        ]
+      },
+      "properties": {
+        "Id": "80",
+        "Burg": "Haven",
+        "Population": 7660,
+        "tech": "tribal",
+        "Culture": "dawn",
+        "Religion": "asta",
+        "Elevation (m)": 466,
+        "Plaza": "plaza",
+        "Citadel": "citadel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11392753.218081897,
+          4590825.068052397
+        ]
+      },
+      "properties": {
+        "Id": "81",
+        "Burg": "Falls",
+        "Population": 9791,
+        "tech": "tribal",
+        "Culture": "dawn",
+        "Religion": "dayar",
+        "Elevation (m)": 595,
+        "Temple": "temple"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11398337.86868965,
+          5473723.081643664
+        ]
+      },
+      "properties": {
+        "Id": "82",
+        "Burg": "NewSpringsholm",
+        "Population": 40744,
+        "tech": "industrial",
+        "Culture": "noon",
+        "Religion": "none",
+        "Elevation (m)": 801,
+        "Port": "port"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12195359.446774926,
+          5539673.908034991
+        ]
+      },
+      "properties": {
+        "Id": "83",
+        "Burg": "NorthBridge",
+        "Population": 1431,
+        "tech": "medieval",
+        "Culture": "night",
+        "Religion": "asta",
+        "Elevation (m)": 1487,
+        "Port": "port",
+        "Plaza": "plaza"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11328697.668124111,
+          5036263.479165263
+        ]
+      },
+      "properties": {
+        "Id": "84",
+        "Burg": "Port",
+        "Population": 8071,
+        "tech": "tribal",
+        "Culture": "dusk",
+        "Religion": "dayar",
+        "Elevation (m)": 245,
+        "Temple": "temple",
+        "Walls": "walls"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11766937.570141148,
+          4912925.036895708
+        ]
+      },
+      "properties": {
+        "Id": "85",
+        "Burg": "Port",
+        "Population": 26330,
+        "tech": "tribal",
+        "Culture": "dawn",
+        "Religion": "none",
+        "Elevation (m)": 329,
+        "Plaza": "plaza"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11892490.027605563,
+          5543699.815087279
+        ]
+      },
+      "properties": {
+        "Id": "86",
+        "Burg": "WestPoint",
+        "Population": 2546,
+        "tech": "tribal",
+        "Culture": "night",
+        "Religion": "none",
+        "Elevation (m)": 1073
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11593173.662272036,
+          4794397.780723438
+        ]
+      },
+      "properties": {
+        "Id": "87",
+        "Burg": "LittleFalls",
+        "Population": 8487,
+        "tech": "tribal",
+        "Culture": "dusk",
+        "Religion": "aumir",
+        "Elevation (m)": 1342,
+        "Plaza": "plaza"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11949723.099450115,
+          5470223.536327962
+        ]
+      },
+      "properties": {
+        "Id": "88",
+        "Burg": "Haven",
+        "Population": 6336,
+        "tech": "tribal",
+        "Culture": "dusk",
+        "Religion": "none",
+        "Elevation (m)": 165,
+        "Temple": "temple"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11978171.058875822,
+          5371978.600261989
+        ]
+      },
+      "properties": {
+        "Id": "89",
+        "Burg": "EastTown",
+        "Population": 375958,
+        "tech": "industrial",
+        "Culture": "dawn",
+        "Religion": "dayar",
+        "Elevation (m)": 965,
+        "Plaza": "plaza"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11428037.839506213,
+          4959771.067053307
+        ]
+      },
+      "properties": {
+        "Id": "90",
+        "Burg": "WestBridge",
+        "Population": 924253,
+        "tech": "industrial",
+        "Culture": "noon",
+        "Religion": "aumir",
+        "Elevation (m)": 1682
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11656752.39196821,
+          4720539.944865884
+        ]
+      },
+      "properties": {
+        "Id": "91",
+        "Burg": "NorthBurgham",
+        "Population": 8773,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "aumir",
+        "Elevation (m)": 49,
+        "Plaza": "plaza",
+        "Temple": "temple",
+        "Citadel": "citadel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11312276.518799124,
+          5022656.284116288
+        ]
+      },
+      "properties": {
+        "Id": "92",
+        "Burg": "UpperFord",
+        "Population": 5861,
+        "tech": "medieval",
+        "Culture": "night",
+        "Religion": "none",
+        "Elevation (m)": 1764,
+        "Plaza": "plaza"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11811847.352245517,
+          5013171.07732799
+        ]
+      },
+      "properties": {
+        "Id": "93",
+        "Burg": "LittleFieldby",
+        "Population": 7430,
+        "tech": "tribal",
+        "Culture": "dusk",
+        "Religion": "aumir",
+        "Elevation (m)": 1078,
+        "Plaza": "plaza"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12021968.227934958,
+          5146823.823996093
+        ]
+      },
+      "properties": {
+        "Id": "94",
+        "Burg": "Hill",
+        "Population": 6817,
+        "tech": "medieval",
+        "Culture": "dusk",
+        "Religion": "aumir",
+        "Elevation (m)": 1200
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11227267.276557239,
+          4457507.83760327
+        ]
+      },
+      "properties": {
+        "Id": "95",
+        "Burg": "Ridgeford",
+        "Population": 7651,
+        "tech": "tribal",
+        "Culture": "night",
+        "Religion": "dayar",
+        "Elevation (m)": 1748,
+        "Citadel": "citadel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11402665.33803825,
+          4903291.400676461
+        ]
+      },
+      "properties": {
+        "Id": "96",
+        "Burg": "Burg",
+        "Population": 37741,
+        "tech": "medieval",
+        "Culture": "dawn",
+        "Religion": "aumir",
+        "Elevation (m)": 462
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12174070.34483119,
+          4868940.4764677305
+        ]
+      },
+      "properties": {
+        "Id": "97",
+        "Burg": "Bridge",
+        "Population": 5409,
+        "tech": "tribal",
+        "Culture": "night",
+        "Religion": "asta",
+        "Elevation (m)": 1400
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11191415.346784515,
+          4466307.481226928
+        ]
+      },
+      "properties": {
+        "Id": "98",
+        "Burg": "UpperSprings",
+        "Population": 3412,
+        "tech": "tribal",
+        "Culture": "noon",
+        "Religion": "dayar",
+        "Elevation (m)": 813,
+        "Plaza": "plaza"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11739220.413223771,
+          4826612.362783959
+        ]
+      },
+      "properties": {
+        "Id": "99",
+        "Burg": "Mills",
+        "Population": 47738,
+        "tech": "tribal",
+        "Culture": "dusk",
+        "Religion": "dayar",
+        "Elevation (m)": 1004,
+        "Temple": "temple"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12239947.649847453,
+          5100887.723261658
+        ]
+      },
+      "properties": {
+        "Id": "100",
+        "Burg": "Bay",
+        "Population": 38232,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "asta",
+        "Elevation (m)": 1597
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11379911.919619497,
+          5048859.8165233955
+        ]
+      },
+      "properties": {
+        "Id": "101",
+        "Burg": "Ford",
+        "Population": 8940,
+        "tech": "tribal",
+        "Culture": "dawn",
+        "Religion": "aumir",
+        "Elevation (m)": 1665,
+        "Port": "port"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11839547.059196344,
+          4669742.799945417
+        ]
+      },
+      "properties": {
+        "Id": "102",
+        "Burg": "Falls",
+        "Population": 1227,
+        "tech": "tribal",
+        "Culture": "night",
+        "Religion": "asta",
+        "Elevation (m)": 420,
+        "Walls": "walls"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11384279.146293199,
+          5123052.902854355
+        ]
+      },
+      "properties": {
+        "Id": "103",
+        "Burg": "City",
+        "Population": 17784,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "dayar",
+        "Elevation (m)": 1577,
+        "Temple": "temple",
+        "Citadel": "citadel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11288688.45743682,
+          5445895.584193407
+        ]
+      },
+      "properties": {
+        "Id": "104",
+        "Burg": "Valley",
+        "Population": 34676,
+        "tech": "industrial",
+        "Culture": "dawn",
+        "Religion": "none",
+        "Elevation (m)": 1603
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11340002.680088483,
+          4465435.959072426
+        ]
+      },
+      "properties": {
+        "Id": "105",
+        "Burg": "Falls",
+        "Population": 35847,
+        "tech": "industrial",
+        "Culture": "dawn",
+        "Religion": "none",
+        "Elevation (m)": 1178,
+        "Temple": "temple",
+        "Walls": "walls"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11684699.065922925,
+          4767461.012659778
+        ]
+      },
+      "properties": {
+        "Id": "106",
+        "Burg": "LittleFieldbury",
+        "Population": 3880,
+        "tech": "medieval",
+        "Culture": "dawn",
+        "Religion": "aumir",
+        "Elevation (m)": 1649
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12082699.48400258,
+          4469840.771759007
+        ]
+      },
+      "properties": {
+        "Id": "107",
+        "Burg": "Burg",
+        "Population": 5312,
+        "tech": "tribal",
+        "Culture": "night",
+        "Religion": "none",
+        "Elevation (m)": 273,
+        "Plaza": "plaza",
+        "Citadel": "citadel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12015256.26199984,
+          4586058.614525737
+        ]
+      },
+      "properties": {
+        "Id": "108",
+        "Burg": "GreatCross",
+        "Population": 8351,
+        "tech": "tribal",
+        "Culture": "night",
+        "Religion": "asta",
+        "Elevation (m)": 1816
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11597397.19839237,
+          4465272.664584757
+        ]
+      },
+      "properties": {
+        "Id": "109",
+        "Burg": "OldBurg",
+        "Population": 53366,
+        "tech": "medieval",
+        "Culture": "dusk",
+        "Religion": "asta",
+        "Elevation (m)": 1569,
+        "Port": "port",
+        "Temple": "temple"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12142655.911297785,
+          4574877.798470891
+        ]
+      },
+      "properties": {
+        "Id": "110",
+        "Burg": "Ford",
+        "Population": 22778,
+        "tech": "tribal",
+        "Culture": "dawn",
+        "Religion": "none",
+        "Elevation (m)": 353,
+        "Capital": "capital",
+        "Walls": "walls"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12125074.605290513,
+          5247836.405575214
+        ]
+      },
+      "properties": {
+        "Id": "111",
+        "Burg": "LowerValley",
+        "Population": 41281,
+        "tech": "medieval",
+        "Culture": "night",
+        "Religion": "dayar",
+        "Elevation (m)": 1831,
+        "Walls": "walls"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11324749.684484892,
+          4675544.895106763
+        ]
+      },
+      "properties": {
+        "Id": "112",
+        "Burg": "Valley",
+        "Population": 1475,
+        "tech": "medieval",
+        "Culture": "dawn",
+        "Religion": "asta",
+        "Elevation (m)": 1583
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11498848.075807244,
+          4757780.079725171
+        ]
+      },
+      "properties": {
+        "Id": "113",
+        "Burg": "Grove",
+        "Population": 8999,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "asta",
+        "Elevation (m)": 1878,
+        "Citadel": "citadel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11988789.943331433,
+          4774887.123457499
+        ]
+      },
+      "properties": {
+        "Id": "114",
+        "Burg": "Springs",
+        "Population": 7919,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "asta",
+        "Elevation (m)": 1542
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11172153.047144953,
+          4654796.365506599
+        ]
+      },
+      "properties": {
+        "Id": "115",
+        "Burg": "Haven",
+        "Population": 15746,
+        "tech": "industrial",
+        "Culture": "noon",
+        "Religion": "aumir",
+        "Elevation (m)": 1812,
+        "Port": "port"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11172759.592859447,
+          5398229.3335933415
+        ]
+      },
+      "properties": {
+        "Id": "116",
+        "Burg": "NorthCitystead",
+        "Population": 3517,
+        "tech": "medieval",
+        "Culture": "dawn",
+        "Religion": "aumir",
+        "Elevation (m)": 1744,
+        "Citadel": "citadel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11305075.49938468,
+          4909683.716309022
+        ]
+      },
+      "properties": {
+        "Id": "117",
+        "Burg": "Ford",
+        "Population": 5820,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "aumir",
+        "Elevation (m)": 391
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12211177.466525001,
+          5239200.262154145
+        ]
+      },
+      "properties": {
+        "Id": "118",
+        "Burg": "Bay",
+        "Population": 6380,
+        "tech": "medieval",
+        "Culture": "night",
+        "Religion": "asta",
+        "Elevation (m)": 1645
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12018247.615997188,
+          5433931.837674703
+        ]
+      },
+      "properties": {
+        "Id": "119",
+        "Burg": "UpperRidge",
+        "Population": 33994,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "none",
+        "Elevation (m)": 335,
+        "Temple": "temple"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12234006.060406985,
+          4776361.809046015
+        ]
+      },
+      "properties": {
+        "Id": "120",
+        "Burg": "EastRidgeford",
+        "Population": 87461,
+        "tech": "medieval",
+        "Culture": "night",
+        "Religion": "aumir",
+        "Elevation (m)": 1412,
+        "Temple": "temple"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11530386.729645004,
+          4921398.230877368
+        ]
+      },
+      "properties": {
+        "Id": "121",
+        "Burg": "Town",
+        "Population": 104822,
+        "tech": "medieval",
+        "Culture": "dusk",
+        "Religion": "dayar",
+        "Elevation (m)": 1276,
+        "Port": "port"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11374945.889350794,
+          4513618.447321858
+        ]
+      },
+      "properties": {
+        "Id": "122",
+        "Burg": "Dalestead",
+        "Population": 3697,
+        "tech": "medieval",
+        "Culture": "dawn",
+        "Religion": "asta",
+        "Elevation (m)": 647,
+        "Plaza": "plaza"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11626865.14360565,
+          4867268.930915603
+        ]
+      },
+      "properties": {
+        "Id": "123",
+        "Burg": "Dale",
+        "Population": 6519,
+        "tech": "industrial",
+        "Culture": "night",
+        "Religion": "aumir",
+        "Elevation (m)": 998
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11502403.256272262,
+          5522087.139036616
+        ]
+      },
+      "properties": {
+        "Id": "124",
+        "Burg": "Haven",
+        "Population": 15722,
+        "tech": "tribal",
+        "Culture": "dawn",
+        "Religion": "aumir",
+        "Elevation (m)": 927,
+        "Temple": "temple",
+        "Walls": "walls"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11403137.449381746,
+          5055561.873402061
+        ]
+      },
+      "properties": {
+        "Id": "125",
+        "Burg": "Baywick",
+        "Population": 5433,
+        "tech": "medieval",
+        "Culture": "dusk",
+        "Religion": "aumir",
+        "Elevation (m)": 1755,
+        "Plaza": "plaza"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11874233.390460383,
+          4472574.787652461
+        ]
+      },
+      "properties": {
+        "Id": "126",
+        "Burg": "Gate",
+        "Population": 20948,
+        "tech": "medieval",
+        "Culture": "dusk",
+        "Religion": "asta",
+        "Elevation (m)": 1970,
+        "Walls": "walls"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11323518.447214527,
+          4889900.61101889
+        ]
+      },
+      "properties": {
+        "Id": "127",
+        "Burg": "Haven",
+        "Population": 1611,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "asta",
+        "Elevation (m)": 911,
+        "Port": "port"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12007378.384251937,
+          4731541.201670312
+        ]
+      },
+      "properties": {
+        "Id": "128",
+        "Burg": "UpperBridge",
+        "Population": 7975,
+        "tech": "medieval",
+        "Culture": "dawn",
+        "Religion": "asta",
+        "Elevation (m)": 1833
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11258908.979147997,
+          4807875.186378185
+        ]
+      },
+      "properties": {
+        "Id": "129",
+        "Burg": "Ridge",
+        "Population": 4769,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "asta",
+        "Elevation (m)": 340,
+        "Port": "port"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11864673.220778868,
+          5454014.029676568
+        ]
+      },
+      "properties": {
+        "Id": "130",
+        "Burg": "EastFord",
+        "Population": 6510,
+        "tech": "tribal",
+        "Culture": "dusk",
+        "Religion": "aumir",
+        "Elevation (m)": 1740,
+        "Plaza": "plaza"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12138525.480532212,
+          4834028.821335412
+        ]
+      },
+      "properties": {
+        "Id": "131",
+        "Burg": "Crossville",
+        "Population": 2967,
+        "tech": "tribal",
+        "Culture": "night",
+        "Religion": "aumir",
+        "Elevation (m)": 128
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11287234.362841075,
+          4596816.058632101
+        ]
+      },
+      "properties": {
+        "Id": "132",
+        "Burg": "Hill",
+        "Population": 9007,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "none",
+        "Elevation (m)": 1180,
+        "Port": "port",
+        "Plaza": "plaza",
+        "Temple": "temple",
+        "Citadel": "citadel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11374784.90579546,
+          4593510.3925416125
+        ]
+      },
+      "properties": {
+        "Id": "133",
+        "Burg": "Bridge",
+        "Population": 2433,
+        "tech": "tribal",
+        "Culture": "night",
+        "Religion": "asta",
+        "Elevation (m)": 895
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11621870.288551258,
+          4765674.678508406
+        ]
+      },
+      "properties": {
+        "Id": "134",
+        "Burg": "OldTown",
+        "Population": 39150,
+        "tech": "medieval",
+        "Culture": "night",
+        "Religion": "none",
+        "Elevation (m)": 1314,
+        "Walls": "walls"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12196834.215539537,
+          5312079.037876119
+        ]
+      },
+      "properties": {
+        "Id": "135",
+        "Burg": "Gate",
+        "Population": 7827,
+        "tech": "industrial",
+        "Culture": "night",
+        "Religion": "asta",
+        "Elevation (m)": 6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12096911.936359806,
+          4992213.864460331
+        ]
+      },
+      "properties": {
+        "Id": "136",
+        "Burg": "Valleyville",
+        "Population": 8252,
+        "tech": "medieval",
+        "Culture": "dusk",
+        "Religion": "none",
+        "Elevation (m)": 107
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11805599.67854089,
+          5494200.545112833
+        ]
+      },
+      "properties": {
+        "Id": "137",
+        "Burg": "Portthorpe",
+        "Population": 2419,
+        "tech": "tribal",
+        "Culture": "dawn",
+        "Religion": "dayar",
+        "Elevation (m)": 1518
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12108093.47863823,
+          5058728.083120217
+        ]
+      },
+      "properties": {
+        "Id": "138",
+        "Burg": "EastMillsville",
+        "Population": 2613,
+        "tech": "medieval",
+        "Culture": "night",
+        "Religion": "asta",
+        "Elevation (m)": 523,
+        "Temple": "temple"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11783515.786993215,
+          4803809.093452381
+        ]
+      },
+      "properties": {
+        "Id": "139",
+        "Burg": "GreatFord",
+        "Population": 2771,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "asta",
+        "Elevation (m)": 1426,
+        "Port": "port",
+        "Citadel": "citadel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11370853.851011382,
+          4744667.749421987
+        ]
+      },
+      "properties": {
+        "Id": "140",
+        "Burg": "Haven",
+        "Population": 4421,
+        "tech": "medieval",
+        "Culture": "noon",
+        "Religion": "asta",
+        "Elevation (m)": 1098,
+        "Walls": "walls"
+      }
+    }
+  ]
+}

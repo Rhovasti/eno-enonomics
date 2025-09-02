@@ -1,0 +1,56 @@
+{
+  "type": "FeatureCollection",
+  "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:EPSG::3857"}},
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 1,
+        "Burg": "TestCity",
+        "Population": 25000,
+        "Port": "port",
+        "Plaza": "plaza",
+        "tech": "medieval",
+        "Culture": "Noon",
+        "Religion": "Asta"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [2778349.26, 8435940.58]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 2,
+        "Burg": "SmallTown",
+        "Population": 5000,
+        "tech": "tribal",
+        "Culture": "Dawn",
+        "Religion": "No religion"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [2778000.0, 8435000.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": 3,
+        "Burg": "IndustrialHub",
+        "Population": 75000,
+        "Capital": "capital",
+        "Citadel": "citadel",
+        "Walls": "walls",
+        "tech": "industrial",
+        "Culture": "Night",
+        "Religion": "Aumir"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [2780000.0, 8437000.0]
+      }
+    }
+  ]
+}

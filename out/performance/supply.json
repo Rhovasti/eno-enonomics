@@ -1,0 +1,675 @@
+{
+  "1": {
+    "machinery-production-output": 7.083625228652346
+  },
+  "2": {
+    "machinery-production-output": 9.878048747763902
+  },
+  "3": {
+    "quarrying-output": 1.116199358328072,
+    "iron-mining-output": 0.7733256,
+    "coal-mining-output": 0.7290983677668741,
+    "toolmaking-output": 1.116199358328072,
+    "jewelry-crafting-output": 0.6314177083438823
+  },
+  "4": {
+    "farming-output": 2.0395018664366846,
+    "quarrying-output": 1.4844794325686967,
+    "iron-mining-output": 1.02847752,
+    "coal-mining-output": 0.9696579049198975
+  },
+  "5": {
+    "iron-mining-output": 7.670080991766653,
+    "coal-mining-output": 7.231421708704321,
+    "weaponsmithing-output": 11.451346012061949,
+    "machinery-production-output": 4.627042525052875,
+    "jewelry-crafting-output": 6.262594905216215
+  },
+  "6": {
+    "machinery-production-output": 12.375345204802697
+  },
+  "7": {
+    "iron-mining-output": 3.6870523535474784,
+    "coal-mining-output": 3.4761862957109892,
+    "weaving-output": 5.231709107020381,
+    "jewelry-crafting-output": 5.635591678778334
+  },
+  "8": {
+    "jewelry-crafting-output": 0.7495324847671816
+  },
+  "9": {
+    "iron-mining-output": 2.338459,
+    "coal-mining-output": 2.2047202885689505,
+    "jewelry-crafting-output": 2.48214691158157
+  },
+  "10": {
+    "iron-mining-output": 2.5353405,
+    "coal-mining-output": 2.390341946889189
+  },
+  "11": {
+    "iron-mining-output": 4.148161048585265,
+    "coal-mining-output": 3.9109237425447203,
+    "weaponsmithing-output": 6.940528407080293,
+    "machinery-production-output": 3.5692325103013394,
+    "jewelry-crafting-output": 4.830873546875347
+  },
+  "12": {
+    "iron-mining-output": 5.340650019630676,
+    "coal-mining-output": 5.035213126433225,
+    "weaponsmithing-output": 9.748091720041675,
+    "machinery-production-output": 4.5952945059132695,
+    "jewelry-crafting-output": 8.085512105485378
+  },
+  "13": {
+    "iron-mining-output": 1.364187178046,
+    "coal-mining-output": 1.2861680058720888,
+    "jewelry-crafting-output": 1.8824135415878034
+  },
+  "14": {
+    "farming-output": 1.6896537153768283,
+    "quarrying-output": 1.2298376529669395,
+    "iron-mining-output": 0.85205652,
+    "coal-mining-output": 0.8033265909949482
+  },
+  "15": {
+    "quarrying-output": 1.1289666512408238,
+    "iron-mining-output": 0.78217104,
+    "coal-mining-output": 0.7374379285756457,
+    "toolmaking-output": 1.467656646613071,
+    "jewelry-crafting-output": 1.0793015659645553
+  },
+  "16": {
+    "machinery-production-output": 13.938043054833773
+  },
+  "17": {
+    "quarrying-output": 0.19899081454993292,
+    "iron-mining-output": 0.137864880416,
+    "coal-mining-output": 0.12998025577283473
+  },
+  "18": {
+    "iron-mining-output": 5.04626159464608,
+    "coal-mining-output": 4.757661057620646,
+    "weaving-output": 7.1603465884382995,
+    "jewelry-crafting-output": 6.427598328052854
+  },
+  "19": {
+    "machinery-production-output": 9.114365420587436
+  },
+  "21": {
+    "quarrying-output": 1.6027646463191905,
+    "iron-mining-output": 1.11042792,
+    "coal-mining-output": 1.0469214830011642
+  },
+  "22": {
+    "iron-mining-output": 2.7565719653221463,
+    "coal-mining-output": 2.5989209726773574,
+    "weaving-output": 5.578909404534187,
+    "jewelry-crafting-output": 3.21025399721995
+  },
+  "23": {
+    "quarrying-output": 0.2320802068827389,
+    "iron-mining-output": 0.1607898839008,
+    "coal-mining-output": 0.1515941563366045,
+    "toolmaking-output": 0.2320802068827389,
+    "jewelry-crafting-output": 0.15754126854332307
+  },
+  "24": {
+    "quarrying-output": 0.27797090319525986,
+    "iron-mining-output": 0.192583890944,
+    "coal-mining-output": 0.18156983364505724,
+    "toolmaking-output": 0.27797090319525986,
+    "jewelry-crafting-output": 0.15724408849753407
+  },
+  "25": {
+    "toolmaking-output": 1.3688446837929826,
+    "jewelry-crafting-output": 1.2079633591598644
+  },
+  "26": {
+    "quarrying-output": 0.5685416485900864,
+    "iron-mining-output": 0.3938972086308,
+    "coal-mining-output": 0.3713698497510546
+  },
+  "27": {
+    "quarrying-output": 1.5503577252269578,
+    "iron-mining-output": 1.07411934,
+    "coal-mining-output": 1.0126894254901584,
+    "toolmaking-output": 2.015465042795045,
+    "jewelry-crafting-output": 1.1401191992038493
+  },
+  "29": {
+    "iron-mining-output": 1.69879,
+    "coal-mining-output": 1.6016345717491933
+  },
+  "30": {
+    "iron-mining-output": 4.5952682979343,
+    "coal-mining-output": 4.332460499787877,
+    "weaving-output": 6.5204137880965805
+  },
+  "32": {
+    "iron-mining-output": 1.4352702,
+    "coal-mining-output": 1.3531857216732963,
+    "jewelry-crafting-output": 1.1718932110074536
+  },
+  "33": {
+    "iron-mining-output": 1.8598459,
+    "coal-mining-output": 1.75347953046933
+  },
+  "34": {
+    "fishing-output": 3.891402455586335,
+    "quarrying-output": 1.6352930801005763,
+    "iron-mining-output": 1.13296428,
+    "coal-mining-output": 1.0681689669735124,
+    "toolmaking-output": 1.6352930801005763,
+    "jewelry-crafting-output": 1.1100737531198914
+  },
+  "35": {
+    "iron-mining-output": 0.89168188032,
+    "coal-mining-output": 0.8406857389805913,
+    "jewelry-crafting-output": 1.0384366367200402
+  },
+  "36": {
+    "iron-mining-output": 0.255151946016,
+    "coal-mining-output": 0.24055956168114334
+  },
+  "37": {
+    "quarrying-output": 1.2704708143571553,
+    "iron-mining-output": 0.880208,
+    "coal-mining-output": 0.8298680608728648
+  },
+  "38": {
+    "iron-mining-output": 1.564754,
+    "coal-mining-output": 1.4752642190517,
+    "jewelry-crafting-output": 1.2776162909929831
+  },
+  "39": {
+    "iron-mining-output": 0.36727786106,
+    "coal-mining-output": 0.34627288818028884
+  },
+  "40": {
+    "iron-mining-output": 1.054832967825,
+    "coal-mining-output": 0.9945060594242517
+  },
+  "41": {
+    "iron-mining-output": 1.743072,
+    "coal-mining-output": 1.6433840417285304
+  },
+  "43": {
+    "iron-mining-output": 8.184949048378591,
+    "coal-mining-output": 7.716843967699841,
+    "weaponsmithing-output": 8.72859880066942,
+    "machinery-production-output": 4.93764112176809,
+    "jewelry-crafting-output": 8.019579495682517
+  },
+  "45": {
+    "fishing-output": 7.52831694338117,
+    "quarrying-output": 3.163642091205957,
+    "iron-mining-output": 2.1918355355728676,
+    "coal-mining-output": 2.066482360598964,
+    "weaving-output": 3.1100849223132156
+  },
+  "46": {
+    "iron-mining-output": 1.0868,
+    "coal-mining-output": 1.0246448663913865
+  },
+  "47": {
+    "quarrying-output": 0.7134334596884281,
+    "iron-mining-output": 0.4942812,
+    "coal-mining-output": 0.46601278444403216,
+    "toolmaking-output": 1.0175814082924421,
+    "jewelry-crafting-output": 0.5756309713703542
+  },
+  "49": {
+    "iron-mining-output": 2.5478607,
+    "coal-mining-output": 2.4021461046516053,
+    "jewelry-crafting-output": 3.2452984983589914
+  },
+  "51": {
+    "toolmaking-output": 3.3029461211432136,
+    "weaponsmithing-output": 2.44034180587966,
+    "machinery-production-output": 1.2941866795128998,
+    "jewelry-crafting-output": 2.2421141761480032
+  },
+  "53": {
+    "iron-mining-output": 1.356355,
+    "coal-mining-output": 1.2787837575950396,
+    "jewelry-crafting-output": 1.4396969860314937
+  },
+  "54": {
+    "quarrying-output": 0.4956886551602259,
+    "iron-mining-output": 0.3434231741892,
+    "coal-mining-output": 0.3237824737143897,
+    "toolmaking-output": 0.6443952517082937,
+    "jewelry-crafting-output": 0.5686590028046886
+  },
+  "55": {
+    "machinery-production-output": 20.903267513228645
+  },
+  "56": {
+    "iron-mining-output": 5.885755660915597,
+    "coal-mining-output": 5.549143653654038,
+    "weaponsmithing-output": 6.276691461271615,
+    "machinery-production-output": 3.5506328765446873
+  },
+  "57": {
+    "iron-mining-output": 0.299803506,
+    "coal-mining-output": 0.28265745615480237
+  },
+  "58": {
+    "iron-mining-output": 0.9347298216,
+    "coal-mining-output": 0.8812717272408691
+  },
+  "59": {
+    "quarrying-output": 1.5613648215065177,
+    "iron-mining-output": 1.08174528,
+    "coal-mining-output": 1.0198792306727207,
+    "toolmaking-output": 1.5613648215065177,
+    "jewelry-crafting-output": 1.1482137193211173
+  },
+  "60": {
+    "quarrying-output": 1.2401876091701076,
+    "iron-mining-output": 0.85922718,
+    "coal-mining-output": 0.810087154077059,
+    "toolmaking-output": 1.2401876091701076,
+    "jewelry-crafting-output": 1.094427445347868
+  },
+  "61": {
+    "weaving-output": 5.394989940394699
+  },
+  "62": {
+    "iron-mining-output": 0.51708426,
+    "coal-mining-output": 0.48751171558777046,
+    "jewelry-crafting-output": 0.6586281473328076
+  },
+  "63": {
+    "farming-output": 6.792084623223114,
+    "quarrying-output": 4.9437120374186385,
+    "iron-mining-output": 3.4251041707195733,
+    "coal-mining-output": 3.229219180514849,
+    "weaponsmithing-output": 5.11364261060199,
+    "machinery-production-output": 1.9370846606363288
+  },
+  "64": {
+    "fishing-output": 3.937820732537224,
+    "quarrying-output": 1.6547995402918143,
+    "iron-mining-output": 1.1464787520508175,
+    "coal-mining-output": 1.0809105334152314,
+    "toolmaking-output": 1.6547995402918143,
+    "weaving-output": 1.6267855058631424,
+    "jewelry-crafting-output": 1.2169247755025123
+  },
+  "65": {
+    "machinery-production-output": 16.229445601071653
+  },
+  "66": {
+    "iron-mining-output": 1.985346,
+    "coal-mining-output": 1.8718021594687833,
+    "jewelry-crafting-output": 1.9452338651502445
+  },
+  "67": {
+    "iron-mining-output": 0.216491348073,
+    "coal-mining-output": 0.204110000387514,
+    "jewelry-crafting-output": 0.2757525349831805
+  },
+  "68": {
+    "weaponsmithing-output": 7.562466828013198,
+    "machinery-production-output": 3.564981051057635
+  },
+  "69": {
+    "machinery-production-output": 7.601891894189893
+  },
+  "70": {
+    "iron-mining-output": 5.914260687524688,
+    "coal-mining-output": 5.576018450471627,
+    "weaponsmithing-output": 6.30708981068131,
+    "machinery-production-output": 3.567828779748266,
+    "jewelry-crafting-output": 8.160965434833798
+  },
+  "71": {
+    "quarrying-output": 1.8750308327153806,
+    "iron-mining-output": 1.2990594672084876,
+    "coal-mining-output": 1.2247650112369401,
+    "toolmaking-output": 1.8750308327153806,
+    "weaving-output": 1.8432885116525846,
+    "jewelry-crafting-output": 1.2728131360770283
+  },
+  "72": {
+    "farming-output": 3.560833021190407,
+    "fishing-output": 6.1675437099707695,
+    "quarrying-output": 2.5918011989878775,
+    "iron-mining-output": 1.7956525439059752,
+    "coal-mining-output": 1.6929574539343863,
+    "weaving-output": 2.5479247014104636
+  },
+  "73": {
+    "iron-mining-output": 6.508913663217623,
+    "coal-mining-output": 6.136662652558605,
+    "weaponsmithing-output": 6.941240031992225,
+    "machinery-production-output": 3.9265583171721845,
+    "jewelry-crafting-output": 5.31450575157095
+  },
+  "75": {
+    "iron-mining-output": 5.871013450844751,
+    "coal-mining-output": 5.535244564706343,
+    "weaponsmithing-output": 6.26097006381599,
+    "machinery-production-output": 3.5417395111442063
+  },
+  "76": {
+    "jewelry-crafting-output": 1.144231247286384
+  },
+  "77": {
+    "iron-mining-output": 2.495097,
+    "coal-mining-output": 2.3524000112242818
+  },
+  "78": {
+    "farming-output": 0.81821436025426,
+    "fishing-output": 1.4171888434428432
+  },
+  "79": {
+    "iron-mining-output": 4.940011122457115,
+    "coal-mining-output": 4.6574871517685255,
+    "weaponsmithing-output": 6.321755930878698,
+    "machinery-production-output": 2.9801043251537354,
+    "jewelry-crafting-output": 4.033502191231172
+  },
+  "80": {
+    "quarrying-output": 0.9243031399564394,
+    "iron-mining-output": 0.640376,
+    "coal-mining-output": 0.6037522828121554,
+    "toolmaking-output": 1.7138526116139665,
+    "jewelry-crafting-output": 1.1634017314814495
+  },
+  "81": {
+    "quarrying-output": 1.6085146219876174,
+    "iron-mining-output": 1.11441162,
+    "coal-mining-output": 1.0506773513801146,
+    "toolmaking-output": 1.6085146219876174,
+    "jewelry-crafting-output": 1.091895932971354
+  },
+  "82": {
+    "machinery-production-output": 8.662314974023976
+  },
+  "83": {
+    "iron-mining-output": 0.335233023246,
+    "coal-mining-output": 0.31606072535321883,
+    "jewelry-crafting-output": 0.5550972998730916
+  },
+  "84": {
+    "quarrying-output": 0.9738969507295592,
+    "iron-mining-output": 0.6747356,
+    "coal-mining-output": 0.6361468243572985
+  },
+  "85": {
+    "quarrying-output": 1.8689931179648576,
+    "iron-mining-output": 1.2948764157246822,
+    "coal-mining-output": 1.220821192476605,
+    "toolmaking-output": 3.465506712942207,
+    "weaving-output": 2.620645607760042,
+    "jewelry-crafting-output": 1.9603866375751493
+  },
+  "86": {
+    "quarrying-output": 0.3396986991310314,
+    "iron-mining-output": 0.235350162464,
+    "coal-mining-output": 0.22189026110886675,
+    "toolmaking-output": 0.3396986991310314,
+    "jewelry-crafting-output": 0.2498113838644331
+  },
+  "87": {
+    "quarrying-output": 1.3942869570839453,
+    "iron-mining-output": 0.96599034,
+    "coal-mining-output": 0.9107444266329315
+  },
+  "89": {
+    "machinery-production-output": 21.050469760107873
+  },
+  "90": {
+    "machinery-production-output": 31.433899624551835
+  },
+  "92": {
+    "iron-mining-output": 1.66774755,
+    "coal-mining-output": 1.5723674692163343,
+    "jewelry-crafting-output": 2.30129019139925
+  },
+  "93": {
+    "quarrying-output": 1.2206376918974566,
+    "iron-mining-output": 0.8456826,
+    "coal-mining-output": 0.7973172015886275
+  },
+  "94": {
+    "iron-mining-output": 1.847407,
+    "coal-mining-output": 1.741752023081995
+  },
+  "95": {
+    "quarrying-output": 1.2569446811180942,
+    "iron-mining-output": 0.87083682,
+    "coal-mining-output": 0.8210328276385719,
+    "toolmaking-output": 1.2569446811180942,
+    "jewelry-crafting-output": 0.9243458718987657
+  },
+  "96": {
+    "iron-mining-output": 3.6911381713504032,
+    "coal-mining-output": 3.4800384416778436,
+    "weaponsmithing-output": 6.737298514864841,
+    "machinery-production-output": 3.17599297782599,
+    "jewelry-crafting-output": 4.298632946259388
+  },
+  "97": {
+    "quarrying-output": 0.8463025412386519,
+    "iron-mining-output": 0.5863356,
+    "coal-mining-output": 0.552802505081444,
+    "toolmaking-output": 0.8463025412386519,
+    "jewelry-crafting-output": 0.7468359797748826
+  },
+  "98": {
+    "farming-output": 0.6967405682594137,
+    "quarrying-output": 0.5071321877358208,
+    "iron-mining-output": 0.3513514861248,
+    "coal-mining-output": 0.3312573578917563
+  },
+  "99": {
+    "quarrying-output": 3.589467889973387,
+    "iron-mining-output": 2.4868563030283837,
+    "coal-mining-output": 2.3446306076105037,
+    "weaponsmithing-output": 2.6520349504620033,
+    "machinery-production-output": 1.4064539230615591
+  },
+  "100": {
+    "iron-mining-output": 5.298864323607465,
+    "coal-mining-output": 4.995817194413743,
+    "weaponsmithing-output": 5.650818411522352,
+    "machinery-production-output": 3.196585614433
+  },
+  "101": {
+    "fishing-output": 3.4949907527568653,
+    "quarrying-output": 1.4687080707352975,
+    "iron-mining-output": 1.0175508,
+    "coal-mining-output": 0.9593560945090619,
+    "toolmaking-output": 1.4687080707352975,
+    "jewelry-crafting-output": 0.8308267491202723
+  },
+  "102": {
+    "quarrying-output": 0.1093338205221612,
+    "iron-mining-output": 0.075748692852,
+    "coal-mining-output": 0.07141655250888822,
+    "toolmaking-output": 0.15594455453424044,
+    "jewelry-crafting-output": 0.13761627609634544
+  },
+  "103": {
+    "iron-mining-output": 3.9753621724818986,
+    "coal-mining-output": 3.7480073997792482,
+    "weaving-output": 5.64080367924997
+  },
+  "104": {
+    "machinery-production-output": 7.610747921196707
+  },
+  "105": {
+    "machinery-production-output": 8.51200624679047
+  },
+  "106": {
+    "iron-mining-output": 0.980820544,
+    "coal-mining-output": 0.924726477052638,
+    "jewelry-crafting-output": 0.8008366206796723
+  },
+  "107": {
+    "quarrying-output": 0.640978887656476,
+    "iron-mining-output": 0.4440832,
+    "coal-mining-output": 0.4186856561746958,
+    "toolmaking-output": 1.1885098006388237,
+    "jewelry-crafting-output": 0.8740194731199193
+  },
+  "108": {
+    "quarrying-output": 1.3066135185586951,
+    "iron-mining-output": 0.9052484,
+    "coal-mining-output": 0.8534763763976964,
+    "toolmaking-output": 1.3066135185586951,
+    "jewelry-crafting-output": 1.1530462686448595
+  },
+  "109": {
+    "iron-mining-output": 6.840073147149956,
+    "coal-mining-output": 6.448882808215657,
+    "weaponsmithing-output": 7.294395348805672,
+    "machinery-production-output": 4.126333132636882
+  },
+  "110": {
+    "quarrying-output": 1.9121975267084728,
+    "iron-mining-output": 1.3248093081466479,
+    "coal-mining-output": 1.2490421940927376,
+    "toolmaking-output": 2.7273975249368214,
+    "weaving-output": 2.6812255226465735,
+    "jewelry-crafting-output": 1.5428490278993858
+  },
+  "111": {
+    "iron-mining-output": 5.781409004648002,
+    "coal-mining-output": 5.450764682666094,
+    "weaponsmithing-output": 6.781955433865682,
+    "machinery-production-output": 3.4876848559937295,
+    "jewelry-crafting-output": 6.136650890811819
+  },
+  "112": {
+    "iron-mining-output": 0.3151831625,
+    "coal-mining-output": 0.29715753535942874,
+    "jewelry-crafting-output": 0.30881516945668547
+  },
+  "113": {
+    "iron-mining-output": 2.56066545,
+    "coal-mining-output": 2.414218538726803
+  },
+  "114": {
+    "iron-mining-output": 2.146049,
+    "coal-mining-output": 2.0233144008781454
+  },
+  "116": {
+    "iron-mining-output": 0.911714516097,
+    "coal-mining-output": 0.8595726891178672,
+    "jewelry-crafting-output": 0.7444117851753768
+  },
+  "117": {
+    "iron-mining-output": 1.1058,
+    "coal-mining-output": 1.0425582381814458
+  },
+  "118": {
+    "iron-mining-output": 1.72898,
+    "coal-mining-output": 1.6300979767145558,
+    "jewelry-crafting-output": 2.202261763248175
+  },
+  "119": {
+    "iron-mining-output": 3.6782736419412845,
+    "coal-mining-output": 3.467909647035228,
+    "weaponsmithing-output": 5.59484780274227,
+    "machinery-production-output": 3.1649238568205713
+  },
+  "120": {
+    "iron-mining-output": 7.78474089176967,
+    "coal-mining-output": 7.33952409913406,
+    "weaponsmithing-output": 9.962170262973142,
+    "machinery-production-output": 4.69621209885552,
+    "jewelry-crafting-output": 9.915694341599579
+  },
+  "121": {
+    "iron-mining-output": 8.202542712467464,
+    "coal-mining-output": 7.733431433277389,
+    "weaponsmithing-output": 8.747361047612905,
+    "machinery-production-output": 4.948254651403318
+  },
+  "122": {
+    "iron-mining-output": 0.969737448057,
+    "coal-mining-output": 0.9142772339888561,
+    "jewelry-crafting-output": 1.2351882047483453
+  },
+  "124": {
+    "quarrying-output": 2.158018903547109,
+    "iron-mining-output": 1.4951193538550693,
+    "coal-mining-output": 1.4096120450588918,
+    "toolmaking-output": 2.158018903547109,
+    "weaving-output": 2.1214858888890116,
+    "jewelry-crafting-output": 1.464911808601842
+  },
+  "125": {
+    "iron-mining-output": 1.54596015,
+    "coal-mining-output": 1.4575452073455628
+  },
+  "126": {
+    "iron-mining-output": 4.118412776750286,
+    "coal-mining-output": 3.882876802887261,
+    "weaving-output": 5.8437840216352965
+  },
+  "127": {
+    "iron-mining-output": 0.365196950433,
+    "coal-mining-output": 0.344310986826429
+  },
+  "128": {
+    "iron-mining-output": 2.161225,
+    "coal-mining-output": 2.037622470893195,
+    "jewelry-crafting-output": 2.1175593877386296
+  },
+  "129": {
+    "iron-mining-output": 0.93822888117,
+    "coal-mining-output": 0.8845706722404993
+  },
+  "130": {
+    "quarrying-output": 1.0694954743273812,
+    "iron-mining-output": 0.7409682,
+    "coal-mining-output": 0.6985915184847866
+  },
+  "131": {
+    "toolmaking-output": 0.40759666174626685,
+    "jewelry-crafting-output": 0.2997429380501761
+  },
+  "132": {
+    "iron-mining-output": 2.9290764,
+    "coal-mining-output": 2.7615597134046403
+  },
+  "133": {
+    "quarrying-output": 0.3220407788862272,
+    "iron-mining-output": 0.223116396456,
+    "coal-mining-output": 0.21035615590392504,
+    "toolmaking-output": 0.3220407788862272,
+    "jewelry-crafting-output": 0.2841910887741729
+  },
+  "134": {
+    "iron-mining-output": 5.6302084356398385,
+    "coal-mining-output": 5.308211419112845,
+    "weaponsmithing-output": 6.604587681512563,
+    "machinery-production-output": 3.396471808391761,
+    "jewelry-crafting-output": 5.97615971889348
+  },
+  "137": {
+    "quarrying-output": 0.3198697633111829,
+    "iron-mining-output": 0.221612272744,
+    "coal-mining-output": 0.20893805446859345,
+    "toolmaking-output": 0.3198697633111829,
+    "jewelry-crafting-output": 0.1809456629870987
+  },
+  "138": {
+    "iron-mining-output": 0.637040905137,
+    "coal-mining-output": 0.6006079252207851,
+    "jewelry-crafting-output": 0.9737053016286293
+  },
+  "139": {
+    "iron-mining-output": 0.715561165726,
+    "coal-mining-output": 0.6746375368514741
+  },
+  "140": {
+    "iron-mining-output": 1.214292784593,
+    "coal-mining-output": 1.1448462164421414
+  }
+}
