@@ -1,0 +1,9 @@
+{"operator_id":"1","rule_id":"steel-making","max_rate":"0.6797646651599360677083887955","efficiency":"1.000"}
+{"operator_id":"1","rule_id":"jewelry-crafting","max_rate":"0.8981462390204986360056708268","efficiency":"1.000"}
+{"operator_id":"2","rule_id":"weaving","max_rate":"2.742327186898018556709440481","efficiency":"1.000"}
+{"operator_id":"2","rule_id":"steel-making","max_rate":"1.087623464255897708333422073","efficiency":"1.000"}
+{"operator_id":"2","rule_id":"jewelry-crafting","max_rate":"1.437033982432797817609073323","efficiency":"1.000"}
+{"operator_id":"3","rule_id":"farming","max_rate":"0.2121320343559642573202533086","efficiency":"0.772000"}
+{"operator_id":"3","rule_id":"fishing","max_rate":"0.2978579527224344567407897435","efficiency":"0.772000"}
+{"operator_id":"3","rule_id":"toolmaking","max_rate":"0.1524204710660612018304152780","efficiency":"0.772000"}
+{"operator_id":"3","rule_id":"jewelry-crafting","max_rate":"0.08622203894596786905654439940","efficiency":"0.772000"}

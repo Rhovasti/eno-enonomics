@@ -1,0 +1,1173 @@
+{
+  "1": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "2": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "3": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "machinery": 34.2,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "4": {
+    "steel": 120.0,
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "machinery": 250.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "5": {
+    "steel": 120.0,
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "machinery": 250.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "6": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "7": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 59.85,
+    "wood": 10.0
+  },
+  "8": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "9": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "machinery": 33.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "10": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "11": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 72.45,
+    "wood": 10.0
+  },
+  "12": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "13": {
+    "steel": 120.0,
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "machinery": 250.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "14": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "machinery": 28.5,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "15": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 68.8275,
+    "wood": 10.0
+  },
+  "16": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "17": {
+    "steel": 120.0,
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "machinery": 250.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "18": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "machinery": 34.2,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "19": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "machinery": 34.2,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "20": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "21": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "22": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "23": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 72.45,
+    "wood": 10.0
+  },
+  "24": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 72.45,
+    "wood": 10.0
+  },
+  "25": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "26": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "27": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "28": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "29": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "30": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "31": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "32": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "machinery": 34.2,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "33": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "34": {
+    "tools": 50.0,
+    "food": 20.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 59.85
+  },
+  "35": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "36": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "machinery": 34.2,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "37": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "38": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "39": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "40": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 68.8275,
+    "wood": 10.0
+  },
+  "41": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "42": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 63.0,
+    "wood": 10.0
+  },
+  "43": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "44": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "45": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "46": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "47": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 63.0,
+    "wood": 10.0
+  },
+  "48": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 59.85,
+    "wood": 10.0
+  },
+  "49": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "50": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "51": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "52": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "53": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "54": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "55": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "56": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "57": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "58": {
+    "steel": 120.0,
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "machinery": 250.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "59": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "60": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "61": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 72.45,
+    "wood": 10.0
+  },
+  "62": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "63": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "64": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "65": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 68.8275,
+    "wood": 10.0
+  },
+  "66": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "67": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 72.45,
+    "wood": 10.0
+  },
+  "68": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "69": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 63.0,
+    "wood": 10.0
+  },
+  "70": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "71": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 68.8275,
+    "wood": 10.0
+  },
+  "72": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "73": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "74": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "75": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "76": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "77": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 72.45,
+    "wood": 10.0
+  },
+  "78": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "79": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 72.45,
+    "wood": 10.0
+  },
+  "80": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "81": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 63.0,
+    "wood": 10.0
+  },
+  "82": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "83": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "84": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "85": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 72.45,
+    "wood": 10.0
+  },
+  "86": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "87": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 68.8275,
+    "wood": 10.0
+  },
+  "88": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 68.8275,
+    "wood": 10.0
+  },
+  "89": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "90": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "91": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "92": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "93": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 63.0,
+    "wood": 10.0
+  },
+  "94": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 63.0,
+    "wood": 10.0
+  },
+  "95": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "96": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "97": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "98": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 59.85,
+    "wood": 10.0
+  },
+  "99": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "100": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "101": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "102": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 72.45,
+    "wood": 10.0
+  },
+  "103": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "104": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "105": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 68.8275,
+    "wood": 10.0
+  },
+  "106": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "107": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "108": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "109": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "110": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "111": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 69.3,
+    "wood": 10.0
+  },
+  "112": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 79.695,
+    "wood": 10.0
+  },
+  "113": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 75.71025,
+    "wood": 10.0
+  },
+  "114": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "115": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "116": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "117": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 75.71025,
+    "wood": 10.0
+  },
+  "118": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 79.695,
+    "wood": 10.0
+  },
+  "119": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 69.3,
+    "wood": 10.0
+  },
+  "120": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "jewelry": 69.3,
+    "wood": 10.0
+  },
+  "121": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "122": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "123": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "124": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "125": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "126": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "127": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "128": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "129": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "130": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "131": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "132": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "133": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "134": {
+    "tools": 50.0,
+    "food": 20.0,
+    "iron-ore": 30.0,
+    "textiles": 40.0,
+    "wood": 10.0,
+    "stone": 8.0,
+    "fish": 25.0,
+    "jewelry": 500.0
+  },
+  "135": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "136": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "137": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "138": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "139": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  },
+  "140": {
+    "stone": 8.0,
+    "tools": 50.0,
+    "fish": 25.0,
+    "food": 20.0,
+    "wood": 10.0
+  }
+}

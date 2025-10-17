@@ -1,0 +1,4450 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "1",
+        "Burg": "Mahyapak",
+        "Population": 30200860,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 163,
+          "wood": 124,
+          "stone": 55,
+          "luxury_goods": 46,
+          "iron_ore": 150,
+          "tools": 60
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 21347,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Commercial": 433,
+          "Other": 888,
+          "Residential": 13041,
+          "Industrial": 6985
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.32271675912239,
+          -25.60251229244272
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "2",
+        "Burg": "Guild",
+        "Population": 29399085,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 85,
+          "wood": 45,
+          "stone": 75,
+          "luxury_goods": 29
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 20605,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 19347,
+          "Commercial": 1087,
+          "Other": 171
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          115.39913626113808,
+          -5.370111407876812
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "3",
+        "Burg": "Jeong",
+        "Population": 19570282,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 150,
+          "wood": 118,
+          "stone": 93,
+          "luxury_goods": 15
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 11907,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 10018,
+          "Commercial": 1181,
+          "Other": 708
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          108.06280489087068,
+          8.574207862269049
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "4",
+        "Burg": "Dautong",
+        "Population": 13725969,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 165,
+          "wood": 37,
+          "stone": 28
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 8364,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 7917,
+          "Other": 447
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -44.61701695889821,
+          -47.32237807532374
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "5",
+        "Burg": "Pranos",
+        "Population": 11391127,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 169,
+          "wood": 83,
+          "stone": 96,
+          "luxury_goods": 12
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 10519,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 6667,
+          "Commercial": 2945,
+          "Other": 907
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -53.69560008291368,
+          50.485011454971136
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "6",
+        "Burg": "Avesia",
+        "Population": 11059134,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 72,
+          "wood": 145,
+          "stone": 50,
+          "luxury_goods": 50,
+          "iron_ore": 88,
+          "tools": 68
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 6342,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 5284,
+          "Commercial": 923,
+          "Industrial": 135
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.50099957749093,
+          -57.55135654049779
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "7",
+        "Burg": "Zadardelen",
+        "Population": 10738229,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 60,
+          "wood": 108,
+          "stone": 60,
+          "luxury_goods": 19,
+          "fish": 396
+        },
+        "Coastal": true,
+        "Mountainous": false,
+        "districts_count": 9202,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Commercial": 870,
+          "Residential": 7863,
+          "Other": 469
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          29.015214895864226,
+          -51.189082732218786
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "8",
+        "Burg": "Alebuo",
+        "Population": 10284004,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 174,
+          "wood": 116,
+          "stone": 50,
+          "luxury_goods": 36,
+          "iron_ore": 130,
+          "tools": 49
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 9547,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Residential": 7238,
+          "Industrial": 2075,
+          "Commercial": 234
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -41.60128947430051,
+          49.09384272100953
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "9",
+        "Burg": "Engar",
+        "Population": 9396970,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 177,
+          "wood": 52,
+          "stone": 35,
+          "luxury_goods": 15
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 7545,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 6574,
+          "Commercial": 522,
+          "Other": 449
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          65.48099784997645,
+          15.941663557234122
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "10",
+        "Burg": "Palwede",
+        "Population": 8865261,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 177,
+          "wood": 106,
+          "stone": 53,
+          "luxury_goods": 34,
+          "iron_ore": 60,
+          "tools": 26
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 9612,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Other": 928,
+          "Residential": 3808,
+          "Industrial": 4458,
+          "Commercial": 418
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          51.19308193086959,
+          84.07386365960667
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "11",
+        "Burg": "Chingsan",
+        "Population": 7305109,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 94,
+          "wood": 108,
+          "stone": 57,
+          "iron_ore": 135,
+          "tools": 33
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 10884,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Other": 4909,
+          "Residential": 4582,
+          "Industrial": 1393
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.824759761530544,
+          -33.84748912668018
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "12",
+        "Burg": "Dã»r-tu",
+        "Population": 6040429,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 182,
+          "wood": 136,
+          "stone": 35,
+          "luxury_goods": 20,
+          "iron_ore": 155,
+          "tools": 34
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 5575,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Other": 860,
+          "Commercial": 811,
+          "Residential": 2694,
+          "Industrial": 1210
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          61.86113866397796,
+          76.28847077874106
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "13",
+        "Burg": "Ithemate",
+        "Population": 5357305,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 197,
+          "wood": 108,
+          "stone": 97,
+          "luxury_goods": 28,
+          "iron_ore": 155,
+          "tools": 63
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 4905,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Commercial": 512,
+          "Industrial": 1844,
+          "Residential": 2549
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -15.941633765346365,
+          68.03689072912026
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "14",
+        "Burg": "Gongshan",
+        "Population": 4897935,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 110,
+          "wood": 67,
+          "stone": 55,
+          "luxury_goods": 47
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 4690,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 3980,
+          "Commercial": 326,
+          "Other": 384
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -40.767596914242596,
+          -28.647314721925664
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "15",
+        "Burg": "Sunker",
+        "Population": 4855796,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 197,
+          "wood": 47,
+          "stone": 29,
+          "luxury_goods": 49
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 2599,
+        "dominant_era": "Tribal",
+        "district_types": {
+          "Residential": 2589,
+          "Commercial": 10
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          49.408230939786186,
+          15.551224350284032
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "16",
+        "Burg": "Phoelit",
+        "Population": 4854339,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 108,
+          "wood": 126,
+          "stone": 20,
+          "luxury_goods": 35,
+          "iron_ore": 183,
+          "tools": 37
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 3431,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Commercial": 1072,
+          "Residential": 2342,
+          "Industrial": 17
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.81821064252934,
+          -63.249490514270015
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "17",
+        "Burg": "Gyba",
+        "Population": 4819323,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 72,
+          "wood": 114,
+          "stone": 40,
+          "iron_ore": 80,
+          "tools": 49
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 2729,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 2713,
+          "Industrial": 16
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -23.987758104943406,
+          75.47983197292996
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "18",
+        "Burg": "Bernala",
+        "Population": 4405544,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 140,
+          "wood": 149,
+          "stone": 48,
+          "luxury_goods": 29,
+          "fish": 309
+        },
+        "Coastal": true,
+        "Mountainous": false,
+        "districts_count": 4448,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Commercial": 555,
+          "Residential": 2408,
+          "Other": 1485
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.21037006012689,
+          35.01012782282722
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "19",
+        "Burg": "Citadel_of_the_pass",
+        "Population": 3904670,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 128,
+          "wood": 144,
+          "stone": 85,
+          "luxury_goods": 24
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 2681,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Commercial": 1335,
+          "Residential": 1346
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -26.716021754620503,
+          60.4513525957207
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "20",
+        "Burg": "Pornoli",
+        "Population": 3721549,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 165,
+          "wood": 125,
+          "stone": 40,
+          "luxury_goods": 18,
+          "iron_ore": 110,
+          "tools": 42
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 2540,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Commercial": 319,
+          "Residential": 1877,
+          "Industrial": 76,
+          "Other": 268
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -19.181268030635238,
+          -28.19553498448547
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "21",
+        "Burg": "Bafke",
+        "Population": 3589446,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 195,
+          "wood": 114,
+          "stone": 32
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 3393,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Residential": 3389,
+          "Other": 4
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.17941652486964,
+          -0.30463185606522536
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "22",
+        "Burg": "Jargeroy",
+        "Population": 3510035,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 59,
+          "wood": 40,
+          "stone": 62,
+          "luxury_goods": 14
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 2189,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 1551,
+          "Other": 192,
+          "Commercial": 446
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.99592943669505,
+          20.58054150448765
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "23",
+        "Burg": "Vialiranave",
+        "Population": 3286602,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 182,
+          "wood": 111,
+          "stone": 31,
+          "luxury_goods": 41
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 2606,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Commercial": 436,
+          "Residential": 1702,
+          "Other": 468
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          55.48464052405023,
+          -67.26798589862348
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "24",
+        "Burg": "Monte",
+        "Population": 3245593,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 66,
+          "wood": 134,
+          "stone": 61,
+          "luxury_goods": 30
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 2343,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 1564,
+          "Other": 602,
+          "Commercial": 177
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -43.89260452908568,
+          72.76065843431732
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "25",
+        "Burg": "Shfanaan",
+        "Population": 3103213,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 110,
+          "wood": 40,
+          "stone": 48,
+          "luxury_goods": 41
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 2888,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 2061,
+          "Commercial": 131,
+          "Other": 696
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -28.97661805878374,
+          -62.769400102931826
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "26",
+        "Burg": "Patrellasa",
+        "Population": 3039856,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 200,
+          "wood": 50,
+          "stone": 94,
+          "luxury_goods": 49
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1793,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Commercial": 245,
+          "Residential": 1548
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -22.986494931612196,
+          26.715492673864713
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "27",
+        "Burg": "Harruresh",
+        "Population": 2847038,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 114,
+          "wood": 41,
+          "stone": 86,
+          "luxury_goods": 16,
+          "iron_ore": 81,
+          "tools": 61
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 2168,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Residential": 1143,
+          "Industrial": 230,
+          "Commercial": 795
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.75954209756785,
+          -4.191063127677695
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "28",
+        "Burg": "Gyt_no",
+        "Population": 2619615,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 133,
+          "wood": 143,
+          "stone": 83,
+          "luxury_goods": 14
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1706,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 1133,
+          "Other": 310,
+          "Commercial": 263
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          22.248526687085086,
+          -69.34530589731438
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "29",
+        "Burg": "Hasamut",
+        "Population": 2609609,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 155,
+          "wood": 57,
+          "stone": 100,
+          "luxury_goods": 30
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1601,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 1581,
+          "Commercial": 20
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -17.78387999858654,
+          -72.9845173228436
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "30",
+        "Burg": "Riroku",
+        "Population": 2608179,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 112,
+          "wood": 100,
+          "stone": 56,
+          "luxury_goods": 50
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1577,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Residential": 1508,
+          "Commercial": 69
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.92779416335915,
+          68.23664958777125
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "31",
+        "Burg": "Tasa",
+        "Population": 2501421,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 135,
+          "wood": 91,
+          "stone": 73,
+          "iron_ore": 104,
+          "tools": 79
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1831,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Industrial": 211,
+          "Residential": 1620
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          89.15023406282243,
+          56.54485616870155
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "32",
+        "Burg": "Castri",
+        "Population": 2349755,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 109,
+          "wood": 126,
+          "stone": 81,
+          "luxury_goods": 41
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 2171,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 1924,
+          "Commercial": 247
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -38.37648034375366,
+          76.22045377396198
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "33",
+        "Burg": "Kuoruvaa",
+        "Population": 2306989,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 118,
+          "wood": 138,
+          "stone": 97,
+          "luxury_goods": 49,
+          "fish": 243
+        },
+        "Coastal": true,
+        "Mountainous": false,
+        "districts_count": 1769,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 1511,
+          "Commercial": 246,
+          "Other": 12
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          29.842723043341834,
+          41.27568148584061
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "34",
+        "Burg": "Jiafeng",
+        "Population": 2271019,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 85,
+          "wood": 65,
+          "stone": 99,
+          "luxury_goods": 26,
+          "iron_ore": 108,
+          "tools": 80
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 2763,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Commercial": 1285,
+          "Other": 1289,
+          "Residential": 177,
+          "Industrial": 12
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -69.72572266050773,
+          -5.5897826358335
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "35",
+        "Burg": "Kure",
+        "Population": 2206272,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 82,
+          "wood": 111,
+          "stone": 46,
+          "luxury_goods": 22
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1330,
+        "dominant_era": "Tribal",
+        "district_types": {
+          "Residential": 969,
+          "Commercial": 361
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          66.82523762135116,
+          71.30393008540058
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "36",
+        "Burg": "Reriro",
+        "Population": 2192806,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 139,
+          "wood": 116,
+          "stone": 22,
+          "luxury_goods": 42,
+          "iron_ore": 135,
+          "tools": 65
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 2034,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 1167,
+          "Industrial": 464,
+          "Other": 93,
+          "Commercial": 310
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          56.384834656944115,
+          -79.2987631603672
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "37",
+        "Burg": "Ieye",
+        "Population": 2153431,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 186,
+          "wood": 92,
+          "stone": 86,
+          "luxury_goods": 30,
+          "iron_ore": 94,
+          "tools": 58
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1303,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 1243,
+          "Industrial": 53,
+          "Commercial": 7
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.202926364621604,
+          -79.96999953232346
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "38",
+        "Burg": "Tonkhanhad",
+        "Population": 2140764,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 192,
+          "wood": 126,
+          "stone": 84,
+          "luxury_goods": 11,
+          "fish": 208
+        },
+        "Coastal": true,
+        "Mountainous": false,
+        "districts_count": 1738,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 1461,
+          "Commercial": 277
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          27.65520507458095,
+          -42.215692420135476
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "39",
+        "Burg": "Ottengenburg",
+        "Population": 1950016,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 97,
+          "wood": 69,
+          "stone": 37,
+          "luxury_goods": 15
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1596,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 1294,
+          "Commercial": 302
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.05369576098627,
+          21.21948180446907
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "40",
+        "Burg": "Asuyan",
+        "Population": 1944320,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 151,
+          "wood": 79,
+          "stone": 87,
+          "luxury_goods": 49
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1203,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Other": 129,
+          "Residential": 904,
+          "Commercial": 170
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          47.800680581118854,
+          76.24008440938823
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "41",
+        "Burg": "Vul",
+        "Population": 1894729,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 159,
+          "wood": 65,
+          "stone": 48,
+          "luxury_goods": 42
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1638,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 1363,
+          "Commercial": 275
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.61211830992374,
+          42.97425314641242
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "42",
+        "Burg": "Shaxing",
+        "Population": 1866171,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 132,
+          "wood": 140,
+          "stone": 72
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 2165,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Other": 789,
+          "Residential": 1376
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -57.55431340099931,
+          -0.4844979137440313
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "43",
+        "Burg": "Atar",
+        "Population": 1776589,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 70,
+          "wood": 30,
+          "stone": 76,
+          "luxury_goods": 42,
+          "iron_ore": 153,
+          "tools": 20
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1168,
+        "dominant_era": "Tribal",
+        "district_types": {
+          "Industrial": 138,
+          "Commercial": 368,
+          "Residential": 662
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -36.21967050897033,
+          -60.43192128119829
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "44",
+        "Burg": "Eneya",
+        "Population": 1772392,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 197,
+          "wood": 109,
+          "stone": 40,
+          "luxury_goods": 38,
+          "iron_ore": 177,
+          "tools": 75
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1632,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Other": 720,
+          "Commercial": 373,
+          "Residential": 431,
+          "Industrial": 108
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          51.18911037047683,
+          80.36707754599432
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "45",
+        "Burg": "Motu",
+        "Population": 1762544,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 62,
+          "wood": 33,
+          "stone": 31,
+          "luxury_goods": 43
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1734,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 1042,
+          "Commercial": 692
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          98.13389282888218,
+          23.60819923686196
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "46",
+        "Burg": "Jouy",
+        "Population": 1669442,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 187,
+          "wood": 136,
+          "stone": 86,
+          "luxury_goods": 43
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1544,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Residential": 1539,
+          "Commercial": 5
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          84.48416546426218,
+          26.824689971662107
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "47",
+        "Burg": "Oatue",
+        "Population": 1653355,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 132,
+          "wood": 54,
+          "stone": 90,
+          "iron_ore": 194,
+          "tools": 48
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1112,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Residential": 1103,
+          "Industrial": 9
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6920307812776425,
+          -75.78046126036236
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "48",
+        "Burg": "Kushk",
+        "Population": 1594702,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 60,
+          "wood": 105,
+          "stone": 97
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1144,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 1144
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -14.824944505219321,
+          -54.117291892734166
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "49",
+        "Burg": "Alos",
+        "Population": 1555588,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 151,
+          "wood": 101,
+          "stone": 98,
+          "luxury_goods": 38
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1079,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Residential": 774,
+          "Other": 196,
+          "Commercial": 109
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.651604713337754,
+          49.17941945167776
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "50",
+        "Burg": "Jinzhou",
+        "Population": 1523328,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 126,
+          "wood": 134,
+          "stone": 96
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1038,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 1038
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.85367665769687,
+          20.5201756441758
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "51",
+        "Burg": "Shma",
+        "Population": 1493783,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 125,
+          "wood": 41,
+          "stone": 33,
+          "iron_ore": 165,
+          "tools": 41
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 771,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 769,
+          "Industrial": 2
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          81.90596675249694,
+          -33.21101886247927
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "52",
+        "Burg": "Mohi",
+        "Population": 1452991,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 118,
+          "wood": 103,
+          "stone": 50,
+          "luxury_goods": 28,
+          "iron_ore": 122,
+          "tools": 22
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1199,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Commercial": 362,
+          "Residential": 510,
+          "Other": 259,
+          "Industrial": 68
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          95.58604907515453,
+          -3.283473085419192
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "53",
+        "Burg": "Enyhazto",
+        "Population": 1433447,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 165,
+          "wood": 115,
+          "stone": 44,
+          "luxury_goods": 32
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 864,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 726,
+          "Commercial": 138
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.33030289888384,
+          -8.590582665617719
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "54",
+        "Burg": "Kudchna",
+        "Population": 1373908,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 174,
+          "wood": 33,
+          "stone": 95
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 988,
+        "dominant_era": "Tribal",
+        "district_types": {
+          "Residential": 988
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.599940460679113,
+          54.305055617801465
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "55",
+        "Burg": "Doros",
+        "Population": 1370614,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 128,
+          "wood": 92,
+          "stone": 74,
+          "iron_ore": 117,
+          "tools": 32
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1181,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 1158,
+          "Other": 21,
+          "Industrial": 2
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -11.2372860573626,
+          54.70462519472041
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "56",
+        "Burg": "Makad",
+        "Population": 1360716,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 101,
+          "wood": 46,
+          "stone": 34,
+          "luxury_goods": 42
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 778,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 689,
+          "Other": 79,
+          "Commercial": 10
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -36.87857955799994,
+          -61.62137508330278
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "57",
+        "Burg": "Ouiar",
+        "Population": 1336236,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 180,
+          "wood": 130,
+          "stone": 67
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1020,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Other": 160,
+          "Residential": 860
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -17.641002079729635,
+          -54.42659883331308
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "58",
+        "Burg": "Sera",
+        "Population": 1318575,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 126,
+          "wood": 63,
+          "stone": 100
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 740,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 740
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -43.47426936401349,
+          4.1803612367282605
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "59",
+        "Burg": "Tsin",
+        "Population": 1244914,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 63,
+          "wood": 138,
+          "stone": 27,
+          "luxury_goods": 13
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1440,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Other": 622,
+          "Commercial": 391,
+          "Residential": 427
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -48.042967556032764,
+          -29.744259327816188
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "60",
+        "Burg": "Mintenomarci",
+        "Population": 1222252,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 152,
+          "wood": 40,
+          "stone": 29
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 900,
+        "dominant_era": "Tribal",
+        "district_types": {
+          "Residential": 900
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -13.47486805875689,
+          33.3108507061293
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "61",
+        "Burg": "Korestad",
+        "Population": 1192308,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 142,
+          "wood": 47,
+          "stone": 65,
+          "iron_ore": 87,
+          "tools": 31
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 838,
+        "dominant_era": "Tribal",
+        "district_types": {
+          "Industrial": 236,
+          "Residential": 600,
+          "Commercial": 2
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.78126679736573,
+          17.123103013392274
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "62",
+        "Burg": "Beitsa",
+        "Population": 1147391,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 96,
+          "wood": 131,
+          "stone": 60,
+          "luxury_goods": 27,
+          "iron_ore": 155,
+          "tools": 77
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 888,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 436,
+          "Commercial": 248,
+          "Industrial": 204
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.95874048556625,
+          -73.46259922897511
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "63",
+        "Burg": "Orve",
+        "Population": 1146582,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 54,
+          "wood": 40,
+          "stone": 32
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 705,
+        "dominant_era": "Tribal",
+        "district_types": {
+          "Residential": 642,
+          "Other": 63
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -34.880206113000455,
+          48.469463048147674
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "64",
+        "Burg": "Pigna",
+        "Population": 1111578,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 162,
+          "wood": 40,
+          "stone": 49,
+          "luxury_goods": 37,
+          "iron_ore": 197,
+          "tools": 76
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 821,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Industrial": 150,
+          "Commercial": 103,
+          "Residential": 538,
+          "Other": 30
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -28.30511961520342,
+          44.243505737698705
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "65",
+        "Burg": "Kyenga",
+        "Population": 1087610,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 182,
+          "wood": 113,
+          "stone": 75,
+          "luxury_goods": 49
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1033,
+        "dominant_era": "Tribal",
+        "district_types": {
+          "Commercial": 637,
+          "Residential": 396
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.8545628503575,
+          64.43821566965134
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "66",
+        "Burg": "Huang",
+        "Population": 1065954,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 67,
+          "wood": 116,
+          "stone": 89,
+          "luxury_goods": 41
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 896,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Commercial": 733,
+          "Residential": 163
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -39.774545720333634,
+          14.36438096901895
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "67",
+        "Burg": "Zidesun",
+        "Population": 1063289,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 146,
+          "wood": 70,
+          "stone": 60
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1114,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Residential": 954,
+          "Other": 160
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          99.2822508874415,
+          -18.422202916663284
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "68",
+        "Burg": "Vea",
+        "Population": 1047950,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 89,
+          "wood": 78,
+          "stone": 98
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 635,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 557,
+          "Other": 78
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.33311852285114,
+          18.27241538045299
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "69",
+        "Burg": "Rambedamkur",
+        "Population": 1045153,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 139,
+          "wood": 126,
+          "stone": 45,
+          "luxury_goods": 16,
+          "fish": 264
+        },
+        "Coastal": true,
+        "Mountainous": false,
+        "districts_count": 870,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 801,
+          "Commercial": 69
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          26.304899746473577,
+          65.56753400237298
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "70",
+        "Burg": "Bancik",
+        "Population": 1007559,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 180,
+          "wood": 126,
+          "stone": 55,
+          "iron_ore": 196,
+          "tools": 31
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 790,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Industrial": 56,
+          "Residential": 734
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          93.2774462666705,
+          -4.891950563917786
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "71",
+        "Burg": "Kudina",
+        "Population": 1003716,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 194,
+          "wood": 89,
+          "stone": 78,
+          "luxury_goods": 39
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 871,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 772,
+          "Commercial": 99
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15.65422874481809,
+          81.90513006405686
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "72",
+        "Burg": "Pogliaferte",
+        "Population": 1003699,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 147,
+          "wood": 115,
+          "stone": 85,
+          "luxury_goods": 33,
+          "iron_ore": 194,
+          "tools": 77
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 677,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 439,
+          "Commercial": 236,
+          "Industrial": 2
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -50.670031882656176,
+          69.62440887202828
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "73",
+        "Burg": "Tlida",
+        "Population": 981392,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 98,
+          "wood": 85,
+          "stone": 32,
+          "luxury_goods": 16
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 773,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Other": 132,
+          "Residential": 635,
+          "Commercial": 6
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.31324377114122,
+          -6.840985940345188
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "74",
+        "Burg": "Cajunara",
+        "Population": 972136,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 155,
+          "wood": 126,
+          "stone": 92
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 582,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 582
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          81.12675842159267,
+          -42.16503935762519
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "75",
+        "Burg": "Atsa",
+        "Population": 945270,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 95,
+          "wood": 69,
+          "stone": 42,
+          "luxury_goods": 21,
+          "iron_ore": 83,
+          "tools": 57
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1111,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Residential": 409,
+          "Commercial": 259,
+          "Industrial": 67,
+          "Other": 376
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -5.501779679979681,
+          60.001049152908905
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "76",
+        "Burg": "Likzib",
+        "Population": 915988,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 162,
+          "wood": 111,
+          "stone": 92
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 563,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 563
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          22.868608432951163,
+          -75.87132112894236
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "77",
+        "Burg": "Briarviles",
+        "Population": 903668,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 140,
+          "wood": 90,
+          "stone": 65,
+          "luxury_goods": 44
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1021,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Commercial": 127,
+          "Other": 360,
+          "Residential": 534
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          81.55568714503566,
+          15.482525984449158
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "78",
+        "Burg": "Bifjorda",
+        "Population": 870170,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 92,
+          "wood": 78,
+          "stone": 70,
+          "luxury_goods": 22
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 935,
+        "dominant_era": "Tribal",
+        "district_types": {
+          "Residential": 667,
+          "Commercial": 268
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          69.5853529077569,
+          0.5832700829413986
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "79",
+        "Burg": "Aurola",
+        "Population": 862398,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 177,
+          "wood": 73,
+          "stone": 58
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 708,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 519,
+          "Other": 189
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -32.37144168476142,
+          -38.6485929375342
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "80",
+        "Burg": "Mical",
+        "Population": 842893,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 134,
+          "wood": 145,
+          "stone": 23,
+          "iron_ore": 78,
+          "tools": 60
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 1207,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 143,
+          "Other": 732,
+          "Industrial": 332
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          81.37589882678988,
+          -74.35166149440623
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "81",
+        "Burg": "Bungomo",
+        "Population": 841982,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 114,
+          "wood": 140,
+          "stone": 61,
+          "luxury_goods": 43,
+          "iron_ore": 136,
+          "tools": 50
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 970,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 595,
+          "Commercial": 282,
+          "Other": 69,
+          "Industrial": 24
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          54.97520310601766,
+          77.80887432957341
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "82",
+        "Burg": "Binh_ninh",
+        "Population": 831708,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 116,
+          "wood": 128,
+          "stone": 36
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 834,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 420,
+          "Other": 414
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.434533571771491,
+          84.37514032625597
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "83",
+        "Burg": "Kolli",
+        "Population": 826158,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 182,
+          "wood": 134,
+          "stone": 86,
+          "luxury_goods": 35
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 693,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Other": 244,
+          "Residential": 255,
+          "Commercial": 194
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.96246106519488,
+          53.27547734190284
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "84",
+        "Burg": "Tetonykut",
+        "Population": 813123,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 195,
+          "wood": 74,
+          "stone": 30,
+          "luxury_goods": 42
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 559,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 506,
+          "Commercial": 53
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.29218193449942,
+          -37.747782156602376
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "85",
+        "Burg": "Aneroa",
+        "Population": 812388,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 148,
+          "wood": 52,
+          "stone": 80,
+          "luxury_goods": 21
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 636,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Commercial": 152,
+          "Other": 196,
+          "Residential": 288
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -15.695039612734773,
+          -73.26348264615041
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "86",
+        "Burg": "Pinkang",
+        "Population": 804369,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 161,
+          "wood": 128,
+          "stone": 36
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 665,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 665
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -59.043688510961324,
+          -11.477936463884651
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "87",
+        "Burg": "Luquti",
+        "Population": 800506,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 191,
+          "wood": 95,
+          "stone": 99,
+          "luxury_goods": 28,
+          "iron_ore": 65,
+          "tools": 32
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 887,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Commercial": 420,
+          "Industrial": 443,
+          "Residential": 24
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          91.1985974593122,
+          -49.17981268263238
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "88",
+        "Burg": "Aiya",
+        "Population": 760567,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 180,
+          "wood": 133,
+          "stone": 46
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 596,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Other": 248,
+          "Residential": 348
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          68.90586565496378,
+          59.10109282070627
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "89",
+        "Burg": "Hajsala",
+        "Population": 756634,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 112,
+          "wood": 145,
+          "stone": 51,
+          "iron_ore": 198,
+          "tools": 72
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 409,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 393,
+          "Industrial": 16
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.18574081153008,
+          -34.14032962714243
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "90",
+        "Burg": "Mevus",
+        "Population": 748835,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 129,
+          "wood": 148,
+          "stone": 35,
+          "iron_ore": 89,
+          "tools": 75
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 491,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 311,
+          "Industrial": 179,
+          "Commercial": 1
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -7.3402030151710775,
+          -75.1117986721558
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "91",
+        "Burg": "Balashee",
+        "Population": 723276,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 93,
+          "wood": 72,
+          "stone": 75,
+          "luxury_goods": 48
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 613,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Residential": 485,
+          "Commercial": 128
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          84.30456248900558,
+          45.25153041325864
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "92",
+        "Burg": "Borgloy",
+        "Population": 719795,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 121,
+          "wood": 100,
+          "stone": 44
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 811,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 473,
+          "Other": 338
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          47.4800234927722,
+          19.87869283429122
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "93",
+        "Burg": "Veren",
+        "Population": 718556,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 66,
+          "wood": 89,
+          "stone": 51
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 461,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 461
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.699271235160418,
+          -36.7892239153852
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "94",
+        "Burg": "Ithiu",
+        "Population": 703122,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 77,
+          "wood": 149,
+          "stone": 33,
+          "iron_ore": 64,
+          "tools": 50
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 596,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Residential": 588,
+          "Industrial": 8
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -10.248518392622739,
+          69.76311748953314
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "95",
+        "Burg": "Teveh",
+        "Population": 682797,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 66,
+          "wood": 116,
+          "stone": 80,
+          "luxury_goods": 33
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 867,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 221,
+          "Commercial": 646
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.58680052288224,
+          22.878774191188704
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "96",
+        "Burg": "Nyirfalmasle",
+        "Population": 666674,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 134,
+          "wood": 89,
+          "stone": 76,
+          "iron_ore": 164,
+          "tools": 43
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 459,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Industrial": 201,
+          "Residential": 258
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          53.71707946976233,
+          -1.9451705465474796
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "97",
+        "Burg": "Ergoigoibar",
+        "Population": 655096,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 186,
+          "wood": 111,
+          "stone": 93
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 337,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Residential": 337
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -14.035092055738268,
+          81.20624404359121
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "98",
+        "Burg": "Malveiba",
+        "Population": 595112,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 63,
+          "wood": 38,
+          "stone": 87,
+          "luxury_goods": 49
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 669,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Residential": 422,
+          "Commercial": 82,
+          "Other": 165
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          63.64850035457284,
+          -68.73686490338369
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "99",
+        "Burg": "Fibeon",
+        "Population": 592114,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 91,
+          "wood": 105,
+          "stone": 52,
+          "luxury_goods": 50
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 358,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 352,
+          "Commercial": 6
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          96.70537758564876,
+          -38.65720053809105
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "100",
+        "Burg": "Tsanghom",
+        "Population": 580060,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 177,
+          "wood": 69,
+          "stone": 40,
+          "luxury_goods": 23,
+          "iron_ore": 80,
+          "tools": 24
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 514,
+        "dominant_era": "Tribal",
+        "district_types": {
+          "Residential": 422,
+          "Commercial": 58,
+          "Industrial": 34
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -39.15749350889914,
+          -35.05983028970624
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "101",
+        "Burg": "Auera",
+        "Population": 549492,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 113,
+          "wood": 142,
+          "stone": 25,
+          "luxury_goods": 40
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 608,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Commercial": 502,
+          "Residential": 105,
+          "Other": 1
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.551539104143489,
+          -37.11967094790282
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "102",
+        "Burg": "Kukar",
+        "Population": 546281,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 106,
+          "wood": 140,
+          "stone": 65,
+          "luxury_goods": 39
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 446,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 272,
+          "Commercial": 174
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -48.779007767989455,
+          -21.36004596934922
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "103",
+        "Burg": "Kushimaki",
+        "Population": 529486,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 185,
+          "wood": 116,
+          "stone": 39,
+          "iron_ore": 165,
+          "tools": 42
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 776,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Industrial": 227,
+          "Residential": 183,
+          "Other": 366
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.29116612704237,
+          44.1932447631769
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "104",
+        "Burg": "Fanha",
+        "Population": 509303,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 112,
+          "wood": 133,
+          "stone": 67,
+          "luxury_goods": 31
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 804,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Commercial": 793,
+          "Residential": 11
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          70.64383256406022,
+          -64.3988704587221
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "105",
+        "Burg": "Itia",
+        "Population": 508970,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 57,
+          "wood": 71,
+          "stone": 41,
+          "luxury_goods": 27
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 395,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 299,
+          "Commercial": 96
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          64.16943109495591,
+          86.93157313268782
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "106",
+        "Burg": "Uiaria",
+        "Population": 503160,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 73,
+          "wood": 36,
+          "stone": 41
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 478,
+        "dominant_era": "Tribal",
+        "district_types": {
+          "Other": 275,
+          "Residential": 203
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          94.74727266176798,
+          -59.03452435836436
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "107",
+        "Burg": "Urir",
+        "Population": 501643,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 98,
+          "wood": 148,
+          "stone": 37,
+          "iron_ore": 183,
+          "tools": 62,
+          "fish": 136
+        },
+        "Coastal": true,
+        "Mountainous": false,
+        "districts_count": 662,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 223,
+          "Industrial": 431,
+          "Other": 8
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          26.89565074967884,
+          -43.265250280440675
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "108",
+        "Burg": "Murmium",
+        "Population": 499533,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 81,
+          "wood": 73,
+          "stone": 20,
+          "luxury_goods": 24
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 426,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 131,
+          "Commercial": 234,
+          "Other": 61
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -9.448079502861617,
+          -11.617269978631732
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "109",
+        "Burg": "Aira",
+        "Population": 448952,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 90,
+          "wood": 42,
+          "stone": 42,
+          "fish": 397
+        },
+        "Coastal": true,
+        "Mountainous": false,
+        "districts_count": 450,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 314,
+          "Other": 136
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.283357101996796,
+          36.27862286391719
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "110",
+        "Burg": "Regoes",
+        "Population": 443176,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 140,
+          "wood": 40,
+          "stone": 92
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 345,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 345
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          71.37306685155205,
+          -77.18994580355044
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "111",
+        "Burg": "Waishan",
+        "Population": 435167,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 107,
+          "wood": 53,
+          "stone": 96
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 254,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 254
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.38783102085858,
+          -23.58918540640495
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "112",
+        "Burg": "Mernah",
+        "Population": 429756,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 101,
+          "wood": 117,
+          "stone": 36,
+          "luxury_goods": 10,
+          "iron_ore": 184,
+          "tools": 37
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 720,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Commercial": 559,
+          "Residential": 48,
+          "Industrial": 110,
+          "Other": 3
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.698096444160104,
+          -76.4205169710439
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "113",
+        "Burg": "Valvi",
+        "Population": 397376,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 170,
+          "wood": 72,
+          "stone": 56,
+          "luxury_goods": 44,
+          "iron_ore": 195,
+          "tools": 63
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 373,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Commercial": 198,
+          "Residential": 139,
+          "Industrial": 36
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          51.60775193845414,
+          52.79625315565047
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "114",
+        "Burg": "Tisvarmend",
+        "Population": 385747,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 101,
+          "wood": 119,
+          "stone": 52
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 300,
+        "dominant_era": "Tribal",
+        "district_types": {
+          "Residential": 200,
+          "Other": 100
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          64.25857197799749,
+          -17.433484368348072
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "115",
+        "Burg": "Uyaria",
+        "Population": 368643,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 94,
+          "wood": 105,
+          "stone": 86
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 283,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 251,
+          "Other": 32
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          74.91996579478642,
+          27.20508845611956
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "116",
+        "Burg": "Chitna",
+        "Population": 350314,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 179,
+          "wood": 97,
+          "stone": 53
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 478,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Residential": 243,
+          "Other": 235
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.082529088932008,
+          44.33205080691197
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "117",
+        "Burg": "Hamapurara",
+        "Population": 342567,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 175,
+          "wood": 131,
+          "stone": 21,
+          "iron_ore": 98,
+          "tools": 76
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 563,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 91,
+          "Industrial": 472
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.879505510830846,
+          76.88918286632303
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "118",
+        "Burg": "Jining",
+        "Population": 318834,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 139,
+          "wood": 136,
+          "stone": 53,
+          "luxury_goods": 35
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 357,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 253,
+          "Commercial": 64,
+          "Other": 40
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -50.439940075314944,
+          28.374534236148698
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "119",
+        "Burg": "Darvangor",
+        "Population": 306618,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 69,
+          "wood": 141,
+          "stone": 51,
+          "luxury_goods": 25
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 342,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Commercial": 177,
+          "Residential": 165
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.703880721553531,
+          -29.75331004376127
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "120",
+        "Burg": "Sa",
+        "Population": 300840,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 144,
+          "wood": 99,
+          "stone": 61,
+          "iron_ore": 61,
+          "tools": 39
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 380,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 205,
+          "Industrial": 111,
+          "Other": 64
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -55.48681798312038,
+          -42.98386532132434
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "121",
+        "Burg": "Eliusila",
+        "Population": 273269,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 185,
+          "wood": 55,
+          "stone": 80,
+          "luxury_goods": 30
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 228,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Commercial": 39,
+          "Residential": 189
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -35.09037388179123,
+          -34.340694722930415
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "122",
+        "Burg": "Mbale",
+        "Population": 269510,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 134,
+          "wood": 143,
+          "stone": 61
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 225,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 222,
+          "Other": 3
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          52.89733306655547,
+          67.5665488262633
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "123",
+        "Burg": "Modurelius",
+        "Population": 266028,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 84,
+          "wood": 128,
+          "stone": 85
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 140,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 140
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -29.00386192408975,
+          -18.792502034850607
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "124",
+        "Burg": "Kikoupaupo",
+        "Population": 261711,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 149,
+          "wood": 105,
+          "stone": 51,
+          "luxury_goods": 21
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 279,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Other": 57,
+          "Residential": 16,
+          "Commercial": 206
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          101.28101188824309,
+          -2.303685192953143
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "125",
+        "Burg": "Fonte",
+        "Population": 241768,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 141,
+          "wood": 85,
+          "stone": 79,
+          "luxury_goods": 15,
+          "fish": 173
+        },
+        "Coastal": true,
+        "Mountainous": false,
+        "districts_count": 323,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Commercial": 228,
+          "Residential": 95
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -41.27626167677669,
+          36.79897546964426
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "126",
+        "Burg": "Euata",
+        "Population": 221598,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 66,
+          "wood": 85,
+          "stone": 67
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 179,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 179
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.4739808430165211,
+          -13.955452746437539
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "127",
+        "Burg": "Szargony",
+        "Population": 213987,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 68,
+          "wood": 38,
+          "stone": 92
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 280,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Other": 223,
+          "Residential": 57
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          69.65413564812425,
+          -22.299604108568257
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "128",
+        "Burg": "Laizhou",
+        "Population": 195611,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 58,
+          "wood": 69,
+          "stone": 92,
+          "luxury_goods": 28,
+          "iron_ore": 120,
+          "tools": 38
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 283,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Commercial": 185,
+          "Residential": 9,
+          "Industrial": 89
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -44.84318573572375,
+          3.841430777169934
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "129",
+        "Burg": "Citadel_of_almo",
+        "Population": 194103,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 175,
+          "wood": 148,
+          "stone": 55,
+          "luxury_goods": 42
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 154,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 60,
+          "Other": 22,
+          "Commercial": 72
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          66.82707381778985,
+          -23.02934343457324
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "130",
+        "Burg": "Bazujduzeszeg",
+        "Population": 184700,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 127,
+          "wood": 139,
+          "stone": 34,
+          "iron_ore": 125,
+          "tools": 25
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 254,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Other": 117,
+          "Industrial": 61,
+          "Residential": 76
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          84.91383681076766,
+          -16.57335841723331
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "131",
+        "Burg": "Ubahmia",
+        "Population": 169298,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 71,
+          "wood": 83,
+          "stone": 71,
+          "luxury_goods": 33
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 385,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Commercial": 127,
+          "Other": 248,
+          "Residential": 10
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.33352579413204,
+          -22.32912817886304
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "132",
+        "Burg": "Roparia",
+        "Population": 167186,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 67,
+          "wood": 35,
+          "stone": 66
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 97,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 97
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          94.88618564672245,
+          -47.17183977324739
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "133",
+        "Burg": "Iinasia",
+        "Population": 164349,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 56,
+          "wood": 134,
+          "stone": 32,
+          "luxury_goods": 39,
+          "iron_ore": 181,
+          "tools": 48
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 282,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Other": 107,
+          "Industrial": 163,
+          "Commercial": 9,
+          "Residential": 3
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -16.394395659348184,
+          -34.051202598746876
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "134",
+        "Burg": "Sobriro",
+        "Population": 144088,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 62,
+          "wood": 136,
+          "stone": 35,
+          "luxury_goods": 38
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 288,
+        "dominant_era": "Tribal",
+        "district_types": {
+          "Commercial": 97,
+          "Other": 186,
+          "Residential": 5
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.66454224638044,
+          -64.06910053104531
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "135",
+        "Burg": "Bulekh_orov",
+        "Population": 130787,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 79,
+          "wood": 90,
+          "stone": 40
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 97,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 97
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          42.344316276515045,
+          -44.992041547862385
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "136",
+        "Burg": "Ian",
+        "Population": 122736,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 73,
+          "wood": 123,
+          "stone": 52
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 115,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 89,
+          "Other": 26
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          62.34922159960378,
+          58.60226778127437
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "137",
+        "Burg": "Otety",
+        "Population": 104390,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 118,
+          "wood": 74,
+          "stone": 59,
+          "luxury_goods": 31
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 88,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Commercial": 50,
+          "Residential": 38
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -13.595377029004952,
+          48.140997381563395
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "138",
+        "Burg": "Bellikavima",
+        "Population": 102738,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 200,
+          "wood": 32,
+          "stone": 90,
+          "luxury_goods": 50,
+          "iron_ore": 118,
+          "tools": 21
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 196,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Industrial": 178,
+          "Other": 13,
+          "Commercial": 5
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.000852315126859,
+          43.50351233272967
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "139",
+        "Burg": "Moki",
+        "Population": 88524,
+        "type": "city",
+        "tech": "industrial",
+        "endowments": {
+          "food": 122,
+          "wood": 150,
+          "stone": 26
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 74,
+        "dominant_era": "Industrial",
+        "district_types": {
+          "Residential": 60,
+          "Other": 14
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          95.4871733023462,
+          50.25926766455925
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "140",
+        "Burg": "Citadel_of_utaia",
+        "Population": 44182,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "food": 112,
+          "wood": 79,
+          "stone": 91
+        },
+        "Coastal": false,
+        "Mountainous": false,
+        "districts_count": 34,
+        "dominant_era": "Medieval",
+        "district_types": {
+          "Residential": 27,
+          "Other": 7
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -30.91378379265469,
+          -43.823751669807216
+        ]
+      }
+    }
+  ]
+}

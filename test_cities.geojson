@@ -1,0 +1,65 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "1",
+        "Burg": "Nyirfalmasle",
+        "Population": 5000,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "wood": 100,
+          "stone": 50,
+          "food": 200
+        },
+        "Coastal": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [13.846, 2.126]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "2",
+        "Burg": "Eliusila",
+        "Population": 8000,
+        "type": "city",
+        "tech": "medieval",
+        "endowments": {
+          "iron_ore": 150,
+          "stone": 80,
+          "food": 100
+        },
+        "Mountainous": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [14.2, 2.8]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id": "3",
+        "Burg": "Coastal Village",
+        "Population": 1200,
+        "type": "village",
+        "tech": "tribal",
+        "endowments": {
+          "fish": 300,
+          "wood": 50,
+          "food": 80
+        },
+        "Coastal": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [13.1, 1.9]
+      }
+    }
+  ]
+}
