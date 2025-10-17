@@ -247,7 +247,15 @@ class GeoJSONLoader:
         if props.get("Port") == "port":
             endowments["fishing"] = Decimal("0.8")
             endowments["trade_access"] = Decimal("0.9")
-            
+
+        # Handle boolean geographic flags
+        if props.get("Coastal", False):
+            endowments["fishing"] = Decimal("0.8")
+            endowments["trade_access"] = Decimal("0.7")
+
+        if props.get("Mountainous", False):
+            endowments["mining_potential"] = Decimal("0.6")
+
         # Infer from elevation (mountains = mining potential)
         elevation = props.get("Elevation (m)", 0)
         if elevation > 500:
@@ -270,7 +278,21 @@ class GeoJSONLoader:
             endowments["skilled_labor"] = Decimal("0.7")
         elif pop > 10000:
             endowments["general_labor"] = Decimal("0.8")
-        
+        elif pop > 5000:
+            endowments["general_labor"] = Decimal("0.6")
+
+        # Add basic endowments for all settlements
+        if pop > 1000:
+            endowments["agriculture"] = Decimal("0.5")
+            endowments["craftsmanship"] = Decimal("0.4")
+
+        # Tech-based industrial capacity
+        tech_level = props.get("tech", "tribal")
+        if tech_level == "medieval":
+            endowments["industrial_capacity"] = Decimal("0.3")
+        elif tech_level == "industrial":
+            endowments["industrial_capacity"] = Decimal("0.7")
+
         return endowments
 
 
