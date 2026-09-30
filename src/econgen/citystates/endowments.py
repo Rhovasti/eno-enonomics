@@ -99,6 +99,8 @@ def infer_endowments(spec: CitystateSpec) -> Dict[str, float]:
     # Pitch at coastal/deep-sea sites.
     if "port" in signals or "coastal" in signals:
         endowments["pitch_depth"] = 0.5
+        # Natra (salt): evaporated from the sea at the same coastal sites.
+        endowments["natra_deposit"] = 0.5
     # Phos at industrial (energy) sites.
     if endowments["industrial_capacity"] > 0.4:
         endowments["phos_vent"] = 0.4
