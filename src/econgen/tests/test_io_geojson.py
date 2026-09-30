@@ -206,3 +206,28 @@ def test_fantastical_rime_ash_split_by_longitude():
     assert "ash_pilgrimage" not in dark
     assert sun["ash_pilgrimage"] == Decimal("0.4")
     assert "rime_collection" not in sun
+
+
+def _fantastical(props: dict) -> dict:
+    """Endowments (base + fantastical) for one feature's properties."""
+    loader = GeoJSONLoader(strict=True)
+    endowments = loader._extract_endowments(props)
+    loader._infer_fantastical_endowments(props, endowments, "42", 10.0)
+    return endowments
+
+
+def test_geography_only_cities_get_sap_and_element_deposits():
+    """Without worldbuilder stocks, sap and deposits come from geographic signals."""
+    farming = _fantastical({"Population": 5000, "Culture": "Noon"})
+    mountain = _fantastical({"Population": 20000, "Elevation (m)": 800})
+
+    assert "sap_harvest" in farming  # vegetation (agriculture)
+    assert any(key.endswith("_deposit") for key in mountain)  # mining potential
+
+
+def test_worldbuilder_stock_inference_is_unchanged():
+    """With explicit stocks, sap and deposits still follow the stocks only."""
+    no_ore = _fantastical({"Population": 20000, "Elevation (m)": 800, "endowments": {"stone": 50}})
+
+    assert "sap_harvest" not in no_ore  # no wood stock
+    assert not any(key.endswith("_deposit") for key in no_ore)  # no iron_ore stock

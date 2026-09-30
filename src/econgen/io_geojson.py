@@ -330,11 +330,13 @@ class GeoJSONLoader:
         Adds the capacity drivers that fantastical gathering/mining rules gate on
         (see ``fantastical.py``). Distribution is lore-faithful and deterministic
         so a given city always specializes the same way:
-        - Sap where there is vegetation (wood) — common.
+        - Sap where there is vegetation (wood stock, or forestry/agriculture in
+          datasets without worldbuilder stocks) — common.
         - Rime on the dark side (lon < 0), Ash on the sun side (lon >= 0).
         - Pitch at coastal/deep-sea sites.
         - Phos at industrial (energy) sites.
-        - 1-2 element deposits per mining/precious city (varied, by stable hash).
+        - 1-2 element deposits per mining/precious city (varied, by stable hash);
+          mining means an iron_ore stock, or mining potential without stocks.
         - Mucus glands and Mold deposits rare (a handful of cities).
 
         Args:
@@ -344,9 +346,21 @@ class GeoJSONLoader:
             lon: Longitude (dark vs sun side of Eno)
         """
         h = _stable_hash(operator_id)
+        zero = Decimal("0")
 
-        # Sap: ubiquitous where vegetation (wood stock) exists — a common component.
-        if endowments.get("wood", Decimal("0")) > 0:
+        # Reason: worldbuilder exports carry resource stocks; plain geographic
+        # datasets (e.g. kaupungit) do not, so fall back to the derived drivers.
+        if isinstance(props.get("endowments"), dict):
+            has_vegetation = endowments.get("wood", zero) > 0
+            has_mining = endowments.get("iron_ore", zero) > 0
+        else:
+            has_vegetation = (
+                endowments.get("forestry", zero) > 0 or endowments.get("agriculture", zero) > 0
+            )
+            has_mining = endowments.get("mining_potential", zero) > 0
+
+        # Sap: ubiquitous where vegetation exists — a common component.
+        if has_vegetation:
             endowments.setdefault("sap_harvest", Decimal("0.5"))
 
         # Dark vs sun side of Eno -> Rime vs Ash pilgrimage (each city picks one).
@@ -369,7 +383,6 @@ class GeoJSONLoader:
         # Element deposits: cities with a mining or precious signal specialize
         # in 1-2 periodic elements (deterministic per city, so specialization is
         # stable but varied across the map).
-        has_mining = endowments.get("iron_ore", Decimal("0")) > 0
         has_precious = endowments.get("luxury_goods", Decimal("0")) > 0
         if has_mining or has_precious:
             pool = ["feron", "cunu", "charon", "plon", "suhra", "sirael"]
