@@ -52,6 +52,8 @@ dropped trade to 0, and production has since been recalibrated against demand (s
 - Removed dead weapon/armor/military references from production bonuses (citadel in
   `rules.py` and `capacity.py`, walls, Aumir religion) and the Night culture price
   discount in `pricing.py`. None matched an existing rule or resource; outputs unchanged.
+- The walls production bonus matched `stone` in rule IDs, but the stone rule is
+  `quarrying`, so it never applied. It now matches `quarrying` (`test_capacity.py`).
 
 ### YAML alignment
 - `config/econ.yaml` and the built-in defaults now define the same resources, rules,

@@ -230,7 +230,7 @@ class CapacityCalculator:
         
         # Walls provide general defensive production bonus
         if operator.walls:
-            defensive_rules = ["stone", "fortification"]
+            defensive_rules = ["quarrying", "fortification"]
             if any(def_rule in rule.rule_id for def_rule in defensive_rules):
                 bonus *= Decimal("1.1")
         
