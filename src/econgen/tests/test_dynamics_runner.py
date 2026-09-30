@@ -81,3 +81,51 @@ def test_write_outputs_creates_files(minsky_client, tmp_path) -> None:
     data = json.loads((tmp_path / "dynamics_series.json").read_text())
     assert "a/food" in data["series"]
     assert len(data["series"]["a/food"]) == 30
+
+
+def _craft_city(coupled: bool) -> DynamicsInput:
+    """One city: crafts living-bronze (5/time) from local cunu stock."""
+    return DynamicsInput(
+        stocks=[
+            StockSpec(
+                city="a",
+                resource="cunu",
+                initial_stock=50.0,
+                production_rate=0.0,
+                consumption_rate=0.0,
+                price_reference=50.0,
+            ),
+            StockSpec(
+                city="a",
+                resource="living-bronze",
+                initial_stock=10.0,
+                production_rate=5.0,
+                consumption_rate=0.0,
+                input_rates={"cunu": 1.0} if coupled else {},
+            ),
+        ],
+        n_steps=40,
+        seed=0,
+    )
+
+
+def test_simulate_recipe_drains_input_stock(minsky_client) -> None:
+    """Crafting drains the input stock; without coupling it stays untouched."""
+    coupled = simulate(minsky_client, _craft_city(coupled=True))
+    control = simulate(minsky_client, _craft_city(coupled=False))
+
+    cunu_coupled = coupled.series["a/cunu"][-1]
+    cunu_control = control.series["a/cunu"][-1]
+    assert cunu_coupled < cunu_control - 1.0
+    # The availability gate self-limits: the input never goes negative.
+    assert all(v >= -1e-9 for v in coupled.series["a/cunu"])
+
+
+def test_simulate_recipe_gates_production_on_input_scarcity(minsky_client) -> None:
+    """As the cunu stock depletes, gated bronze production falls below the uncoupled run."""
+    coupled = simulate(minsky_client, _craft_city(coupled=True))
+    control = simulate(minsky_client, _craft_city(coupled=False))
+
+    bronze_coupled = coupled.series["a/living-bronze"][-1]
+    bronze_control = control.series["a/living-bronze"][-1]
+    assert bronze_coupled < bronze_control

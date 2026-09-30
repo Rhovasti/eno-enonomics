@@ -106,7 +106,7 @@ def simulate(
             TradeNetwork(operators, sim_config) if dynamics_config.include_trade else None
         )
         dynamics_input = build_dynamics_input(
-            operators, supply, demand, dynamics_config, trade_network, taxonomy
+            operators, supply, demand, dynamics_config, trade_network, taxonomy, rules_engine
         )
         if not dynamics_input.stocks:
             console.print("⚠️  [yellow]No stocks to simulate (no supply/demand matched).[/yellow]")

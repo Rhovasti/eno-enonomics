@@ -38,6 +38,12 @@ _CELL_H = 500
 # stable; the naive base*rate/(stock+floor) explodes at low stock and destabilizes.
 PRICE_ALPHA = 2.0
 
+# Input-availability gate: gate = S_in / (S_in + INPUT_GATE_REF_FRACTION * ref_in).
+# ~0.91 at parity and -> 0 as the input depletes, so recipe drains self-limit and
+# input stocks never diverge negative. A full-parity fraction would halve crafted
+# production everywhere; 0.1 keeps healthy cities at ~full output.
+INPUT_GATE_REF_FRACTION = 0.1
+
 
 def _num(value: float) -> str:
     """Render a float compactly for ``VariableValue.init``."""
@@ -56,6 +62,8 @@ class MinskyModelBuilder:
         self._production: Dict[Tuple[str, str], Any] = {}
         self._consumption: Dict[Tuple[str, str], Any] = {}
         self._price: Dict[Tuple[str, str], Any] = {}  # scarcity price op per stock
+        self._spec_by_key: Dict[Tuple[str, str], StockSpec] = {}
+        self._drains: Dict[Tuple[str, str], List[Any]] = {}  # input stock <- drain flows
 
     def build(self, dynamics_input: DynamicsInput) -> None:
         """Create all items/wires, set values, and build the equation DAG."""
@@ -63,6 +71,8 @@ class MinskyModelBuilder:
         self.series.clear()
         self._cell_origin.clear()
         self._price.clear()
+        self._spec_by_key.clear()
+        self._drains.clear()
 
         for index, spec in enumerate(dynamics_input.stocks):
             self._create_stock(index, spec)
@@ -70,6 +80,11 @@ class MinskyModelBuilder:
         edge_flows: Dict[Tuple[str, str, str], Any] = {}
         for index, edge in enumerate(dynamics_input.trade_edges):
             edge_flows[self._edge_key(edge)] = self._create_edge_flow(index, edge)
+
+        # Input coupling before net wiring: it replaces each stock's production
+        # with the gated chain and collects the drains its inputs will suffer.
+        for index, spec in enumerate(dynamics_input.stocks):
+            self._apply_input_coupling(index, spec)
 
         for index, spec in enumerate(dynamics_input.stocks):
             self._wire_net(index, spec, dynamics_input.trade_edges, edge_flows)
@@ -115,7 +130,52 @@ class MinskyModelBuilder:
         self._stock_handle[key] = stock
         self._integrator[key] = integrator
         self._price[key] = price
+        self._spec_by_key[key] = spec
         self.series[f"{spec.city}/{spec.resource}"] = f":s{index}"
+
+    def _apply_input_coupling(self, index: int, spec: StockSpec) -> None:
+        """Gate production on input availability and collect per-input drains.
+
+        For each input (sorted), production is chained through
+        ``gate = S_in / (S_in + INPUT_GATE_REF_FRACTION * ref_in)`` and a drain
+        ``gated_production * rate`` is recorded against the input stock, which
+        ``_wire_net`` subtracts from that stock's integrator.
+        """
+        if not spec.input_rates:
+            return
+        key = (spec.city, spec.resource)
+        accumulator = self._production[key]
+        bx, by = self._cell_origin[index]
+        x = bx - 250  # column left of the stock's own cell
+        for k, input_resource in enumerate(sorted(spec.input_rates)):
+            in_key = (spec.city, input_resource)
+            if in_key not in self._stock_handle:
+                continue
+            # Minsky reads "_" as a subscript separator and "-" as minus in
+            # variable names (variableValues keys then miss the .init), so
+            # generated names use plain alphanumerics only.
+            in_spec = self._spec_by_key[in_key]
+            theta = in_spec.price_reference * INPUT_GATE_REF_FRACTION
+            theta_param = self._parameter(f"th{index}i{k}", x, by + 40, theta)
+            denom = self._operation("add", x + 100, by + 100)  # S_in + theta
+            self._wire(self._stock_handle[in_key], 0, denom, 1)
+            self._wire(theta_param, 0, denom, 2)
+            gate = self._operation("divide", x + 200, by + 100)  # S_in / (S_in + theta)
+            self._wire(self._stock_handle[in_key], 0, gate, 1)
+            self._wire(denom, 0, gate, 2)
+            gated = self._operation("multiply", x + 100, by + 200)
+            self._wire(accumulator, 0, gated, 1)
+            self._wire(gate, 0, gated, 2)
+            rate_param = self._parameter(
+                f"ir{index}i{k}", x, by + 260, spec.input_rates[input_resource]
+            )
+            drain = self._operation("multiply", x + 200, by + 260)
+            self._wire(gated, 0, drain, 1)
+            self._wire(rate_param, 0, drain, 2)
+            self._drains.setdefault(in_key, []).append(drain)
+            accumulator = gated
+            x -= 350  # next input column further left
+        self._production[key] = accumulator
 
     def _create_edge_flow(self, index: int, edge: TradeEdge) -> Any:
         """flow = conductance * (price_dest - price_source); returns the flow op.
@@ -147,9 +207,10 @@ class MinskyModelBuilder:
         edges: List[TradeEdge],
         edge_flows: Dict[Tuple[str, str, str], Any],
     ) -> None:
-        """Fold production - consumption +/- trade flows into the integrator."""
+        """Fold production - consumption - drains +/- trade flows into the integrator."""
         key = (spec.city, spec.resource)
         terms = [(self._consumption[key], -1)]
+        terms.extend((drain, -1) for drain in self._drains.get(key, []))
         for edge in edges:
             if edge.resource != spec.resource:
                 continue

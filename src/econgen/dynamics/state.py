@@ -83,6 +83,11 @@ class StockSpec(BaseModel):
         gt=0,
         description="Reference stock (per-resource mean) for the scarcity price: ref/(ref+stock).",
     )
+    input_rates: Dict[str, float] = Field(
+        default_factory=dict,
+        description="input resource_id -> units drained from that city's input "
+        "stock per unit produced (from production-rule recipes).",
+    )
 
 
 class TradeEdge(BaseModel):

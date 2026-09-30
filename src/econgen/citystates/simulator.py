@@ -1,6 +1,6 @@
 """Per-citystate dynamic Minsky simulation with long-run drivers (Phase 3).
 
-Each citystate runs from its founding cycle to 998. Three slow drivers reshape the
+Each citystate runs from its founding cycle to 998. Four slow drivers reshape the
 economy over centuries so cycle 998 differs from cycle 20:
 
 - **Growth**: population P (integral); production & consumption scale with P.
@@ -8,20 +8,24 @@ economy over centuries so cycle 998 differs from cycle 20:
   ``le(tier_rank, T)`` unlocks medieval/industrial/alchemical production as T rises.
 - **Depletion**: each extractive endowment E (integral, declines with extraction);
   production scales with ``E/E0`` -> extractive cities boom then bust.
+- **Recipe coupling**: crafted production (stuffs, tools, ...) is gated on input
+  availability ``S_in/(S_in + 0.1*ref)`` and drains the input stocks.
 
 Per resource::
 
-    d(stock)/dt = production - consumption + conductance*(consumption - stock)
-    production  = prod_pc * P * tech_gate * (E/E0 if extractive else 1)
+    d(stock)/dt = production - consumption - drains + conductance*(consumption - stock)
+    production  = prod_pc * P * tech_gate * input_gates * (E/E0 if extractive else 1)
     consumption = cons_pc * P
+    drains      = production_at_each_gate * recipe input rate
 """
 
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 from pydantic import BaseModel, Field
 
-from ..dynamics.builder import MinskyModelBuilder
+from ..dynamics.adapter import recipe_input_rates
+from ..dynamics.builder import INPUT_GATE_REF_FRACTION, MinskyModelBuilder
 from ..dynamics.client import MinskyClient
 from ..models import TECH_ORDER
 from ..rules import RulesEngine
@@ -108,7 +112,11 @@ class PerCityBuilder(MinskyModelBuilder):
     ) -> List[str]:
         self.m.clearAllMaps(True)
         self.series.clear()
-        self.resource_info: Dict[str, Dict[str, float]] = {}
+        self.resource_info: Dict[str, Dict[str, Any]] = {}
+        self._res_stock: Dict[str, Any] = {}
+        self._res_intop: Dict[str, Any] = {}
+        self._res_pp: Dict[str, Any] = {}
+        self._res_cp: Dict[str, Any] = {}
 
         pop0 = max(spec.population, 1)
         growth_flow = spec.growth_rate * config.growth_scale * pop0
@@ -122,11 +130,14 @@ class PerCityBuilder(MinskyModelBuilder):
         self._wire(self._parameter("tr", -1600.0, -1300.0, tech_rate), 0, tech_intop, 1)
         self._conductance = self._parameter("cond", -1600.0, -1200.0, config.trade_conductance)
 
-        # Per resource: tier rank + extractive classification from producing rules.
+        # Per resource: tier rank + extractive classification + recipe inputs.
         tier_by_resource = self._tier_by_resource(rules_engine)
         extractive_by_resource = self._extractive_by_resource(rules_engine)
+        input_reqs = recipe_input_rates(rules_engine)
 
+        # Pass 1: create every stock (wiring a resource needs all input stocks).
         resources: List[str] = []
+        plans: List[Tuple[str, int, float, float, float, int, bool, float, Dict[str, float]]] = []
         for index, resource in enumerate(sorted(set(supply) | set(demand))):
             production_total = float(supply.get(resource, 0))
             consumption_total = float(demand.get(resource, 0))
@@ -138,10 +149,18 @@ class PerCityBuilder(MinskyModelBuilder):
             tier_rank = tier_by_resource.get(resource, 0)
             extractive = production_total > 0 and extractive_by_resource.get(resource, False)
             e0 = production_total * config.depletion_horizon if extractive else 0.0
-            self._build_resource(
-                index, resource, prod_pc, cons_pc, initial, tier_rank, extractive, e0
-            )
+            inputs = {
+                input_id: rate
+                for input_id, rate in input_reqs.get(resource, {}).items()
+                # Only couple to inputs that have a stock in this city.
+                if rate > 0
+                and (float(supply.get(input_id, 0)) > 0 or float(demand.get(input_id, 0)) > 0)
+            }
+            self._create_resource(index, resource, prod_pc, cons_pc, initial)
             resources.append(resource)
+            plans.append(
+                (resource, index, prod_pc, cons_pc, initial, tier_rank, extractive, e0, inputs)
+            )
             self.resource_info[resource] = {
                 "prod_pc": prod_pc,
                 "cons_pc": cons_pc,
@@ -149,7 +168,15 @@ class PerCityBuilder(MinskyModelBuilder):
                 "extractive": extractive,
                 "e0": e0,
                 "index": index,
+                "initial": initial,
+                "inputs": inputs,
             }
+
+        # Pass 2: wire flows (tech gate -> input gates -> depletion -> net).
+        for resource, index, prod_pc, cons_pc, initial, tier_rank, extractive, e0, inputs in plans:
+            self._wire_resource(
+                index, resource, prod_pc, cons_pc, tier_rank, extractive, e0, inputs
+            )
 
         self.m.constructEquations()
         return resources
@@ -173,25 +200,37 @@ class PerCityBuilder(MinskyModelBuilder):
                     result[resource] = True
         return result
 
-    def _build_resource(
+    def _create_resource(
+        self, index: int, resource: str, prod_pc: float, cons_pc: float, initial: float
+    ) -> None:
+        """Pass 1: parameters + the stock integral; record handles for pass 2."""
+        bx, by = self._cell(index)
+        self._res_pp[resource] = self._parameter(f"pp{index}", bx, by, prod_pc)
+        self._res_cp[resource] = self._parameter(f"cp{index}", bx, by + 40, cons_pc)
+        stock, integrator = self._integral(f"s{index}", bx + 400, by + 120, initial)
+        self._res_stock[resource] = stock
+        self._res_intop[resource] = integrator
+        self.series[resource] = f":s{index}"
+
+    def _wire_resource(
         self,
         index: int,
         resource: str,
         prod_pc: float,
         cons_pc: float,
-        initial: float,
         tier_rank: int,
         extractive: bool,
         e0: float,
+        inputs: Dict[str, float],
     ) -> None:
+        """Pass 2: production chain (tech + input gates + depletion), consumption, net."""
         bx, by = self._cell(index)
-        pp = self._parameter(f"pp{index}", bx, by, prod_pc)
-        cp = self._parameter(f"cp{index}", bx, by + 40, cons_pc)
-        stock, integrator = self._integral(f"s{index}", bx + 400, by + 120, initial)
+        stock = self._res_stock[resource]
+        integrator = self._res_intop[resource]
 
         # base production = prod_pc * P
         base = self._operation("multiply", bx + 150, by + 20)
-        self._wire(pp, 0, base, 1)
+        self._wire(self._res_pp[resource], 0, base, 1)
         self._wire(self._population, 0, base, 2)
 
         # tech gate = le(tier_rank, T)  -> 1 when tech has reached the rule's tier
@@ -202,7 +241,11 @@ class PerCityBuilder(MinskyModelBuilder):
         self._wire(base, 0, gated, 1)
         self._wire(gate, 0, gated, 2)
 
-        # depletion: extractive resources scale with E/E0
+        # input gates: production also scales with each input stock's availability
+        gated, drains = self._wire_input_coupling(index, resource, gated, inputs)
+
+        # depletion: extractive resources scale with E/E0 (using the gated
+        # production, so scarce inputs also slow deposit exhaustion)
         if extractive:
             e_stock, e_intop = self._integral(f"e{index}", bx + 280, by + 200, e0)
             e0_param = self._parameter(f"e0{index}", bx, by + 200, e0)
@@ -222,7 +265,7 @@ class PerCityBuilder(MinskyModelBuilder):
 
         # consumption = cons_pc * P
         consumption = self._operation("multiply", bx + 150, by + 260)
-        self._wire(cp, 0, consumption, 1)
+        self._wire(self._res_cp[resource], 0, consumption, 1)
         self._wire(self._population, 0, consumption, 2)
 
         # trade = conductance * (consumption - stock)
@@ -233,16 +276,59 @@ class PerCityBuilder(MinskyModelBuilder):
         self._wire(self._conductance, 0, trade, 1)
         self._wire(deficit, 0, trade, 2)
 
-        # net = production - consumption + trade -> stock integrator
+        # net = production - consumption + trade - drains -> stock integrator
         n1 = self._operation("subtract", bx + 400, by + 40)
         self._wire(production, 0, n1, 1)
         self._wire(consumption, 0, n1, 2)
         net = self._operation("add", bx + 400, by + 100)
         self._wire(n1, 0, net, 1)
         self._wire(trade, 0, net, 2)
+        for drain in drains:
+            subtract = self._operation("subtract", bx + 400, by + 160)
+            self._wire(net, 0, subtract, 1)
+            self._wire(drain, 0, subtract, 2)
+            net = subtract
         self._wire(net, 0, integrator, 1)
 
-        self.series[resource] = f":s{index}"
+    def _wire_input_coupling(
+        self, index: int, resource: str, production: Any, inputs: Dict[str, float]
+    ) -> Tuple[Any, List[Any]]:
+        """Chain ``S_in/(S_in + 0.1*ref_in)`` gates onto ``production``.
+
+        Returns the gated production flow plus the drain flows that the input
+        stocks' net equations must subtract.
+        """
+        drains: List[Any] = []
+        accumulator = production
+        if not inputs:
+            return accumulator, drains
+        bx, by = self._cell(index)
+        x = bx - 260  # column left of the resource's own cell
+        # Minsky reads "_" as a subscript separator in variable names (the
+        # variableValues key then misses the .init), so generated names stay
+        # alphanumeric: gth{index}i{k} / gir{index}i{k}.
+        for k, input_id in enumerate(sorted(inputs)):
+            if input_id not in self._res_stock:
+                continue
+            ref = float(self.resource_info[input_id].get("initial", 50.0))
+            theta = self._parameter(f"gth{index}i{k}", x, by + 40, ref * INPUT_GATE_REF_FRACTION)
+            denom = self._operation("add", x + 100, by + 100)  # S_in + theta
+            self._wire(self._res_stock[input_id], 0, denom, 1)
+            self._wire(theta, 0, denom, 2)
+            gate = self._operation("divide", x + 200, by + 100)  # S_in / (S_in + theta)
+            self._wire(self._res_stock[input_id], 0, gate, 1)
+            self._wire(denom, 0, gate, 2)
+            gated = self._operation("multiply", x + 100, by + 200)
+            self._wire(accumulator, 0, gated, 1)
+            self._wire(gate, 0, gated, 2)
+            rate = self._parameter(f"gir{index}i{k}", x, by + 260, inputs[input_id])
+            drain = self._operation("multiply", x + 200, by + 260)
+            self._wire(gated, 0, drain, 1)
+            self._wire(rate, 0, drain, 2)
+            drains.append(drain)
+            accumulator = gated
+            x -= 350
+        return accumulator, drains
 
 
 def simulate_city(
@@ -280,6 +366,14 @@ def simulate_city(
             t_level = tech[-1]
             stock_val = float(minsky.variableValues[builder.series[r]].value())
             gate = 1.0 if t_level >= info["tier_rank"] else 0.0
+            # Recompose the input-availability gates the model chains onto
+            # production (same formula as _wire_input_coupling).
+            for input_id in info.get("inputs", {}):
+                if input_id not in builder.series:
+                    continue
+                s_in = max(0.0, float(minsky.variableValues[builder.series[input_id]].value()))
+                ref = float(builder.resource_info[input_id].get("initial", 50.0))
+                gate *= s_in / (s_in + INPUT_GATE_REF_FRACTION * ref)
             dep = 1.0
             if info["extractive"]:
                 e_val = float(minsky.variableValues[f":e{info['index']}"].value())
