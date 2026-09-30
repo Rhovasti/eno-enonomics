@@ -251,7 +251,7 @@ class PriceCalculator:
             
             if culture == "noon" and resource_id in ["food", "agriculture"]:
                 modified_price *= Decimal("0.92")  # Agricultural specialization
-            elif culture == "night" and resource_id in ["crafts", "tools", "weapons"]:
+            elif culture == "night" and resource_id in ["crafts", "tools"]:
                 modified_price *= Decimal("0.95")  # Crafting specialization
             elif culture == "dawn" and resource_id in ["trade-goods"]:
                 modified_price *= Decimal("0.90")  # Trade specialization

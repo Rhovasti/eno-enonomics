@@ -49,6 +49,9 @@ dropped trade to 0, and production has since been recalibrated against demand (s
   `weapons`/`armor` from the plaza, citadel, walls, Night, wildlands and mining modifiers.
 - The runtime "Demand profiles reference unknown resources" warning is gone; trade,
   supply and prices are unchanged (weapons were never produced or priced).
+- Removed dead weapon/armor/military references from production bonuses (citadel in
+  `rules.py` and `capacity.py`, walls, Aumir religion) and the Night culture price
+  discount in `pricing.py`. None matched an existing rule or resource; outputs unchanged.
 
 ### YAML alignment
 - `config/econ.yaml` and the built-in defaults now define the same resources, rules,

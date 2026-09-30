@@ -147,9 +147,6 @@ class RulesEngine:
         if operator.port and rule.rule_id in ["fishing", "trade-goods", "import-export"]:
             base_capacity *= Decimal("1.5")  # Port bonus for relevant activities
             
-        if operator.citadel and rule.rule_id in ["weapons", "armor", "military-goods"]:
-            base_capacity *= Decimal("1.3")  # Military infrastructure bonus
-        
         # Apply labor requirement scaling
         if rule.labor_required > 0:
             labor_adjustment = Decimal("1.0") / rule.labor_required.sqrt()

@@ -222,12 +222,6 @@ class CapacityCalculator:
             if any(market_rule in rule.rule_id for market_rule in market_rules):
                 bonus *= Decimal("1.3")
         
-        # Citadel bonus for military production
-        if operator.citadel:
-            military_rules = ["weapon", "armor", "military"]
-            if any(mil_rule in rule.rule_id for mil_rule in military_rules):
-                bonus *= Decimal("1.4")
-        
         # Temple bonus for luxury goods and cultural items
         if operator.temple:
             cultural_rules = ["jewelry", "art", "luxury", "ceremonial"]
@@ -236,7 +230,7 @@ class CapacityCalculator:
         
         # Walls provide general defensive production bonus
         if operator.walls:
-            defensive_rules = ["weapon", "armor", "stone", "fortification"]
+            defensive_rules = ["stone", "fortification"]
             if any(def_rule in rule.rule_id for def_rule in defensive_rules):
                 bonus *= Decimal("1.1")
         
@@ -272,8 +266,6 @@ class CapacityCalculator:
             # Religious specializations
             if "religion_asta" in tag_lower and "jewelry" in rule_lower:
                 bonus *= Decimal("1.2")  # Asta religion values craftsmanship
-            elif "religion_aumir" in tag_lower and "weapon" in rule_lower:
-                bonus *= Decimal("1.2")  # Aumir religion has warrior traditions
         
         # Capital city bonus
         if operator.capital:
