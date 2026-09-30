@@ -157,10 +157,14 @@ final_capacity = base_capacity * endowment_scaling * efficiency
 
 **Pricing Model:**
 ```python
-scarcity_ratio = demand / max(supply, min_supply)
-price_multiplier = scarcity_ratio ** price_elasticity  
-local_price = base_price * price_multiplier
+supply_ratio = clamp(supply / demand, 0.05, 20)   # no demand + supply -> 20
+price_multiplier = (1 / supply_ratio) ** (1 / price_elasticity)
+local_price = base_price * price_multiplier * regional_multiplier * operator_modifiers
+local_price = clamp(local_price, 0.1 * base_price, 10 * base_price)
 ```
+
+`price_elasticity` is the price elasticity of demand: higher values give flatter prices.
+With the default 1.5 the local multiplier ranges smoothly from 0.14x to 7.4x.
 
 **Economic Factors:**
 - **Base Price:** Resource taxonomy defines starting values

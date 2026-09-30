@@ -66,12 +66,12 @@ Cities and settlements with:
 
 ## Known Issues
 
-### 1. Import Prices Pinned at the Cap (Minor)
-**Status:** OPEN - pricing tuning
+### 1. YAML Config Diverges from Built-in Defaults (Minor)
+**Status:** OPEN - design decision pending
 
-Most importing cities are short enough that the scarcity curve in `pricing.py` pushes
-prices to the 10x base-price cap (on `Data/kaupungit.geojson`, 73 of 95 links import at
-the cap). Trade still flows, but price differences carry little information.
+`config/econ.yaml` still defines `weapons` and rules producing wood, stone and iron ore,
+none of which exist in the built-in defaults. Runs with `--config config/econ.yaml` trade
+those goods; default runs cannot.
 
 ### 2. Weapons in Demand Profiles (Minor)
 **Status:** OPEN - design decision pending
@@ -89,6 +89,9 @@ demand modifiers in `demand.py` still reference `weapons` (and `armor`), which l
 - **Zero trade after the tech-gating fix:** production is now calibrated to demand
   (`calibration.py`) and trade uses net surplus/deficit. `Data/kaupungit.geojson` yields
   95 links (food, fish, tools, textiles, jewelry); `data/performance_test.geojson` 231.
+- **Prices pinned at the cap:** the scarcity curve applied its multiplier twice, had step
+  jumps and could go negative. It is now a smooth constant-elasticity curve (see
+  `ARCHITECTURE.md`); no trade link on the bundled datasets imports at the cap.
 
 ## Successfully Implemented Features
 
@@ -192,7 +195,7 @@ TradeLink(
 - [x] Price calculation
 - [x] Supply/demand calibration (`supply_demand_ratio`, default 1.0)
 - [x] Trade flow solving on net surplus/deficit
-- [ ] Price curve tuning (see Known Issues)
+- [x] Constant-elasticity price curve
 
 ### Phase 3: Analysis and Output ✅ COMPLETE
 - [x] Trade network statistics

@@ -15,8 +15,8 @@ dropped trade to 0, and production has since been recalibrated against demand (s
 | Check | Result |
 |---|---|
 | `uv run pytest` | 63 passed |
-| CLI `run` on `data/performance_test.geojson` | 231 trade links |
-| CLI `run` on `Data/kaupungit.geojson` | 95 links: food 42, fish 23, tools 21, textiles 8, jewelry 1 |
+| CLI `run` on `data/performance_test.geojson` | 250 trade links, 1 importing at the price cap |
+| CLI `run` on `Data/kaupungit.geojson` | 43 links (fish 21, textiles 8, jewelry 7, food 4, tools 3), none at the cap |
 | `uv run ruff check .` / `ruff format --check .` | Failing (unused imports; unformatted files) |
 | `uv run mypy src/` | Failing (~50 errors) |
 | CI | None configured |
@@ -42,8 +42,19 @@ dropped trade to 0, and production has since been recalibrated against demand (s
   own supply. Previously a city could export food it needed itself.
 - Loader: baseline agriculture/craftsmanship endowments no longer overwrite higher
   culture-based values (e.g. Noon agriculture 0.8 was reset to 0.5).
-- On `Data/kaupungit.geojson`, imports cover 8-28% of each good's total deficit, limited by
-  the 8-neighbour / 800 km trade radius. 73 of 95 links import at the 10x price cap.
+
+### Price curve
+- The scarcity adjustment in `pricing.py` applied its multiplier twice (roughly squaring
+  it), jumped at supply ratios 0.5, 0.8 and 2.0, and went negative above ~9x oversupply.
+- Replaced with a constant-elasticity curve: `(demand/supply) ** (1/price_elasticity)`,
+  with the supply ratio bounded to [0.05, 20].
+- `Data/kaupungit.geojson`: prices at the 10x cap fell from 567/851 to 163/851, and all
+  of those are wood, stone and iron-ore, which no default rule produces. Links importing
+  at the cap fell from 73/95 to 0/43.
+- Trade on `kaupungit` fell from 95 to 43 links, mostly food (42 -> 4): its cities are a
+  median ~470 km apart, and at realistic food prices long-haul grain no longer covers
+  transport cost (0.02/km). `transport_cost_per_km` is the main lever: at 0.01, the YAML
+  config gives 80 links instead of 59.
 
 ## Implementation Status
 
@@ -81,9 +92,8 @@ dropped trade to 0, and production has since been recalibrated against demand (s
 - **Fix:** Population-linear capacity plus per-rule calibration (`calibration.py`) and net
   surplus/deficit trading. See "Recalibration" above.
 
-#### Price Curve (Open)
-- Most importers sit at the 10x base-price cap, so price spreads carry little signal.
-  Consider softening `_apply_scarcity_adjustment` in `pricing.py`.
+#### Price Curve (Resolved)
+- Constant-elasticity curve replaces the step function (see "Price curve" above).
 
 #### Supply Calculation (Resolved)
 - `_calculate_supply_from_capacities()` uses rule output resource IDs
