@@ -10,6 +10,35 @@ The pipeline runs end-to-end on all bundled datasets and produces tech-consisten
 The trade links reported in `TRADE_NETWORK_FIX.md` came from a tech-gating bug. Fixing it
 dropped trade to 0, and production has since been recalibrated against demand (see Issue #1).
 
+## Alchemical economy (2026-09-30, full-stack layer)
+
+The Periodical System of Eno (`fantastical.py`, lore in `w Periodical system of Eno.md`)
+is now part of the default economy and runs through every layer:
+
+- **Catalog**: 8 alchemical components + 8 periodic elements + 4 alchemical stuffs as
+  resources/rules/demand, merged into `config/econ.yaml` in lockstep (config parity test).
+- **Endowments**: inferred from geography in both input routes — GeoJSON features and the
+  143 citystate `.md` profiles (Rime on the dark side vs Ash on the sun side by longitude,
+  Sap with vegetation, Pitch at coasts, Phos at industrial sites, deterministic element
+  deposits for mining cities, rare Mucus/Mold).
+- **Dynamics** (`dynamics/`, `citystates/simulator.py`): crafted production consumes its
+  inputs — the adapter derives per-unit input rates from the production rules, and both
+  Minsky builders gate production on input availability `S/(S+0.1·ref)` while draining the
+  input stocks. Generated Minsky parameter names must stay alphanumeric (underscore reads
+  as a subscript separator, so `variableValues` misses the `init` and the value stays 0).
+- **Markets** (`citystates/market.py`): world prices carry an input-cost floor
+  `(1+margin)·Σ input_price·qty`, so component scarcity propagates into stuffs (and mundane
+  chains like wood → tools → steel → machinery).
+- **Finance** (`financial/`): alchemical value added is a sector of its own — GDP carve-out
+  by tier (components/elements/stuffs), guild wages/consumption/dividends, and an
+  Alchemists' Guild column in the Godley transactions matrix that balances exactly.
+- **CLI**: `simulate` plus `citystate-sim|dynamic|chronicle|financial|governance` (CLI
+  split into `cli_common`/`cli`/`cli_dynamics`/`cli_citystates`; `governance_types` holds
+  the catalog tables).
+
+Minsky-dependent tests skip without a local pyminsky build; citystate-corpus tests skip
+without the Worldbuilder2 profiles folder. CI runs ruff check, ruff format, mypy and pytest.
+
 ### Health check (2026-09-30)
 
 | Check | Result |
