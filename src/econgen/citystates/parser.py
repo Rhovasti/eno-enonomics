@@ -167,8 +167,15 @@ def parse_citystate(path: Path) -> CitystateSpec:
 
 
 def load_citystates(directory) -> list[CitystateSpec]:
-    """Load every ``*.md`` citystate profile under ``directory`` (skips sidecars)."""
+    """Load every ``*.md`` citystate profile under ``directory`` (skips sidecars).
+
+    Raises:
+        FileNotFoundError: If ``directory`` is not an existing folder.
+    """
     directory = Path(directory)
+    # Reason: glob on a missing folder yields nothing, which would pass for "no profiles".
+    if not directory.is_dir():
+        raise FileNotFoundError(f"Citystate profile folder not found: {directory}")
     return [
         parse_citystate(path)
         for path in sorted(directory.glob("*.md"))
