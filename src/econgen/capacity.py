@@ -52,7 +52,7 @@ class CapacityCalculator:
             List of capacities for this operator
         """
         # Check cache first
-        cache_key = f"{operator.operator_id}_{hash(str(operator.dict()))}"
+        cache_key = f"{operator.operator_id}_{hash(str(operator.model_dump()))}"
         if cache_key in self._capacity_cache:
             return self._capacity_cache[cache_key]
         
@@ -194,7 +194,7 @@ class CapacityCalculator:
         base_mult = base_multipliers[operator.tech]
         
         # Bonus for tech level above minimum requirement
-        if operator.tech > rule.tech_min:
+        if TechLevel(operator.tech) > TechLevel(rule.tech_min):
             tech_levels = [TechLevel.TRIBAL, TechLevel.MEDIEVAL, TechLevel.INDUSTRIAL]
             op_idx = tech_levels.index(operator.tech)
             rule_idx = tech_levels.index(rule.tech_min)

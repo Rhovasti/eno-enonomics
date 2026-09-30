@@ -68,7 +68,7 @@ class ResourceTaxonomy:
         Returns:
             List of resources available at this tech level or lower
         """
-        return [r for r in self.resources.values() if r.tech_min <= tech_level]
+        return [r for r in self.resources.values() if TechLevel(r.tech_min) <= TechLevel(tech_level)]
     
     def get_raw_materials(self) -> List[Resource]:
         """Get all raw materials (tier 0)."""
@@ -117,7 +117,7 @@ class ResourceTaxonomy:
             True if resource is available at this tech level
         """
         resource = self.get_resource(resource_id)
-        return resource is not None and resource.tech_min <= tech_level
+        return resource is not None and TechLevel(resource.tech_min) <= TechLevel(tech_level)
     
     def get_technology_gaps(self) -> Dict[TechLevel, List[Resource]]:
         """Get resources grouped by minimum technology level.
@@ -205,6 +205,51 @@ def create_default_taxonomy() -> ResourceTaxonomy:
             transportable=True,
             perishable=True
         ),
+        Resource(
+            resource_id="coal",
+            name="Coal",
+            tier=0,
+            tech_min=TechLevel.MEDIEVAL,
+            base_price=Decimal("1.5"),
+            transportable=True,
+            perishable=False
+        ),
+        Resource(
+            resource_id="precious-metals",
+            name="Precious Metals",
+            tier=0,
+            tech_min=TechLevel.MEDIEVAL,
+            base_price=Decimal("15.0"),
+            transportable=True,
+            perishable=False
+        ),
+        Resource(
+            resource_id="gems",
+            name="Gems",
+            tier=0,
+            tech_min=TechLevel.MEDIEVAL,
+            base_price=Decimal("25.0"),
+            transportable=True,
+            perishable=False
+        ),
+        Resource(
+            resource_id="fiber",
+            name="Fiber",
+            tier=0,
+            tech_min=TechLevel.TRIBAL,
+            base_price=Decimal("1.2"),
+            transportable=True,
+            perishable=False
+        ),
+        Resource(
+            resource_id="seed",
+            name="Seed",
+            tier=0,
+            tech_min=TechLevel.TRIBAL,
+            base_price=Decimal("0.5"),
+            transportable=True,
+            perishable=True
+        ),
         
         # Tier 1: Refined Goods
         Resource(
@@ -242,6 +287,16 @@ def create_default_taxonomy() -> ResourceTaxonomy:
             tier=2,
             tech_min=TechLevel.INDUSTRIAL,
             base_price=Decimal("25.0"),
+            transportable=True,
+            perishable=False
+        ),
+        # Byproducts
+        Resource(
+            resource_id="slag",
+            name="Slag",
+            tier=2,
+            tech_min=TechLevel.INDUSTRIAL,
+            base_price=Decimal("0.2"),
             transportable=True,
             perishable=False
         ),

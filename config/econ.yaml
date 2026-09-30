@@ -143,6 +143,15 @@ resources:
     transportable: true
     perishable: false
 
+  # Byproducts
+  - resource_id: slag
+    name: Slag
+    tier: 2
+    tech_min: industrial
+    base_price: 0.2
+    transportable: true
+    perishable: false
+
   # Tier 3: Luxury Goods
   - resource_id: jewelry
     name: Jewelry

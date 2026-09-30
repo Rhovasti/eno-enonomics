@@ -87,7 +87,8 @@ class RulesEngine:
         
         for rule in self.rules.values():
             # Check technology requirement
-            if operator.tech < rule.tech_min:
+            # Reason: models store tech as plain str (use_enum_values), so compare as enums
+            if TechLevel(operator.tech) < TechLevel(rule.tech_min):
                 continue
                 
             # Check endowment requirement
@@ -216,7 +217,7 @@ class RulesEngine:
         Returns:
             List of available production rules
         """
-        return [rule for rule in self.rules.values() if rule.tech_min <= tech_level]
+        return [rule for rule in self.rules.values() if TechLevel(rule.tech_min) <= TechLevel(tech_level)]
     
     def get_rules_summary(self) -> Dict[str, any]:
         """Get summary statistics about production rules.

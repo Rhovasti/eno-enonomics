@@ -1,6 +1,7 @@
 """Utility functions for determinism, distance calculations, and helpers."""
 
 import random
+import re
 import numpy as np
 import logging
 from typing import Optional, Tuple
@@ -71,9 +72,9 @@ def normalize_resource_id(resource_id: str) -> str:
         resource_id: Raw resource identifier
         
     Returns:
-        Normalized resource ID
+        Normalized resource ID: lowercase alphanumerics joined by single hyphens
     """
-    return resource_id.lower().strip().replace(" ", "-").replace("_", "-")
+    return re.sub(r"[^a-z0-9]+", "-", resource_id.lower()).strip("-")
 
 
 def clamp(value: Decimal, min_val: Decimal, max_val: Decimal) -> Decimal:
