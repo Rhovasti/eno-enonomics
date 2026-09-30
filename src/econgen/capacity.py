@@ -1,6 +1,6 @@
 """Production capacity calculation and management."""
 
-from typing import List, Dict
+from typing import Any, List, Dict
 from decimal import Decimal
 from .models import Operator, ProductionRule, Capacity, TechLevel
 from .rules import RulesEngine
@@ -330,7 +330,7 @@ class CapacityCalculator:
         # Always allow minimal production; no upper cap since calibration sets the scale
         return max(capacity, Decimal("0.01"))
     
-    def get_capacity_summary(self, capacities: List[Capacity]) -> Dict[str, any]:
+    def get_capacity_summary(self, capacities: List[Capacity]) -> Dict[str, Any]:
         """Get summary statistics about capacities.
         
         Args:
@@ -347,7 +347,7 @@ class CapacityCalculator:
         avg_efficiency = sum(c.efficiency for c in capacities) / total_capacities
         
         # Group by operator
-        by_operator = {}
+        by_operator: Dict[str, List[Capacity]] = {}
         for capacity in capacities:
             if capacity.operator_id not in by_operator:
                 by_operator[capacity.operator_id] = []

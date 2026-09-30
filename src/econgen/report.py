@@ -1,6 +1,6 @@
 """Report generation for economic simulation results."""
 
-from typing import List, Dict, Optional
+from typing import Any, List, Dict, Optional
 from decimal import Decimal
 from datetime import datetime
 
@@ -88,7 +88,7 @@ class ReportGenerator:
         total_trade_volume = sum(link.quantity for link in self.trade_links)
         
         # Tech level distribution
-        tech_dist = {}
+        tech_dist: Dict[str, int] = {}
         for op in self.operators.values():
             tech_dist[op.tech] = tech_dist.get(op.tech, 0) + 1
         
@@ -178,8 +178,8 @@ The economic simulation analyzed **{total_operators}** cities and settlements ac
             return "## Production Analysis\n\n*No production capacity data available.*"
         
         # Group capacities by operator
-        op_capacities = {}
-        rule_totals = {}
+        op_capacities: Dict[str, List[Capacity]] = {}
+        rule_totals: Dict[str, Decimal] = {}
         
         for cap in self.capacities:
             if cap.operator_id not in op_capacities:
@@ -237,12 +237,12 @@ The economic simulation analyzed **{total_operators}** cities and settlements ac
         avg_distance = sum(link.distance_km for link in self.trade_links) / len(self.trade_links)
         
         # Resource trade volumes
-        resource_volumes = {}
+        resource_volumes: Dict[str, Decimal] = {}
         for link in self.trade_links:
             resource_volumes[link.resource_id] = resource_volumes.get(link.resource_id, Decimal("0")) + link.quantity
         
         # Major trade routes (by volume)
-        trade_routes = {}
+        trade_routes: Dict[str, Dict[str, Any]] = {}
         for link in self.trade_links:
             route_key = f"{link.source_id}-{link.dest_id}"
             if route_key not in trade_routes:
@@ -278,8 +278,8 @@ The economic simulation analyzed **{total_operators}** cities and settlements ac
         
         for route_key, route_data in top_routes:
             source_id, dest_id = route_key.split("-", 1)
-            source_name = self.operators.get(source_id, type('obj', (object,), {'name': source_id})).name
-            dest_name = self.operators.get(dest_id, type('obj', (object,), {'name': dest_id})).name
+            source_name = self.operators[source_id].name if source_id in self.operators else source_id
+            dest_name = self.operators[dest_id].name if dest_id in self.operators else dest_id
             
             resources_str = ", ".join(sorted(route_data["resources"]))[:60] + ("..." if len(", ".join(route_data["resources"])) > 60 else "")
             
@@ -293,7 +293,7 @@ The economic simulation analyzed **{total_operators}** cities and settlements ac
             return "## Market Analysis\n\n*No pricing data available.*"
         
         # Calculate price statistics
-        all_prices = {}  # resource_id -> list of prices
+        all_prices: Dict[str, List[Decimal]] = {}  # resource_id -> list of prices
         
         for op_prices in self.prices.values():
             for resource_id, price in op_prices.items():
@@ -371,7 +371,7 @@ The economic simulation analyzed **{total_operators}** cities and settlements ac
             markets = sum(1 for op in region_ops if op.plaza)
             
             # Tech level distribution
-            tech_counts = {}
+            tech_counts: Dict[str, int] = {}
             for op in region_ops:
                 tech_counts[op.tech] = tech_counts.get(op.tech, 0) + 1
             
@@ -417,7 +417,7 @@ This economic analysis uses a deterministic agent-based model to simulate produc
     
     def _cluster_operators_by_region(self) -> Dict[str, List[Operator]]:
         """Simple regional clustering based on geography and culture."""
-        regions = {}
+        regions: Dict[str, List[Operator]] = {}
         
         for op in self.operators.values():
             # Simple clustering by culture and geography

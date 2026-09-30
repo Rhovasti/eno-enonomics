@@ -1,6 +1,6 @@
 """Resource taxonomy and classification system."""
 
-from typing import List, Dict, Optional
+from typing import Any, List, Dict, Optional
 from decimal import Decimal
 from .models import Resource, TechLevel
 import logging
@@ -130,7 +130,7 @@ class ResourceTaxonomy:
             gaps[resource.tech_min].append(resource)
         return gaps
     
-    def get_resource_summary(self) -> Dict[str, any]:
+    def get_resource_summary(self) -> Dict[str, Any]:
         """Get summary statistics about the resource taxonomy.
         
         Returns:

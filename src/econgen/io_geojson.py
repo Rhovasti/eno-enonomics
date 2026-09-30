@@ -2,7 +2,7 @@
 
 import json
 from pathlib import Path
-from typing import List, Dict, Any, Union
+from typing import List, Dict, Any, Sequence, Union
 import geojson_pydantic as geojson
 from pyproj import Transformer
 from pydantic import ValidationError
@@ -29,7 +29,7 @@ class GeoJSONLoader:
         self.transformer = Transformer.from_crs("EPSG:3857", "EPSG:4326", always_xy=True)
         logger.info(f"Initialized GeoJSON loader (strict={strict})")
     
-    def load_operators(self, paths: List[Union[Path, str]]) -> List[Operator]:
+    def load_operators(self, paths: Sequence[Union[Path, str]]) -> List[Operator]:
         """Load operators from GeoJSON files.
         
         Args:

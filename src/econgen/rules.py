@@ -1,7 +1,7 @@
 """Production rules engine for economic simulation."""
 
 import networkx as nx
-from typing import List, Dict, Set
+from typing import Any, List, Dict, Set
 from decimal import Decimal
 from .models import ProductionRule, Operator, TechLevel, Capacity
 import logging
@@ -32,7 +32,7 @@ class RulesEngine:
         Raises:
             ValueError: If circular dependencies are detected
         """
-        G = nx.DiGraph()
+        G: "nx.DiGraph[str]" = nx.DiGraph()
         
         # Build dependency graph: input -> output
         for rule in self.rules.values():
@@ -184,7 +184,7 @@ class RulesEngine:
             return []
         
         # Build dependency graph for chain analysis
-        G = nx.DiGraph()
+        G: "nx.DiGraph[str]" = nx.DiGraph()
         for rule in self.rules.values():
             G.add_node(rule.rule_id)
             for output_resource in rule.outputs:
@@ -216,7 +216,7 @@ class RulesEngine:
         """
         return [rule for rule in self.rules.values() if TechLevel(rule.tech_min) <= TechLevel(tech_level)]
     
-    def get_rules_summary(self) -> Dict[str, any]:
+    def get_rules_summary(self) -> Dict[str, Any]:
         """Get summary statistics about production rules.
         
         Returns:

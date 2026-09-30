@@ -378,7 +378,7 @@ class TradeNetwork:
         Returns:
             Dictionary mapping operator_id to trade statistics
         """
-        summary = {}
+        summary: Dict[str, Dict[str, Any]] = {}
         
         # Initialize all operators
         for op_id in self.operators:

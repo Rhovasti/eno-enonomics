@@ -4,7 +4,7 @@ import random
 import re
 import numpy as np
 import logging
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Union
 from decimal import Decimal
 from math import radians, sin, cos, sqrt, atan2
 
@@ -107,7 +107,7 @@ def safe_divide(numerator: Decimal, denominator: Decimal, default: Decimal = Dec
     return numerator / denominator
 
 
-def format_number(value: Decimal, precision: int = 2) -> str:
+def format_number(value: Union[Decimal, float, int], precision: int = 2) -> str:
     """Format Decimal number with specified precision.
     
     Args:

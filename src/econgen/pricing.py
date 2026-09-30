@@ -1,6 +1,6 @@
 """Price discovery and market dynamics."""
 
-from typing import Dict, List
+from typing import Any, Dict, List
 from decimal import Decimal
 from .models import Operator, SimulationConfig, TechLevel
 from .taxonomy import ResourceTaxonomy
@@ -78,8 +78,8 @@ class PriceCalculator:
             Dictionary mapping resource_id to supply/demand ratio
         """
         # Aggregate regional totals
-        regional_supply = {}
-        regional_demand = {}
+        regional_supply: Dict[str, Decimal] = {}
+        regional_demand: Dict[str, Decimal] = {}
         
         for operator_supply in supply.values():
             for resource_id, quantity in operator_supply.items():
@@ -265,7 +265,7 @@ class PriceCalculator:
     def get_price_statistics(
         self,
         prices: Dict[str, Dict[str, Decimal]]
-    ) -> Dict[str, any]:
+    ) -> Dict[str, Any]:
         """Calculate price statistics across all operators.
         
         Args:
@@ -278,7 +278,7 @@ class PriceCalculator:
             return {"total_price_entries": 0}
         
         # Collect all prices by resource
-        resource_prices = {}
+        resource_prices: Dict[str, List[Decimal]] = {}
         total_entries = 0
         
         for operator_prices in prices.values():

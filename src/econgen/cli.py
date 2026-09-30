@@ -2,7 +2,8 @@
 
 import typer
 from pathlib import Path
-from typing import List, Optional
+from decimal import Decimal
+from typing import Dict, List, Optional
 import json
 import yaml
 from rich.console import Console
@@ -297,7 +298,7 @@ def _load_configuration(config_path: Optional[Path]):
         
         resources = [Resource(**r) for r in config_data.get("resources", [])]
         if not resources:
-            resources = create_default_taxonomy().resources.values()
+            resources = list(create_default_taxonomy().resources.values())
         
         rules = [ProductionRule(**r) for r in config_data.get("rules", [])]
         if not rules:
@@ -320,7 +321,7 @@ def _load_configuration(config_path: Optional[Path]):
 
 def _calculate_supply_from_capacities(capacities: List, operators: List, rules_engine) -> dict:
     """Calculate supply quantities from production capacities."""
-    supply = {}
+    supply: Dict[str, Dict[str, Decimal]] = {}
     
     for capacity in capacities:
         if capacity.operator_id not in supply:

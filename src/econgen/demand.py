@@ -1,6 +1,6 @@
 """Demand calculation and consumption modeling."""
 
-from typing import List, Dict
+from typing import Any, List, Dict
 from decimal import Decimal
 from .models import Operator, DemandProfile, TechLevel
 from .taxonomy import ResourceTaxonomy
@@ -328,7 +328,7 @@ class DemandCalculator:
         
         return all_demand
     
-    def get_demand_summary(self, demand_dict: Dict[str, Dict[str, Decimal]]) -> Dict[str, any]:
+    def get_demand_summary(self, demand_dict: Dict[str, Dict[str, Decimal]]) -> Dict[str, Any]:
         """Get summary statistics about demand calculations.
         
         Args:
@@ -341,7 +341,7 @@ class DemandCalculator:
             return {"total_demand_entries": 0}
         
         # Aggregate demand by resource
-        resource_totals = {}
+        resource_totals: Dict[str, Decimal] = {}
         for operator_demand in demand_dict.values():
             for resource_id, quantity in operator_demand.items():
                 resource_totals[resource_id] = resource_totals.get(resource_id, Decimal("0")) + quantity
