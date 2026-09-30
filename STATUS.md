@@ -44,6 +44,12 @@ dropped trade to 0, and production has since been recalibrated against demand (s
 - Loader: baseline agriculture/craftsmanship endowments no longer overwrite higher
   culture-based values (e.g. Noon agriculture 0.8 was reset to 0.5).
 
+### Weapons and armor removed from demand
+- Dropped `weapons` from the medieval and industrial demand profiles (code and YAML) and
+  `weapons`/`armor` from the plaza, citadel, walls, Night, wildlands and mining modifiers.
+- The runtime "Demand profiles reference unknown resources" warning is gone; trade,
+  supply and prices are unchanged (weapons were never produced or priced).
+
 ### YAML alignment
 - `config/econ.yaml` and the built-in defaults now define the same resources, rules,
   demand profiles and simulation settings; `test_config.py` fails if they drift.

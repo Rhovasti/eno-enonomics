@@ -66,15 +66,17 @@ Cities and settlements with:
 
 ## Known Issues
 
-### 1. Weapons in Demand Profiles (Minor)
-**Status:** OPEN - design decision pending
+### 1. Production Inputs Not Consumed (Minor)
+**Status:** OPEN
 
-`weapons` was removed from the default taxonomy and from `config/econ.yaml` (see
-`PRPs/REVISION-001.md`), and the tribal profile no longer demands it. The medieval and industrial profiles and several
-demand modifiers in `demand.py` still reference `weapons` (and `armor`), which logs an
-"unknown resources" warning at runtime.
+Supply is computed from rule outputs only; rule inputs (e.g. seed for farming, iron ore
+and coal for steel-making) are not subtracted from local supply.
 
 ### Resolved
+- **Weapons and armor in demand:** removed from the medieval and industrial demand profiles
+  and from the demand modifiers in `demand.py`, matching `PRPs/REVISION-001.md`. Every
+  demanded resource now exists in the taxonomy (enforced by
+  `test_demand_profiles_resource_consistency`).
 - **YAML config vs. built-in defaults:** `config/econ.yaml` now matches the defaults exactly
   (enforced by `test_config.py`). The YAML-only extraction rules (forestry, quarrying,
   iron-mining, coal-mining) moved into the defaults; `weapons`/`weaponsmithing` left the YAML.
