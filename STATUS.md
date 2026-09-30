@@ -14,9 +14,9 @@ dropped trade to 0, and production has since been recalibrated against demand (s
 
 | Check | Result |
 |---|---|
-| `uv run pytest` | 75 passed |
-| CLI `run` on `data/performance_test.geojson` | 304 trade links, 1 importing at the price cap |
-| CLI `run` on `Data/kaupungit.geojson` | 54 links (fish 21, textiles 8, jewelry 7, stone 5, food 4, wood 4, tools 3, iron-ore 2), none at the cap |
+| `uv run pytest` | 81 passed |
+| CLI `run` on `data/performance_test.geojson` | 319 trade links, 1 importing at the price cap |
+| CLI `run` on `Data/kaupungit.geojson` | 58 links (fish 21, textiles 8, jewelry 7, tools 7, stone 5, food 4, wood 4, iron-ore 2), none at the cap |
 | Default run vs. `--config config/econ.yaml` | Identical data outputs |
 | `uv run ruff check .` / `ruff format --check .` | Failing (unused imports; unformatted files) |
 | `uv run mypy src/` | Failing (~50 errors) |
@@ -43,6 +43,17 @@ dropped trade to 0, and production has since been recalibrated against demand (s
   own supply. Previously a city could export food it needed itself.
 - Loader: baseline agriculture/craftsmanship endowments no longer overwrite higher
   culture-based values (e.g. Noon agriculture 0.8 was reset to 0.5).
+
+### Production inputs
+- Inputs consumed by production are added to each operator's demand
+  (`calculate_input_demand`), so trade exports output minus own consumption minus inputs.
+- `calibrate_with_input_demand` sizes each rule for final plus input demand, repeating
+  calibration until total demand stops changing (3 passes on `kaupungit`).
+- `performance_test`: 304 -> 319 links; coal starts trading (23 links), iron ore 17 -> 41,
+  steel 1 -> 3, while stone (37 -> 20) and tools (53 -> 36) are now used locally by
+  toolmakers and machinery producers. `kaupungit`: 54 -> 58 links (tools 3 -> 7).
+- `seed`, `fiber`, `precious-metals` and `gems` have no producing rule, so they show up as
+  unmet demand; production is not limited by them.
 
 ### Weapons and armor removed from demand
 - Dropped `weapons` from the medieval and industrial demand profiles (code and YAML) and

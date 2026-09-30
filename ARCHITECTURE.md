@@ -110,6 +110,12 @@ multiplied by endowment, tech, infrastructure and specialization factors. It onl
 its primary product equals world demand × `supply_demand_ratio` (default 1.0). Local
 differences in productivity become surpluses and deficits for trade to balance.
 
+Production inputs count as demand: toolmaking's wood and stone, steel-making's iron ore
+and coal, and so on are added to the producing operator's demand
+(`calculate_input_demand`). `calibrate_with_input_demand` targets final plus input
+demand, repeating calibration until total demand is stable (at most one pass per rule,
+since the rule graph is acyclic), and the pipeline uses that total demand from then on.
+
 ### 4. Demand Modeling (`demand.py`)
 
 **Responsibility:** Calculate resource consumption requirements for populations
