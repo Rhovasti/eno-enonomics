@@ -142,6 +142,7 @@ class GeoJSONLoader:
 
         # Extract endowments
         endowments = self._extract_endowments(props)
+        self._infer_fantastical_endowments(props, endowments, operator_id, lon)
 
         # Create operator
         return Operator(
@@ -245,6 +246,23 @@ class GeoJSONLoader:
                 except (ValueError, TypeError):
                     logger.warning(f"Invalid endowment value for {resource_id}: {value}")
 
+        # Derive capacity drivers from the resource stocks the worldbuilder
+        # emits (wood/stone/iron_ore/fish), so extraction rules (forestry,
+        # quarrying, mining, fishing) fire for cities holding those stocks even
+        # when geographic signals (Culture/Elevation/Mountainous) are absent.
+        wood = endowments.get("wood", Decimal("0"))
+        if wood > 0:
+            endowments["forestry"] = max(
+                endowments.get("forestry", Decimal("0")), _stock_driver(wood)
+            )
+        ore = max(endowments.get("stone", Decimal("0")), endowments.get("iron_ore", Decimal("0")))
+        if ore > 0:
+            endowments["mining_potential"] = max(
+                endowments.get("mining_potential", Decimal("0")), _stock_driver(ore)
+            )
+        if endowments.get("fish", Decimal("0")) > 0:
+            endowments["fishing"] = max(endowments.get("fishing", Decimal("0")), Decimal("0.6"))
+
         # Infer endowments from features
         if props.get("Port") == "port":
             endowments["fishing"] = Decimal("0.8")
@@ -282,6 +300,8 @@ class GeoJSONLoader:
             endowments["general_labor"] = Decimal("0.8")
         elif pop > 5000:
             endowments["general_labor"] = Decimal("0.6")
+        elif pop > 1000:
+            endowments["general_labor"] = Decimal("0.4")
 
         # Add basic endowments for all settlements without overriding specializations
         if pop > 1000:
@@ -297,6 +317,99 @@ class GeoJSONLoader:
             endowments["industrial_capacity"] = Decimal("0.7")
 
         return endowments
+
+    def _infer_fantastical_endowments(
+        self,
+        props: Dict[str, Any],
+        endowments: Dict[str, Decimal],
+        operator_id: str,
+        lon: float,
+    ) -> None:
+        """Infer Eno alchemical endowments (Periodical System) from geography.
+
+        Adds the capacity drivers that fantastical gathering/mining rules gate on
+        (see ``fantastical.py``). Distribution is lore-faithful and deterministic
+        so a given city always specializes the same way:
+        - Sap where there is vegetation (wood) — common.
+        - Rime on the dark side (lon < 0), Ash on the sun side (lon >= 0).
+        - Pitch at coastal/deep-sea sites.
+        - Phos at industrial (energy) sites.
+        - 1-2 element deposits per mining/precious city (varied, by stable hash).
+        - Mucus glands and Mold deposits rare (a handful of cities).
+
+        Args:
+            props: Feature properties dictionary
+            endowments: Endowment dict to extend in place
+            operator_id: Operator id (used for deterministic specialization)
+            lon: Longitude (dark vs sun side of Eno)
+        """
+        h = _stable_hash(operator_id)
+
+        # Sap: ubiquitous where vegetation (wood stock) exists — a common component.
+        if endowments.get("wood", Decimal("0")) > 0:
+            endowments.setdefault("sap_harvest", Decimal("0.5"))
+
+        # Dark vs sun side of Eno -> Rime vs Ash pilgrimage (each city picks one).
+        if lon < 0:
+            endowments["rime_collection"] = Decimal("0.4")
+        else:
+            endowments["ash_pilgrimage"] = Decimal("0.4")
+
+        # Pitch: dredged from the deep sea by coastal / trading cities.
+        if (
+            endowments.get("fish", Decimal("0")) > 0
+            or endowments.get("trade_access", Decimal("0")) > 0
+        ):
+            endowments["pitch_depth"] = Decimal("0.5")
+
+        # Phos: raw energy gathered at industrial sites.
+        if self._infer_tech_level(props) == TechLevel.INDUSTRIAL:
+            endowments["phos_vent"] = Decimal("0.4")
+
+        # Element deposits: cities with a mining or precious signal specialize
+        # in 1-2 periodic elements (deterministic per city, so specialization is
+        # stable but varied across the map).
+        has_mining = endowments.get("iron_ore", Decimal("0")) > 0
+        has_precious = endowments.get("luxury_goods", Decimal("0")) > 0
+        if has_mining or has_precious:
+            pool = ["feron", "cunu", "charon", "plon", "suhra", "sirael"]
+            if has_precious:
+                pool += ["aru", "sira"]
+            count = 1 + (h % 2)
+            chosen: List[str] = []
+            seed = h
+            while len(chosen) < count:
+                seed = (seed * 1103515245 + 12345) % 2147483647
+                element = pool[seed % len(pool)]
+                if element not in chosen:
+                    chosen.append(element)
+            for element in chosen:
+                endowments[f"{element}_deposit"] = Decimal("0.6")
+
+        # Rare components: Mucus glands (Norian populations), Mold (meteor sites).
+        if h % 7 == 0:
+            endowments["mucus_gland"] = Decimal("0.5")
+        if h % 23 == 0:
+            endowments["mold_deposit"] = Decimal("0.4")
+
+
+def _stable_hash(text: str) -> int:
+    """Deterministic 31-bit hash of a string (Python's hash() is salted)."""
+    h = 0
+    for ch in text:
+        h = (h * 31 + ord(ch)) % 0x80000000
+    return h
+
+
+def _stock_driver(stock: Any) -> Decimal:
+    """Map a raw resource-stock magnitude to a sub-1 capacity-driver value.
+
+    ``_calculate_endowment_capacity`` expects drivers in roughly [0, 1] (it
+    computes ``1 + clamp(value*3, 0, 3)``); raw worldbuilder stocks are large
+    integers (e.g. wood ~ 40-160), so scale them into a graded [0.2, 0.9] band.
+    """
+    value = Decimal(str(stock))
+    return min(Decimal("0.9"), Decimal("0.2") + value / Decimal("250"))
 
 
 # Export main class
