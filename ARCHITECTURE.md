@@ -101,8 +101,14 @@ ProductionRule(
 
 **Processing Flow:**
 ```
-Operator + Rule → Capacity Calculation → Production Rate → Supply Output
+Operator + Rule → Capacity Calculation → Calibration → Production Rate → Supply Output
 ```
+
+Raw capacity scales linearly with population (workforce / `labor_required`) and is
+multiplied by endowment, tech, infrastructure and specialization factors. It only sets
+*relative* productivity. `calibration.py` then scales each rule so that world output of
+its primary product equals world demand × `supply_demand_ratio` (default 1.0). Local
+differences in productivity become surpluses and deficits for trade to balance.
 
 ### 4. Demand Modeling (`demand.py`)
 
@@ -214,8 +220,8 @@ if profit_per_unit > 0:
 
 ### Primary Pipeline
 ```
-GeoJSON → Operators → Capacities → Supply
-                   → Demand → Prices → Trade Links → Reports
+GeoJSON → Operators → Capacities → Calibration → Supply
+                   → Demand ────────↗          → Prices → Trade Links → Reports
 ```
 
 ### Component Dependencies
@@ -224,6 +230,7 @@ io_geojson → models
 taxonomy → models
 rules → models, taxonomy
 capacity → models, rules
+calibration → models, rules
 demand → models, taxonomy  
 pricing → models, taxonomy
 trade → models, util (distance calculation)

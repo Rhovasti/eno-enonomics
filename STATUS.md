@@ -6,16 +6,17 @@
 
 ## Current State Summary
 
-The pipeline runs end-to-end on all bundled datasets and writes every output file, but it
-currently produces **0 trade links**. The trade links reported in `TRADE_NETWORK_FIX.md`
-(13-119 per run) came from a tech-gating bug that has now been fixed (see Issue #1).
+The pipeline runs end-to-end on all bundled datasets and produces tech-consistent trade.
+The trade links reported in `TRADE_NETWORK_FIX.md` came from a tech-gating bug. Fixing it
+dropped trade to 0, and production has since been recalibrated against demand (see Issue #1).
 
 ### Health check (2026-09-30)
 
 | Check | Result |
 |---|---|
-| `uv run pytest` | 55 passed, 1 xfailed (known calibration gap) |
-| CLI `run` on `data/performance_test.geojson` / `Data/kaupungit.geojson` | Completes; 0 trade links |
+| `uv run pytest` | 63 passed |
+| CLI `run` on `data/performance_test.geojson` | 231 trade links |
+| CLI `run` on `Data/kaupungit.geojson` | 95 links: food 42, fish 23, tools 21, textiles 8, jewelry 1 |
 | `uv run ruff check .` / `ruff format --check .` | Failing (unused imports; unformatted files) |
 | `uv run mypy src/` | Failing (~50 errors) |
 | CI | None configured |
@@ -31,6 +32,18 @@ currently produces **0 trade links**. The trade links reported in `TRADE_NETWORK
   `test_cli.py` (end-to-end run).
 - Generated outputs (`out/`, `.coverage`), Windows `Zone.Identifier` files and the Serena
   cache are no longer tracked.
+
+### Recalibration
+- Capacity scales linearly with population (workforce / `labor_required`) instead of
+  sqrt(population / 10,000) clamped to 10, and the 1,000-unit cap is gone.
+- New `calibration.py`: each rule is scaled so world output of its primary product equals
+  world demand x `supply_demand_ratio` (new config field, default 1.0).
+- Trade uses net positions: exports are supply minus own demand; imports are demand minus
+  own supply. Previously a city could export food it needed itself.
+- Loader: baseline agriculture/craftsmanship endowments no longer overwrite higher
+  culture-based values (e.g. Noon agriculture 0.8 was reset to 0.5).
+- On `Data/kaupungit.geojson`, imports cover 8-28% of each good's total deficit, limited by
+  the 8-neighbour / 800 km trade radius. 73 of 95 links import at the 10x price cap.
 
 ## Implementation Status
 
@@ -61,12 +74,16 @@ currently produces **0 trade links**. The trade links reported in `TRADE_NETWORK
 
 ### ❌ BROKEN COMPONENTS
 
-#### Supply/Demand Calibration (0 trade links)
-- **Root Cause:** Production capacity (~1 unit per rule per operator) is orders of magnitude
-  below demand (per-capita x population). On `Data/kaupungit.geojson`: supply ~3,100 vs.
-  demand ~12.9 million units; only 5 operator/resource pairs have any surplus.
-- **Impact:** No exportable surplus, so the solver finds no trade routes.
-- **Status:** Next task. `test_trade_route_establishment` is `xfail(strict=True)` until fixed.
+#### Supply/Demand Calibration (Resolved)
+- **Root Cause:** Production capacity (~1 unit per rule per operator) was orders of
+  magnitude below demand (per-capita x population): supply ~3,100 vs. demand ~12.9 million
+  units on `Data/kaupungit.geojson`.
+- **Fix:** Population-linear capacity plus per-rule calibration (`calibration.py`) and net
+  surplus/deficit trading. See "Recalibration" above.
+
+#### Price Curve (Open)
+- Most importers sit at the 10x base-price cap, so price spreads carry little signal.
+  Consider softening `_apply_scarcity_adjustment` in `pricing.py`.
 
 #### Supply Calculation (Resolved)
 - `_calculate_supply_from_capacities()` uses rule output resource IDs
@@ -134,7 +151,7 @@ currently produces **0 trade links**. The trade links reported in `TRADE_NETWORK
 **Update 2026-09-30:** The resource ID mismatch described below was fixed earlier, and trade
 links appeared - but only because tech levels compared alphabetically, letting tribal
 operators run medieval/industrial rules. With that fixed, the remaining cause is the
-supply/demand scale mismatch described under "Supply/Demand Calibration" above.
+supply/demand scale mismatch, now resolved by calibration (see "Recalibration" above).
 The original analysis is kept below for history.
 
 **Suspected Root Cause:** Resource ID mismatch between components

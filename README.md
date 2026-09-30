@@ -28,7 +28,7 @@ uv run python -m src.econgen.cli config-template --output my_config.yaml
 The simulation operates through a multi-stage pipeline that processes GeoJSON city data to generate economic relationships:
 
 ```
-GeoJSON Input → Operators → Production → Demand → Pricing → Trade Network → Reports
+GeoJSON Input → Operators → Production → Demand → Calibration → Pricing → Trade Network → Reports
 ```
 
 ### Core Components
@@ -66,21 +66,12 @@ Cities and settlements with:
 
 ## Known Issues
 
-### 1. No Trade Routes After Tech-Gating Fix (Critical)
-**Status:** OPEN - model calibration needed
-**Impact:** High - the trade solver produces 0 links on every bundled dataset
+### 1. Import Prices Pinned at the Cap (Minor)
+**Status:** OPEN - pricing tuning
 
-Earlier runs produced 13-119 trade links, but only because of a bug: tech levels were
-compared as plain strings (alphabetical order), so tribal settlements could run medieval
-and industrial rules (jewelry, textiles, machinery). With correct gating
-(tribal < medieval < industrial), production is far below demand:
-
-- `Data/kaupungit.geojson`: total supply ~3,100 units vs. total demand ~12.9 million units
-- Capacity is roughly 1 unit per rule per operator, while demand is per-capita x population
-
-No operator ends up with an exportable surplus, so no routes form. The test
-`test_trade_route_establishment` is marked `xfail(strict=True)` and will start failing
-(prompting removal of the marker) once capacity/demand are recalibrated.
+Most importing cities are short enough that the scarcity curve in `pricing.py` pushes
+prices to the 10x base-price cap (on `Data/kaupungit.geojson`, 73 of 95 links import at
+the cap). Trade still flows, but price differences carry little information.
 
 ### 2. Weapons in Demand Profiles (Minor)
 **Status:** OPEN - design decision pending
@@ -95,6 +86,9 @@ demand modifiers in `demand.py` still reference `weapons` (and `armor`), which l
 - **Missing default resources:** `seed`, `fiber`, `coal`, `precious-metals`, `gems` and
   `slag` are now in the default taxonomy, so every default rule references known resources.
 - **Tech gating:** rule and resource eligibility now follow tech order (`test_rules.py`).
+- **Zero trade after the tech-gating fix:** production is now calibrated to demand
+  (`calibration.py`) and trade uses net surplus/deficit. `Data/kaupungit.geojson` yields
+  95 links (food, fish, tools, textiles, jewelry); `data/performance_test.geojson` 231.
 
 ## Successfully Implemented Features
 
@@ -196,8 +190,9 @@ TradeLink(
 - [x] Capacity calculation
 - [x] Demand modeling  
 - [x] Price calculation
-- [x] Trade flow solving (runs end-to-end)
-- [ ] **Supply/demand calibration (no surpluses, so 0 trade links - see Known Issues)**
+- [x] Supply/demand calibration (`supply_demand_ratio`, default 1.0)
+- [x] Trade flow solving on net surplus/deficit
+- [ ] Price curve tuning (see Known Issues)
 
 ### Phase 3: Analysis and Output ✅ COMPLETE
 - [x] Trade network statistics
