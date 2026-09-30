@@ -35,7 +35,12 @@ MEDIEVAL_RULES = TRIBAL_RULES | {
     "precious-metal-mining",
     "gem-mining",
 }
-INDUSTRIAL_RULES = MEDIEVAL_RULES | {"steel-making", "machinery-production"}
+INDUSTRIAL_RULES = MEDIEVAL_RULES | {
+    "steel-making",
+    "machinery-production",
+    "industrial-iron-mining",
+    "industrial-coal-mining",
+}
 
 
 def _operator(tech: TechLevel) -> Operator:

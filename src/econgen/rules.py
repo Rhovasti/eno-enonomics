@@ -344,6 +344,26 @@ def create_default_rules() -> List[ProductionRule]:
             labor_required=Decimal("4.5")
         ),
         
+        # Industrial deep mining: lets industrial cities source ore and coal locally
+        ProductionRule(
+            rule_id="industrial-iron-mining",
+            name="Industrial Iron Mining",
+            tech_min=TechLevel.INDUSTRIAL,
+            inputs={},
+            outputs={"iron-ore": Decimal("1.5")},
+            capacity_driver="industrial_capacity",
+            labor_required=Decimal("4.0")
+        ),
+        ProductionRule(
+            rule_id="industrial-coal-mining",
+            name="Industrial Coal Mining",
+            tech_min=TechLevel.INDUSTRIAL,
+            inputs={},
+            outputs={"coal": Decimal("1.8")},
+            capacity_driver="industrial_capacity",
+            labor_required=Decimal("4.5")
+        ),
+        
         # Tool making
         ProductionRule(
             rule_id="toolmaking",

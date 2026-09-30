@@ -214,6 +214,24 @@ rules:
     capacity_driver: mining_potential
     labor_required: 4.5
 
+  - rule_id: industrial-iron-mining
+    name: Industrial Iron Mining
+    tech_min: industrial
+    inputs: {}
+    outputs:
+      iron-ore: 1.5
+    capacity_driver: industrial_capacity
+    labor_required: 4.0
+
+  - rule_id: industrial-coal-mining
+    name: Industrial Coal Mining
+    tech_min: industrial
+    inputs: {}
+    outputs:
+      coal: 1.8
+    capacity_driver: industrial_capacity
+    labor_required: 4.5
+
   - rule_id: seed-cultivation
     name: Seed Cultivation
     tech_min: tribal
