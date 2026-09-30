@@ -273,6 +273,44 @@ def create_default_rules() -> List[ProductionRule]:
             labor_required=Decimal("1.5")
         ),
         
+        # Raw material extraction
+        ProductionRule(
+            rule_id="forestry",
+            name="Forestry",
+            tech_min=TechLevel.TRIBAL,
+            inputs={},
+            outputs={"wood": Decimal("2.5")},
+            capacity_driver="forestry",
+            labor_required=Decimal("2.0")
+        ),
+        ProductionRule(
+            rule_id="quarrying",
+            name="Stone Quarrying",
+            tech_min=TechLevel.TRIBAL,
+            inputs={},
+            outputs={"stone": Decimal("2.0")},
+            capacity_driver="mining_potential",
+            labor_required=Decimal("3.0")
+        ),
+        ProductionRule(
+            rule_id="iron-mining",
+            name="Iron Mining",
+            tech_min=TechLevel.MEDIEVAL,
+            inputs={},
+            outputs={"iron-ore": Decimal("1.5")},
+            capacity_driver="mining_potential",
+            labor_required=Decimal("4.0")
+        ),
+        ProductionRule(
+            rule_id="coal-mining",
+            name="Coal Mining",
+            tech_min=TechLevel.MEDIEVAL,
+            inputs={},
+            outputs={"coal": Decimal("1.8")},
+            capacity_driver="mining_potential",
+            labor_required=Decimal("4.5")
+        ),
+        
         # Tool making
         ProductionRule(
             rule_id="toolmaking",

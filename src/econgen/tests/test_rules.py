@@ -14,7 +14,18 @@ ALL_DRIVERS = [
     "general_labor",
     "industrial_capacity",
     "skilled_labor",
+    "forestry",
+    "mining_potential",
 ]
+
+TRIBAL_RULES = {"farming", "fishing", "toolmaking", "forestry", "quarrying"}
+MEDIEVAL_RULES = TRIBAL_RULES | {
+    "weaving",
+    "jewelry-crafting",
+    "iron-mining",
+    "coal-mining",
+}
+INDUSTRIAL_RULES = MEDIEVAL_RULES | {"steel-making", "machinery-production"}
 
 
 def _operator(tech: TechLevel) -> Operator:
@@ -33,23 +44,9 @@ def _operator(tech: TechLevel) -> Operator:
 @pytest.mark.parametrize(
     ("tech", "expected_rules"),
     [
-        (TechLevel.TRIBAL, {"farming", "fishing", "toolmaking"}),
-        (
-            TechLevel.MEDIEVAL,
-            {"farming", "fishing", "toolmaking", "weaving", "jewelry-crafting"},
-        ),
-        (
-            TechLevel.INDUSTRIAL,
-            {
-                "farming",
-                "fishing",
-                "toolmaking",
-                "weaving",
-                "jewelry-crafting",
-                "steel-making",
-                "machinery-production",
-            },
-        ),
+        (TechLevel.TRIBAL, TRIBAL_RULES),
+        (TechLevel.MEDIEVAL, MEDIEVAL_RULES),
+        (TechLevel.INDUSTRIAL, INDUSTRIAL_RULES),
     ],
 )
 def test_eligible_rules_follow_tech_order(
@@ -70,8 +67,6 @@ def test_get_rules_by_tech_includes_lower_tiers() -> None:
     assert len(engine.get_rules_by_tech(TechLevel.INDUSTRIAL)) == len(
         create_default_rules()
     )
-    assert {r.rule_id for r in engine.get_rules_by_tech(TechLevel.TRIBAL)} == {
-        "farming",
-        "fishing",
-        "toolmaking",
-    }
+    assert {
+        r.rule_id for r in engine.get_rules_by_tech(TechLevel.TRIBAL)
+    } == TRIBAL_RULES

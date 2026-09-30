@@ -113,14 +113,6 @@ resources:
     transportable: true
     perishable: false
 
-  - resource_id: weapons
-    name: Weapons
-    tier: 1
-    tech_min: medieval
-    base_price: 8.0
-    transportable: true
-    perishable: false
-
   - resource_id: textiles
     name: Textiles
     tier: 1
@@ -234,19 +226,8 @@ rules:
     capacity_driver: craftsmanship
     labor_required: 3.0
 
-  - rule_id: weaponsmithing
-    name: Weapon Smithing
-    tech_min: medieval
-    inputs:
-      iron-ore: 3.0
-      wood: 1.0
-    outputs:
-      weapons: 1.0
-    capacity_driver: skilled_labor
-    labor_required: 4.0
-
   - rule_id: weaving
-    name: Textile Weaving
+    name: Weaving
     tech_min: medieval
     inputs:
       fiber: 2.0
