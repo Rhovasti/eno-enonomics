@@ -14,9 +14,9 @@ dropped trade to 0, and production has since been recalibrated against demand (s
 
 | Check | Result |
 |---|---|
-| `uv run pytest` | 84 passed |
-| CLI `run` on `data/performance_test.geojson` | 497 trade links |
-| CLI `run` on `Data/kaupungit.geojson` | 63 links (fish 21, textiles 8, jewelry 7, tools 7, stone 5, food 4, wood 4, iron-ore 2, precious-metals 2, gems 2, fiber 1) |
+| `uv run pytest` | 85 passed |
+| CLI `run` on `data/performance_test.geojson` | 491 trade links |
+| CLI `run` on `Data/kaupungit.geojson` | 66 links (fish 21, textiles 8, jewelry 7, tools 7, stone 5, iron-ore 5, food 4, wood 4, precious-metals 2, gems 2, fiber 1) |
 | Default run vs. `--config config/econ.yaml` | Identical data outputs |
 | `uv run ruff check .` / `ruff format --check .` | Failing (unused imports; unformatted files) |
 | `uv run mypy src/` | Failing (~50 errors) |
@@ -43,6 +43,16 @@ dropped trade to 0, and production has since been recalibrated against demand (s
   own supply. Previously a city could export food it needed itself.
 - Loader: baseline agriculture/craftsmanship endowments no longer overwrite higher
   culture-based values (e.g. Noon agriculture 0.8 was reset to 0.5).
+
+### Local industrial mining
+- New rules `industrial-iron-mining` and `industrial-coal-mining` (industrial tech,
+  `industrial_capacity` endowment) let industrial cities source ore and coal locally,
+  without giving them gems/stone/precious metals via `mining_potential`.
+- Calibration now computes one factor per resource shared by every rule producing it;
+  per-rule factors would have sized each rule to the full demand, doubling supply.
+- Industrial cities' needs met locally: `kaupungit` iron ore 0% -> 100%, coal 0% -> 84%
+  (iron-ore links 2 -> 5, now exported); `performance_test` iron ore 82% -> 91%, coal
+  79% -> 88% (links 497 -> 491 as local mining replaces some imports).
 
 ### Steel on kaupungit
 - `_extract_endowments` set `industrial_capacity` from a raw `tech` property, which

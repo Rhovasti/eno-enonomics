@@ -66,15 +66,13 @@ Cities and settlements with:
 
 ## Known Issues
 
-### 1. Industrial Inputs Mostly Unmet on kaupungit (Minor)
-**Status:** OPEN
-
-The 5 industrial cities in `Data/kaupungit.geojson` now make steel, but mining happens
-mostly elsewhere and the nearest industrial pair is 878 km apart (beyond the 800 km trade
-radius). Their iron ore and coal needs stay largely unmet; production is not limited by
-missing inputs.
+None currently open.
 
 ### Resolved
+- **Industrial inputs unmet on kaupungit:** new `industrial-iron-mining` and
+  `industrial-coal-mining` rules (industrial tech, `industrial_capacity` endowment) let
+  industrial cities mine locally; they now cover 100% of their iron ore and 84% of their
+  coal. Calibration scales all rules producing the same resource with one shared factor.
 - **No steel on kaupungit:** the `industrial_capacity` endowment read a raw `tech` property
   that `kaupungit` lacks. It now uses the inferred tech level, so industrial cities qualify
   for steel-making.

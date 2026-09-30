@@ -108,7 +108,9 @@ Raw capacity scales linearly with population (workforce / `labor_required`) and 
 multiplied by endowment, tech, infrastructure and specialization factors. It only sets
 *relative* productivity. `calibration.py` then scales each rule so that world output of
 its primary product equals world demand × `supply_demand_ratio` (default 1.0). Local
-differences in productivity become surpluses and deficits for trade to balance.
+differences in productivity become surpluses and deficits for trade to balance. Rules
+sharing a primary output (e.g. `iron-mining` and `industrial-iron-mining`) are scaled by
+one shared factor, so together they meet demand once and keep their relative shares.
 
 Production inputs count as demand: toolmaking's wood and stone, steel-making's iron ore
 and coal, and so on are added to the producing operator's demand
