@@ -147,9 +147,10 @@ class TradeNetwork:
         """
         logger.info("Solving trade flows with greedy profit maximization")
         
-        # Create working copies to track remaining supply/demand
-        remaining_supply = self._deep_copy_dict(supply)
-        remaining_demand = self._deep_copy_dict(demand)
+        # Reason: operators consume their own output first; only the net surplus is
+        # exportable and only the net deficit needs importing.
+        remaining_supply = self._net_positions(supply, demand)
+        remaining_demand = self._net_positions(demand, supply)
         
         # Generate all possible trade opportunities
         opportunities = self._generate_trade_opportunities(
@@ -284,6 +285,32 @@ class TradeNetwork:
         
         return trade_links
     
+    def _net_positions(
+        self,
+        quantities: Dict[str, Dict[str, Decimal]],
+        offsets: Dict[str, Dict[str, Decimal]],
+    ) -> Dict[str, Dict[str, Decimal]]:
+        """Return positive quantities left after subtracting each operator's offsets.
+
+        Args:
+            quantities: Quantities by operator and resource (e.g. supply)
+            offsets: Quantities to subtract by operator and resource (e.g. own demand)
+
+        Returns:
+            Only the strictly positive remainders, by operator and resource
+        """
+        net: Dict[str, Dict[str, Decimal]] = {}
+        for operator_id, resources in quantities.items():
+            own = offsets.get(operator_id, {})
+            positive = {
+                resource_id: qty - own.get(resource_id, Decimal("0"))
+                for resource_id, qty in resources.items()
+                if qty > own.get(resource_id, Decimal("0"))
+            }
+            if positive:
+                net[operator_id] = positive
+        return net
+
     def _deep_copy_dict(self, d: Dict[str, Dict[str, Decimal]]) -> Dict[str, Dict[str, Decimal]]:
         """Create deep copy of nested dictionary."""
         return {

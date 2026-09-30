@@ -157,3 +157,16 @@ def test_coordinate_validation():
     
     with pytest.raises(ValueError, match="Invalid coordinates"):
         loader._feature_to_operator(feature_invalid, "test")
+
+def test_basic_endowments_keep_culture_specialization():
+    """Baseline endowments must not lower culture-derived specializations."""
+    loader = GeoJSONLoader(strict=True)
+
+    noon = loader._extract_endowments({"Culture": "Noon", "Population": 20000})
+    night = loader._extract_endowments({"Culture": "Night", "Population": 20000})
+    plain = loader._extract_endowments({"Culture": "Other", "Population": 20000})
+
+    assert noon["agriculture"] == Decimal("0.8")
+    assert night["craftsmanship"] == Decimal("0.6")
+    assert plain["agriculture"] == Decimal("0.5")
+    assert plain["craftsmanship"] == Decimal("0.4")

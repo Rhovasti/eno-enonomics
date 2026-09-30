@@ -281,10 +281,10 @@ class GeoJSONLoader:
         elif pop > 5000:
             endowments["general_labor"] = Decimal("0.6")
 
-        # Add basic endowments for all settlements
+        # Add basic endowments for all settlements without overriding specializations
         if pop > 1000:
-            endowments["agriculture"] = Decimal("0.5")
-            endowments["craftsmanship"] = Decimal("0.4")
+            for driver, baseline in (("agriculture", "0.5"), ("craftsmanship", "0.4")):
+                endowments[driver] = max(endowments.get(driver, Decimal("0")), Decimal(baseline))
 
         # Tech-based industrial capacity
         tech_level = props.get("tech", "tribal")
