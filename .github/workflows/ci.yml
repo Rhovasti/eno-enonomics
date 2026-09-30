@@ -58,19 +58,22 @@ jobs:
           enable-cache: true
 
       - name: Install Minsky
+        # downloadcontent.opensuse.org is the origin server: download.opensuse.org
+        # redirects package downloads to mirrors, which can lag behind the index
+        # ("File has unexpected size ... Mirror sync in progress?").
         run: |
-          repo=https://download.opensuse.org/repositories/home:/hpcoder1/xUbuntu_24.04
+          repo=https://downloadcontent.opensuse.org/repositories/home:/hpcoder1/xUbuntu_24.04
           curl -fsSL "$repo/Release.key" | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/hpcoder1.gpg > /dev/null
           echo "deb $repo/ /" | sudo tee /etc/apt/sources.list.d/hpcoder1.list
           sudo apt-get update
-          sudo apt-get install -y minsky
+          sudo apt-get install -y -o Acquire::Retries=3 minsky
 
       - name: Locate pyminsky
         run: |
-          so=$(dpkg -L minsky | grep -E '/pyminsky[^/]*\.so$' | head -1 || true)
+          so=$(dpkg -L minsky minsky-restservice | grep -E '/pyminsky[^/]*\.so$' | head -1 || true)
           if [ -z "$so" ]; then
-            echo "pyminsky not found in the minsky package; its files are:"
-            dpkg -L minsky
+            echo "pyminsky not found in the minsky packages; their files are:"
+            dpkg -L minsky minsky-restservice
             exit 1
           fi
           echo "Found $so"
