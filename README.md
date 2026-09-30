@@ -70,7 +70,9 @@ The fantastical layer (`fantastical.py`, lore in `w Periodical system of Eno.md`
   longitude; Pitch at coastal depths; Phos at industrial sites; Mucus/Mold rare).
 - **8 periodic elements** — Cunu (copper), Feron (iron), Aru (gold), Sira (silver),
   Charon (carbon), Sirael (silica), Plon (lead), Suhra (sulfur) — mined from
-  1-2 deterministic element deposits per mining city.
+  1-2 deterministic element deposits per mining city. After loading, a coverage
+  pass gives each core element at least one deposit in a medieval+ mining city, so
+  no recipe is left without its element.
 - **4 alchemical stuffs** — Living Bronze, Soulstone, Dreamfire, Grave Lead —
   crafted from an element + a component, so their economies are coupled to both.
 
@@ -117,6 +119,11 @@ Cities and settlements with:
 None currently open.
 
 ### Resolved
+- **Alchemical economy dead on geography-only datasets:** sap and element deposits were
+  inferred only from worldbuilder stocks, which `kaupungit` and `performance_test` lack.
+  They now fall back to vegetation (forestry/agriculture) and mining potential, and an
+  element coverage pass fills any missing element. Every alchemical good is now produced
+  on all bundled datasets; worldbuilder outputs are unchanged.
 - **Industrial inputs unmet on kaupungit:** new `industrial-iron-mining` and
   `industrial-coal-mining` rules (industrial tech, `industrial_capacity` endowment) let
   industrial cities mine locally; they now cover 100% of their iron ore and 84% of their
