@@ -4,18 +4,13 @@ Provides additional coverage and integration testing
 """
 
 import pytest
-from pathlib import Path
 from decimal import Decimal
-from typing import Dict, List, Any
-import json
-import tempfile
-import os
 
 from ..models import (
-    Operator, Resource, ProductionRule, TechLevel,
-    SimulationConfig, TradeLink, DemandProfile
+    Operator, TechLevel,
+    SimulationConfig, DemandProfile
 )
-from ..taxonomy import create_default_taxonomy, ResourceTaxonomy
+from ..taxonomy import create_default_taxonomy
 from ..capacity import CapacityCalculator, RulesEngine
 from ..demand import DemandCalculator, create_default_demand_profiles
 from ..pricing import PriceCalculator
@@ -487,6 +482,7 @@ def test_comprehensive_system_health():
     capacity_calc = CapacityCalculator(rules_engine)
     demand_calc = DemandCalculator(taxonomy, demand_profiles)
     trade_network = TradeNetwork(operators, config)
+    assert len(trade_network.operators) == 1
     price_calc = PriceCalculator(taxonomy, config)
     
     # Run basic calculations

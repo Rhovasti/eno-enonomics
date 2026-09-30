@@ -6,7 +6,6 @@ Create accurate city GeoJSON from comprehensive city analysis data.
 import json
 import random
 from pathlib import Path
-from decimal import Decimal
 
 def determine_tech_level(city_data):
     """Determine tech level based on city characteristics."""
@@ -61,7 +60,6 @@ def generate_endowments(city_data):
 
     # Base resources for all cities
     population = city_data.get('population', 0)
-    building_count = city_data.get('building_count', 0)
     elevation = city_data.get('elevation', 0)
     valley = (city_data.get('valley') or '').lower()
 
@@ -107,7 +105,6 @@ def determine_geographic_flags(city_data):
     """Determine coastal and mountainous flags."""
     elevation = city_data.get('elevation', 0)
     latitude = city_data.get('latitude', 0)
-    longitude = city_data.get('longitude', 0)
     port = city_data.get('port', False)
 
     # Coastal determination

@@ -4,11 +4,9 @@ Extract city information from district files and create a GeoJSON for economic s
 """
 
 import json
-import os
 import random
 from pathlib import Path
 from collections import defaultdict
-import numpy as np
 
 def get_polygon_centroid(coordinates):
     """Calculate centroid of a polygon."""

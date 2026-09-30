@@ -146,7 +146,7 @@ class TestCriticalValidation:
     
     def _create_mock_supply(self, operators: List[Operator], taxonomy) -> Dict[str, Dict[str, Decimal]]:
         """Create mock supply data for testing trade routes."""
-        supply = {}
+        supply: Dict[str, Dict[str, Decimal]] = {}
         
         # Get available resources
         resources = list(taxonomy.resources.keys())
@@ -234,6 +234,7 @@ class TestCriticalValidation:
         # Test trade network initialization
         config = SimulationConfig()
         trade_network = TradeNetwork(operators, config)
+        assert len(trade_network.operators) == len(operators)
         print(f"✅ Trade network initialized with {len(operators)} operators")
         
         print("\n✅ System integration test completed successfully")
