@@ -12,7 +12,18 @@ from ..citystates.parser import (
 )
 
 CITYSTATES_DIR = Path("/root/Eno/Eno-Worldbuilder2/citystates for economic profiles")
-HAS_DATA = CITYSTATES_DIR.is_dir()
+
+
+def _dir_readable(path) -> bool:
+    # CI runners cannot stat paths under /root (PermissionError), so the
+    # existence probe itself must be guarded, not just the tests.
+    try:
+        return path.is_dir()
+    except OSError:
+        return False
+
+
+HAS_DATA = _dir_readable(CITYSTATES_DIR)
 
 
 @pytest.fixture(scope="module")
