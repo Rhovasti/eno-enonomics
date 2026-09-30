@@ -56,7 +56,9 @@ def compute_karmic_sfc(spec: CitystateSpec, gdp: float) -> KarmicSFC:
 
     # Dominant tier (highest weighted contribution).
     contributions = {name: offenses_by_tier[name] * weight for name, weight in OFFENSE_TIERS}
-    dominant_tier = max(contributions, key=contributions.get) if contributions else "property"
+    dominant_tier = (
+        max(contributions.items(), key=lambda kv: kv[1])[0] if contributions else "property"
+    )
 
     # Forgiveness: souls forgive most debt → generates tokens (currency).
     forgiveness_tokens = karmic_debt * FORGIVENESS_RATE

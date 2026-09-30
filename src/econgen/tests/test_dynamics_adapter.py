@@ -1,8 +1,9 @@
 """Unit tests for the dynamics adapter (no Minsky dependency)."""
 
 from decimal import Decimal
+from typing import Dict
 
-from ..models import Operator
+from ..models import Operator, TechLevel
 from ..dynamics import DynamicsConfig, build_dynamics_input
 
 
@@ -11,7 +12,7 @@ def _operator(operator_id: str, population: int = 1000) -> Operator:
         operator_id=operator_id,
         name=operator_id,
         kind="city",
-        tech="tribal",
+        tech=TechLevel.TRIBAL,
         coord=(60.0, 24.0),
         population=population,
     )
@@ -58,7 +59,7 @@ def test_adapter_resource_filter_restricts_scope() -> None:
 def test_adapter_skips_resources_with_no_supply_and_no_demand() -> None:
     operators = [_operator("a", population=0)]
     supply = {"a": {"food": Decimal("0")}}
-    demand = {"a": {}}
+    demand: Dict[str, Dict[str, Decimal]] = {"a": {}}
 
     dynamics = build_dynamics_input(operators, supply, demand, DynamicsConfig())
     assert dynamics.stocks == []
