@@ -4,7 +4,7 @@ from typing import Dict, List
 
 from pydantic import BaseModel
 
-from ..citystates.economy import _tech_for
+from ..citystates.economy import tech_for
 from ..citystates.parser import CitystateSpec
 from .karmic import KarmicSFC, compute_karmic_sfc
 from .sfc import MaterialSFC, compute_material_sfc
@@ -46,7 +46,7 @@ def compute_financial_analysis(
     market_prices: Dict[str, float],
 ) -> FinancialAnalysis:
     """Compute the combined financial analysis for one citystate."""
-    tech = _tech_for(spec)
+    tech = tech_for(spec)
     material = compute_material_sfc(spec, supply, demand, market_prices, tech)
     karmic = compute_karmic_sfc(spec, material.gdp)
 

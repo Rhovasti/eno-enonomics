@@ -30,6 +30,7 @@ from ..dynamics.client import MinskyClient
 from ..models import TECH_ORDER
 from ..rules import RulesEngine
 from ..taxonomy import ResourceTaxonomy
+from .economy import tech_for
 from .parser import CitystateSpec
 
 FINAL_CYCLE = 998
@@ -78,18 +79,8 @@ class CitystateHistory(BaseModel):
 
 
 def _tech_rank(spec: CitystateSpec) -> int:
-    tags_l = {t.lower() for t in spec.tags}
-    tech = (
-        "industrial"
-        if "industrial" in tags_l
-        else (
-            "tribal"
-            if spec.temporal_state
-            in ("Drifters", "Wildlands", "Winds", "Dwellers", "Night", "Symbiotic Decline")
-            else "medieval"
-        )
-    )
-    return TECH_ORDER[tech]
+    """Founding tech rank, from the same rule used for the city's supply and demand."""
+    return TECH_ORDER[tech_for(spec)]
 
 
 def _is_depletable(capacity_driver: Optional[str]) -> bool:

@@ -11,22 +11,8 @@ from typing import Dict, List
 from pydantic import BaseModel, Field
 
 from ..taxonomy import ResourceTaxonomy
+from .economy import tech_for
 from .parser import CitystateSpec
-
-# Tech tier derived for the static profile (Phase 3 evolves it).
-_TECH_BY_STATE = {
-    "Dawn": "medieval",
-    "Day": "medieval",
-    "Noon": "medieval",
-    "Dusk": "medieval",
-    "Night": "tribal",
-    "Drifters": "tribal",
-    "Wildlands": "tribal",
-    "Winds": "tribal",
-    "Dwellers": "tribal",
-    "Symbiotic Decline": "tribal",
-    "Autotrophic Founder": "tribal",
-}
 
 
 class ResourceProfile(BaseModel):
@@ -135,7 +121,7 @@ def compute_citystate_profile(
         temporal_state=spec.temporal_state,
         valley=spec.valley,
         population=spec.population,
-        tech=_TECH_BY_STATE.get(spec.temporal_state, "medieval"),
+        tech=tech_for(spec),
         resources=resources,
         trade_balance=trade_balance,
         top_exports=top_exports,

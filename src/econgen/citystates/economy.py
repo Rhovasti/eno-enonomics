@@ -22,8 +22,12 @@ from .parser import CitystateSpec
 _TECH_FACTOR = {"tribal": 0.5, "medieval": 1.0, "industrial": 1.5}
 
 
-def _tech_for(spec: CitystateSpec) -> str:
-    """Derive a static tech tier from tags + temporal_state (Phase 2; Phase 3 evolves it)."""
+def tech_for(spec: CitystateSpec) -> str:
+    """Derive a static tech tier from tags + temporal_state (Phase 2; Phase 3 evolves it).
+
+    Single source of truth for a citystate's founding tech: used for its supply and
+    demand, its profile label and the dynamic simulator's starting tech rank.
+    """
     tags_l = {t.lower() for t in spec.tags}
     if "industrial" in tags_l:
         return "industrial"
@@ -49,7 +53,7 @@ def spec_to_operator(spec: CitystateSpec) -> Operator:
         operator_id=spec.name,
         name=spec.name,
         kind="city",
-        tech=TechLevel(_tech_for(spec)),
+        tech=TechLevel(tech_for(spec)),
         coord=(lat, lon),
         population=spec.population,
         tags=list(spec.tags),
@@ -158,6 +162,7 @@ def city_potential_supply_demand(
 
 
 __all__ = [
+    "tech_for",
     "spec_to_operator",
     "make_economy",
     "city_supply_demand",
