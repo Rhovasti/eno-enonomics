@@ -411,12 +411,8 @@ class TestDataIntegrity:
         for profile in demand_profiles:
             referenced_resources.update(profile.per_capita.keys())
         
-        # Check which resources are not in taxonomy (warnings are expected for some)
         unknown_resources = referenced_resources - set(taxonomy.resources.keys())
-        
-        # This is informational - some unknown resources might be intentional
-        if unknown_resources:
-            print(f"Demand profiles reference resources not in taxonomy: {unknown_resources}")
+        assert not unknown_resources, f"Demand profiles reference unknown: {unknown_resources}"
 
 
 class TestReportGeneration:

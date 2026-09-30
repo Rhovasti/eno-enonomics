@@ -288,7 +288,6 @@ demand_profiles:
       stone: 0.3
       iron-ore: 0.5
       tools: 0.4
-      weapons: 0.3
       textiles: 0.6
       fish: 0.5
       jewelry: 0.1
@@ -301,7 +300,6 @@ demand_profiles:
       iron-ore: 0.8
       steel: 0.4
       tools: 0.6
-      weapons: 0.2
       textiles: 1.0
       machinery: 0.3
       fish: 0.4

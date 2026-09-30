@@ -115,7 +115,7 @@ class DemandCalculator:
         
         # Plaza increases demand for trade goods and luxury items
         if operator.plaza:
-            for resource_id in ["textiles", "jewelry", "tools", "weapons"]:
+            for resource_id in ["textiles", "jewelry", "tools"]:
                 if resource_id in modified:
                     modified[resource_id] *= Decimal("1.3")
         
@@ -131,15 +131,15 @@ class DemandCalculator:
                 if resource_id in modified:
                     modified[resource_id] *= Decimal("1.2")
         
-        # Citadel increases demand for military supplies
+        # Citadel increases demand for garrison supplies
         if operator.citadel:
-            for resource_id in ["weapons", "armor", "iron-ore", "food"]:
+            for resource_id in ["iron-ore", "food"]:
                 if resource_id in modified:
                     modified[resource_id] *= Decimal("1.4")
         
         # Walls increase general security-related demand
         if operator.walls:
-            for resource_id in ["weapons", "tools", "stone"]:
+            for resource_id in ["tools", "stone"]:
                 if resource_id in modified:
                     modified[resource_id] *= Decimal("1.1")
         
@@ -174,8 +174,8 @@ class DemandCalculator:
                         modified[resource_id] *= Decimal("1.2")
             
             elif culture == "night":
-                # Night culture values craftsmanship and weapons
-                for resource_id in ["tools", "weapons", "jewelry"]:
+                # Night culture values craftsmanship
+                for resource_id in ["tools", "jewelry"]:
                     if resource_id in modified:
                         modified[resource_id] *= Decimal("1.2")
             
@@ -198,7 +198,7 @@ class DemandCalculator:
             
             elif culture == "wildlands":
                 # Wildlands culture has different resource preferences
-                for resource_id in ["food", "tools", "weapons"]:
+                for resource_id in ["food", "tools"]:
                     if resource_id in modified:
                         modified[resource_id] *= Decimal("1.1")
                 for resource_id in ["jewelry", "luxury"]:
@@ -292,7 +292,7 @@ class DemandCalculator:
         # Mountain/elevated cities (inferred from mining endowments)
         if "mining_potential" in operator.endowments:
             # Higher demand for tools and equipment
-            for resource_id in ["tools", "weapons", "machinery"]:
+            for resource_id in ["tools", "machinery"]:
                 if resource_id in modified:
                     modified[resource_id] *= Decimal("1.2")
         
@@ -388,7 +388,6 @@ def create_default_demand_profiles() -> List[DemandProfile]:
                 "stone": Decimal("0.3"),
                 "iron-ore": Decimal("0.5"),
                 "tools": Decimal("0.4"),
-                "weapons": Decimal("0.3"),
                 "textiles": Decimal("0.6"),
                 "fish": Decimal("0.5"),
                 "jewelry": Decimal("0.1"),
@@ -403,7 +402,6 @@ def create_default_demand_profiles() -> List[DemandProfile]:
                 "iron-ore": Decimal("0.8"),
                 "steel": Decimal("0.4"),
                 "tools": Decimal("0.6"),
-                "weapons": Decimal("0.2"),
                 "textiles": Decimal("1.0"),
                 "machinery": Decimal("0.3"),
                 "fish": Decimal("0.4"),
