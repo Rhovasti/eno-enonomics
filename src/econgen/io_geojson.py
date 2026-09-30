@@ -13,6 +13,9 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+# Periodic elements every mining city can hold (aru and sira need a precious signal).
+CORE_ELEMENTS = ("feron", "cunu", "charon", "plon", "suhra", "sirael")
+
 
 class GeoJSONLoader:
     """Load and validate GeoJSON data, converting to economic operators."""
@@ -98,6 +101,7 @@ class GeoJSONLoader:
                         raise ValueError(error_msg)
                     logger.warning(error_msg)
 
+        ensure_element_coverage(operators)
         logger.info(f"Successfully loaded {len(operators)} operators from {len(paths)} files")
         return operators
 
@@ -385,7 +389,7 @@ class GeoJSONLoader:
         # stable but varied across the map).
         has_precious = endowments.get("luxury_goods", Decimal("0")) > 0
         if has_mining or has_precious:
-            pool = ["feron", "cunu", "charon", "plon", "suhra", "sirael"]
+            pool = list(CORE_ELEMENTS)
             if has_precious:
                 pool += ["aru", "sira"]
             count = 1 + (h % 2)
@@ -404,6 +408,43 @@ class GeoJSONLoader:
             endowments["mucus_gland"] = Decimal("0.5")
         if h % 23 == 0:
             endowments["mold_deposit"] = Decimal("0.4")
+
+
+def ensure_element_coverage(operators: List[Operator]) -> None:
+    """Give every core element at least one deposit a city can actually mine.
+
+    Deposits are drawn per city at random (by stable hash), and element mining is
+    medieval-tier, so a dataset with few medieval mining cities can miss an element
+    entirely (and every recipe that needs it). For each core element no medieval+
+    mining city holds, add a deposit to one: fewest deposits first, then highest
+    mining signal, then operator id. Tribal and non-mining cities are never used,
+    and datasets that already cover every element are unchanged.
+
+    Args:
+        operators: Loaded operators; endowments are extended in place
+    """
+    zero = Decimal("0")
+
+    def mining_signal(op: Operator) -> Decimal:
+        return max(op.endowments.get("mining_potential", zero), op.endowments.get("iron_ore", zero))
+
+    candidates = [
+        op for op in operators if TechLevel(op.tech) >= TechLevel.MEDIEVAL and mining_signal(op) > 0
+    ]
+    for element in CORE_ELEMENTS:
+        key = f"{element}_deposit"
+        if not candidates or any(key in op.endowments for op in candidates):
+            continue
+        chosen = min(
+            candidates,
+            key=lambda op: (
+                sum(k.endswith("_deposit") for k in op.endowments),
+                -mining_signal(op),
+                op.operator_id,
+            ),
+        )
+        chosen.endowments[key] = Decimal("0.6")
+        logger.info(f"Element coverage: added {key} to {chosen.operator_id}")
 
 
 def _stable_hash(text: str) -> int:
@@ -426,4 +467,4 @@ def _stock_driver(stock: Any) -> Decimal:
 
 
 # Export main class
-__all__ = ["GeoJSONLoader"]
+__all__ = ["CORE_ELEMENTS", "GeoJSONLoader", "ensure_element_coverage"]
