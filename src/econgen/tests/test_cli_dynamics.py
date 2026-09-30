@@ -46,7 +46,9 @@ def test_simulate_fails_when_no_stocks_match(tmp_path: Path) -> None:
 
 def test_simulate_writes_outputs_with_minsky(minsky_client, tmp_path: Path) -> None:
     """With Minsky available, simulate integrates the model and writes its outputs."""
-    result = _simulate(tmp_path, "--steps", "10")
+    # Reason: one resource keeps the model at 3 stocks; the full tiny world (62 stocks)
+    # takes over two minutes to build in Minsky.
+    result = _simulate(tmp_path, "--steps", "10", "--resource", "food")
 
     assert result.exit_code == 0, result.output
     assert (tmp_path / "model.mky").exists()
