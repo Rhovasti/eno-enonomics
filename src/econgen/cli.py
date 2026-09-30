@@ -15,7 +15,7 @@ from .io_geojson import GeoJSONLoader
 from .models import SimulationConfig, ProductionRule, Resource, DemandProfile
 from .taxonomy import ResourceTaxonomy, create_default_taxonomy
 from .rules import RulesEngine, create_default_rules
-from .calibration import calibrate_capacities
+from .calibration import calibrate_with_input_demand
 from .capacity import CapacityCalculator
 from .demand import DemandCalculator, create_default_demand_profiles
 from .trade import TradeNetwork
@@ -139,8 +139,9 @@ def run(
             progress.update(task, description=f"✅ Calculated demand for {len(demand)} operators")
             progress.remove_task(task)
             
-            # Calibrate capacities so world supply matches world demand
-            capacities = calibrate_capacities(
+            # Calibrate so world supply matches final demand plus production inputs;
+            # demand from here on includes the inputs each operator consumes
+            capacities, demand = calibrate_with_input_demand(
                 capacities, rules_engine, demand, config.supply_demand_ratio
             )
 

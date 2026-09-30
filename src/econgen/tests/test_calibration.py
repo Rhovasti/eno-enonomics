@@ -4,7 +4,11 @@ from decimal import Decimal
 
 import pytest
 
-from ..calibration import calibrate_capacities
+from ..calibration import (
+    calculate_input_demand,
+    calibrate_capacities,
+    calibrate_with_input_demand,
+)
 from ..models import Capacity
 from ..rules import RulesEngine, create_default_rules
 
@@ -61,3 +65,61 @@ def test_rule_without_demand_is_unscaled(rules_engine: RulesEngine) -> None:
     )
 
     assert calibrated[0].max_rate == Decimal("2")
+
+
+def test_input_demand_scales_with_production(rules_engine: RulesEngine) -> None:
+    """Toolmaking consumes 2 wood and 1 stone per unit produced."""
+    capacities = [
+        Capacity(operator_id="smith", rule_id="toolmaking", max_rate=Decimal("5"))
+    ]
+
+    input_demand = calculate_input_demand(capacities, rules_engine)
+
+    assert input_demand == {"smith": {"wood": Decimal("10"), "stone": Decimal("5")}}
+
+
+def test_rules_without_inputs_add_no_demand(rules_engine: RulesEngine) -> None:
+    """Extraction rules such as forestry consume nothing."""
+    capacities = [
+        Capacity(operator_id="camp", rule_id="forestry", max_rate=Decimal("5"))
+    ]
+
+    assert calculate_input_demand(capacities, rules_engine) == {}
+
+
+def test_calibration_covers_input_demand(rules_engine: RulesEngine) -> None:
+    """World wood output covers final wood demand plus wood used for tools."""
+    capacities = [
+        Capacity(operator_id="smith", rule_id="toolmaking", max_rate=Decimal("1")),
+        Capacity(operator_id="camp", rule_id="forestry", max_rate=Decimal("1")),
+    ]
+    final_demand = {
+        "smith": {"tools": Decimal("10")},
+        "camp": {"wood": Decimal("5")},
+    }
+
+    calibrated, total = calibrate_with_input_demand(
+        capacities, rules_engine, final_demand
+    )
+
+    # 10 tools need 20 wood as input, on top of 5 wood of final demand
+    assert total["smith"]["wood"] == Decimal("20")
+    forestry = next(c for c in calibrated if c.rule_id == "forestry")
+    assert forestry.max_rate * Decimal("2.5") == Decimal("25")
+
+
+def test_calibration_propagates_through_production_chain(
+    rules_engine: RulesEngine,
+) -> None:
+    """Machinery -> steel -> iron ore: each level is sized for the level above."""
+    capacities = [
+        Capacity(operator_id="a", rule_id=rule_id, max_rate=Decimal("1"))
+        for rule_id in ("machinery-production", "steel-making", "iron-mining")
+    ]
+    final_demand = {"a": {"machinery": Decimal("2")}}
+
+    _, total = calibrate_with_input_demand(capacities, rules_engine, final_demand)
+
+    # 2 machinery need 6 steel, which need 24 iron ore
+    assert total["a"]["steel"] == Decimal("6")
+    assert total["a"]["iron-ore"] == Decimal("24")

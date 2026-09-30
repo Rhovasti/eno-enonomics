@@ -2,7 +2,7 @@
 
 import logging
 from decimal import Decimal
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 from .models import Capacity
 from .rules import RulesEngine
@@ -60,6 +60,80 @@ def calibrate_capacities(
         )
         for capacity in capacities
     ]
+
+
+def calibrate_with_input_demand(
+    capacities: List[Capacity],
+    rules_engine: RulesEngine,
+    final_demand: Dict[str, Dict[str, Decimal]],
+    supply_demand_ratio: Decimal = Decimal("1.0"),
+) -> Tuple[List[Capacity], Dict[str, Dict[str, Decimal]]]:
+    """
+    Calibrate capacities against final demand plus the inputs production consumes.
+
+    Input demand depends on how much downstream goods are produced, which in turn
+    depends on calibration, so calibration is repeated until total demand stops
+    changing. The rule graph is acyclic, so each pass settles one more level of the
+    production chain and the loop ends after at most one pass per rule.
+
+    Args:
+        capacities: Raw capacities from CapacityCalculator
+        rules_engine: Rules engine used to look up rule inputs and outputs
+        final_demand: Consumer demand by operator and resource
+        supply_demand_ratio: Target world supply / world demand for each resource
+
+    Returns:
+        Tuple of (calibrated capacities, total demand = final + input demand)
+    """
+    total_demand = final_demand
+    for _ in range(len(rules_engine.rules) + 1):
+        calibrated = calibrate_capacities(
+            capacities, rules_engine, total_demand, supply_demand_ratio
+        )
+        next_total = _merge_add(
+            final_demand, calculate_input_demand(calibrated, rules_engine)
+        )
+        if next_total == total_demand:
+            break
+        total_demand = next_total
+    return calibrated, total_demand
+
+
+def calculate_input_demand(
+    capacities: List[Capacity], rules_engine: RulesEngine
+) -> Dict[str, Dict[str, Decimal]]:
+    """
+    Calculate the inputs each operator consumes to run its production at capacity.
+
+    Args:
+        capacities: Production capacities
+        rules_engine: Rules engine used to look up rule inputs
+
+    Returns:
+        Input demand by operator and resource
+    """
+    input_demand: Dict[str, Dict[str, Decimal]] = {}
+    for capacity in capacities:
+        rule = rules_engine.get_rule(capacity.rule_id)
+        production = capacity.max_rate * capacity.efficiency
+        operator_demand = input_demand.setdefault(capacity.operator_id, {})
+        for resource_id, quantity in rule.inputs.items():
+            operator_demand[resource_id] = (
+                operator_demand.get(resource_id, Decimal("0")) + production * quantity
+            )
+    return {op: resources for op, resources in input_demand.items() if resources}
+
+
+def _merge_add(
+    first: Dict[str, Dict[str, Decimal]], second: Dict[str, Dict[str, Decimal]]
+) -> Dict[str, Dict[str, Decimal]]:
+    """Add two nested operator -> resource -> quantity maps into a new map."""
+    merged = {op: dict(resources) for op, resources in first.items()}
+    for operator_id, resources in second.items():
+        target = merged.setdefault(operator_id, {})
+        for resource_id, quantity in resources.items():
+            target[resource_id] = target.get(resource_id, Decimal("0")) + quantity
+    return merged
 
 
 def _primary_output(rules_engine: RulesEngine, rule_id: str) -> tuple[str, Decimal]:

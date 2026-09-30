@@ -13,7 +13,7 @@ from ..trade import TradeNetwork
 from ..capacity import CapacityCalculator
 from ..demand import DemandCalculator, create_default_demand_profiles
 from ..pricing import PriceCalculator
-from ..calibration import calibrate_capacities
+from ..calibration import calibrate_with_input_demand
 
 
 class TestCriticalValidation:
@@ -97,7 +97,7 @@ class TestCriticalValidation:
         
         # Calculate production capacities and supply using the fixed system
         capacities = capacity_calc.calculate_all_capacities(operators)
-        capacities = calibrate_capacities(
+        capacities, demand = calibrate_with_input_demand(
             capacities, rules_engine, demand, config.supply_demand_ratio
         )
         from ..cli import _calculate_supply_from_capacities
