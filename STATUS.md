@@ -1,12 +1,36 @@
 # Development Status Report
 
 **Project:** Enonomics - Economic Worldbuilding Generator  
-**Date:** 2025-08-10  
+**Date:** 2026-09-30 (previous report: 2025-08-10)  
 **Version:** 0.1.0
 
 ## Current State Summary
 
-The economic simulation system has a solid architectural foundation with most core components implemented and functional. However, a critical issue with trade route generation prevents the system from achieving its primary objective.
+The pipeline runs end-to-end on all bundled datasets and writes every output file, but it
+currently produces **0 trade links**. The trade links reported in `TRADE_NETWORK_FIX.md`
+(13-119 per run) came from a tech-gating bug that has now been fixed (see Issue #1).
+
+### Health check (2026-09-30)
+
+| Check | Result |
+|---|---|
+| `uv run pytest` | 55 passed, 1 xfailed (known calibration gap) |
+| CLI `run` on `data/performance_test.geojson` / `Data/kaupungit.geojson` | Completes; 0 trade links |
+| `uv run ruff check .` / `ruff format --check .` | Failing (unused imports; unformatted files) |
+| `uv run mypy src/` | Failing (~50 errors) |
+| CI | None configured |
+
+### Changes in this update
+- `pytest.ini` header corrected (`[tool:pytest]` -> `[pytest]`) so its settings apply.
+- Tech-level comparisons fixed: models store tech as plain strings, which compared
+  alphabetically. Rule/resource eligibility now follows tribal < medieval < industrial.
+- Default taxonomy gained `seed`, `fiber`, `coal`, `precious-metals`, `gems`, `slag`
+  (all referenced by default rules); `slag` added to `config/econ.yaml`.
+- `normalize_resource_id` collapses any non-alphanumeric run to a single hyphen.
+- Tests rewritten to match the actual API; added `test_rules.py` (tech gating) and
+  `test_cli.py` (end-to-end run).
+- Generated outputs (`out/`, `.coverage`), Windows `Zone.Identifier` files and the Serena
+  cache are no longer tracked.
 
 ## Implementation Status
 
@@ -37,15 +61,16 @@ The economic simulation system has a solid architectural foundation with most co
 
 ### ❌ BROKEN COMPONENTS
 
-#### Trade Flow Solver (0% Functional)
-- **Root Cause:** Resource ID mapping inconsistency between supply and demand
-- **Impact:** No trade routes generated, rendering core functionality unusable
-- **Status:** High priority investigation required
+#### Supply/Demand Calibration (0 trade links)
+- **Root Cause:** Production capacity (~1 unit per rule per operator) is orders of magnitude
+  below demand (per-capita x population). On `Data/kaupungit.geojson`: supply ~3,100 vs.
+  demand ~12.9 million units; only 5 operator/resource pairs have any surplus.
+- **Impact:** No exportable surplus, so the solver finds no trade routes.
+- **Status:** Next task. `test_trade_route_establishment` is `xfail(strict=True)` until fixed.
 
-#### Supply Calculation (Partially Broken)
-- **Issue:** Synthetic resource IDs don't match demand resource IDs
-- **Location:** `cli.py:313-331` - `_calculate_supply_from_capacities()`
-- **Fix Required:** Use actual output resource IDs from production rules
+#### Supply Calculation (Resolved)
+- `_calculate_supply_from_capacities()` uses rule output resource IDs
+  (covered by `test_integration.py`).
 
 ### ⚠️ PARTIAL/QUESTIONABLE COMPONENTS
 
@@ -105,6 +130,12 @@ The economic simulation system has a solid architectural foundation with most co
 **Severity:** Blocks core functionality  
 **Confidence:** High - reproduced across multiple test scenarios  
 **Investigation Priority:** Highest
+
+**Update 2026-09-30:** The resource ID mismatch described below was fixed earlier, and trade
+links appeared - but only because tech levels compared alphabetically, letting tribal
+operators run medieval/industrial rules. With that fixed, the remaining cause is the
+supply/demand scale mismatch described under "Supply/Demand Calibration" above.
+The original analysis is kept below for history.
 
 **Suspected Root Cause:** Resource ID mismatch between components
 ```python

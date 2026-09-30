@@ -28,7 +28,7 @@ uv run python -m src.econgen.cli config-template --output my_config.yaml
 The simulation operates through a multi-stage pipeline that processes GeoJSON city data to generate economic relationships:
 
 ```
-GeoJSON Input � Operators � Production � Demand � Pricing � Trade Network � Reports
+GeoJSON Input → Operators → Production → Demand → Pricing → Trade Network → Reports
 ```
 
 ### Core Components
@@ -64,89 +64,77 @@ Cities and settlements with:
 - Resource endowments (derived from geographic features)
 - Infrastructure flags (port, capital, walls, etc.)
 
-## Known Issues (Critical)
+## Known Issues
 
-### 1. No Active Trade Routes
-**Status:** CONFIRMED BUG  
-**Impact:** High - Primary system functionality broken
+### 1. No Trade Routes After Tech-Gating Fix (Critical)
+**Status:** OPEN - model calibration needed
+**Impact:** High - the trade solver produces 0 links on every bundled dataset
 
-The trade network solver consistently produces 0 trade links across all test scenarios:
-- Performance test: 140 operators, 0 trade routes generated
-- Small test: 3 operators, 0 trade routes generated
+Earlier runs produced 13-119 trade links, but only because of a bug: tech levels were
+compared as plain strings (alphabetical order), so tribal settlements could run medieval
+and industrial rules (jewelry, textiles, machinery). With correct gating
+(tribal < medieval < industrial), production is far below demand:
 
-**Root Causes Under Investigation:**
-- Supply/demand calculation mismatch
-- Resource ID mapping inconsistencies between components
-- Price calculation preventing profitable trades
-- Trade partner spatial indexing issues
+- `Data/kaupungit.geojson`: total supply ~3,100 units vs. total demand ~12.9 million units
+- Capacity is roughly 1 unit per rule per operator, while demand is per-capita x population
 
-### 2. City Names Read from Wrong Attribute  
-**Status:** CONFIRMED BUG  
-**Impact:** Medium - Data integrity issue
+No operator ends up with an exportable surplus, so no routes form. The test
+`test_trade_route_establishment` is marked `xfail(strict=True)` and will start failing
+(prompting removal of the marker) once capacity/demand are recalibrated.
 
-GeoJSON loader correctly attempts to read city names from "Burg" attribute (line 130 in `io_geojson.py`) but some processing may still reference incorrect fields.
+### 2. Weapons in Demand Profiles (Minor)
+**Status:** OPEN - design decision pending
 
-**Evidence:**
-```geojson
-{ "Burg": "Jouy", "name": null, ... }  // Correct: using "Burg"
-```
+`weapons` was removed from the default taxonomy (see `PRPs/REVISION-001.md`), and the
+tribal profile no longer demands it. The medieval and industrial profiles and several
+demand modifiers in `demand.py` still reference `weapons` (and `armor`), which logs an
+"unknown resources" warning at runtime.
 
-### 3. Weapons in Tribal Technology
-**Status:** CONFIRMED BUG  
-**Impact:** Low - Logic consistency issue
-
-The default taxonomy includes weapons requiring MEDIEVAL tech level, but some tribal-level settlements show weapons in their demand profiles.
-
-**Location:** `taxonomy.py` line 220-227
-```python
-Resource(
-    resource_id="weapons",
-    name="Weapons", 
-    tier=1,
-    tech_min=TechLevel.MEDIEVAL,  # Should not appear in tribal demand
-    ...
-)
-```
+### Resolved
+- **City names:** read from the `Burg` attribute (covered by `test_city_names_from_burg_attribute`).
+- **Missing default resources:** `seed`, `fiber`, `coal`, `precious-metals`, `gems` and
+  `slag` are now in the default taxonomy, so every default rule references known resources.
+- **Tech gating:** rule and resource eligibility now follow tech order (`test_rules.py`).
 
 ## Successfully Implemented Features
 
-###  GeoJSON Data Loading
+### ✅ GeoJSON Data Loading
 - Robust parsing of FeatureCollection and individual Features
 - Coordinate transformation from Web Mercator to WGS84
 - Property extraction with intelligent defaults
 - Comprehensive error handling and validation modes
 
-###  Resource System
+### ✅ Resource System
 - Hierarchical resource taxonomy (4 tiers)
 - Technology-gated availability
 - Transportability and perishability flags
 - Base price definitions
 
-###  Production Rules Engine
+### ✅ Production Rules Engine
 - DAG validation prevents circular dependencies
 - Technology-level constraints
 - Input/output resource mapping
 - Capacity drivers and labor requirements
 
-###  Spatial Trade Network
+### ✅ Spatial Trade Network
 - KDTree-based nearest neighbor search
 - Configurable trade radius and partner limits
 - Great circle distance calculations
 - Partner caching for performance
 
-###  Economic Operator Modeling
+### ✅ Economic Operator Modeling
 - Population-based technology inference
 - Geographic endowment derivation
 - Infrastructure feature detection
 - Comprehensive attribute preservation
 
-###  Configuration System
+### ✅ Configuration System
 - YAML-based configuration files
 - Default taxonomies and rule sets
 - Environment-specific parameters
 - Template generation
 
-###  Report Generation
+### ✅ Report Generation
 - Markdown-formatted analysis reports
 - Trade network statistics
 - Settlement rankings and distributions
@@ -197,21 +185,21 @@ TradeLink(
 
 ## Development Status
 
-### Phase 1: Core Infrastructure  COMPLETE
+### Phase 1: Core Infrastructure ✅ COMPLETE
 - [x] Data models and validation
 - [x] GeoJSON loading and parsing
 - [x] Resource taxonomy system
 - [x] Production rules engine
 - [x] Configuration management
 
-### Phase 2: Economic Calculation � PARTIAL
+### Phase 2: Economic Calculation ⚠️ PARTIAL
 - [x] Capacity calculation
 - [x] Demand modeling  
 - [x] Price calculation
-- [ ] **Supply/demand balance (BROKEN)**
-- [ ] **Trade flow solving (BROKEN)**
+- [x] Trade flow solving (runs end-to-end)
+- [ ] **Supply/demand calibration (no surpluses, so 0 trade links - see Known Issues)**
 
-### Phase 3: Analysis and Output  COMPLETE
+### Phase 3: Analysis and Output ✅ COMPLETE
 - [x] Trade network statistics
 - [x] Report generation
 - [x] Data export (JSON/JSONL)
