@@ -38,6 +38,6 @@ extend-exclude = ["*.md"]
 extend-immutable-calls = ["typer.Option", "typer.Argument"]
 
 [tool.ruff.lint.per-file-ignores]
-# CLI commands catch every error at the top level to print it (and exit non-zero, or for
-# `validate`, move on to the next file).
+# CLI commands catch every error at the top level to print it and exit non-zero
+# (`validate` checks the remaining files first).
 "src/econgen/cli*.py" = ["BLE001"]

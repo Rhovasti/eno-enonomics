@@ -191,6 +191,7 @@ def validate(
     console.print("[blue]🔍 Validating GeoJSON files...[/blue]")
 
     loader = GeoJSONLoader(strict=True)
+    failed = 0
 
     for path in input_paths:
         try:
@@ -205,7 +206,13 @@ def validate(
                 )
 
         except Exception as e:
+            failed += 1
             console.print(f"❌ {path.name}: [red]{e}[/red]")
+
+    # Reason: check every file first so one run reports all problems, then fail the command.
+    if failed:
+        console.print(f"[red]{failed} of {len(input_paths)} file(s) failed validation[/red]")
+        raise typer.Exit(1)
 
 
 @app.command()

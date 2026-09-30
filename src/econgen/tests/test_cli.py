@@ -33,3 +33,33 @@ def test_run_writes_all_outputs(tmp_path: Path) -> None:
 
     trade_links = (tmp_path / "trade_links.jsonl").read_text().splitlines()
     assert len(trade_links) > 0, "Calibrated pipeline should produce trade links"
+
+
+def test_validate_succeeds_on_valid_input() -> None:
+    """validate exits 0 when every input file loads."""
+    result = CliRunner().invoke(app, ["validate", "--input", str(FIXTURE)])
+
+    assert result.exit_code == 0, result.output
+    assert "3 valid operators" in result.output
+
+
+def test_validate_fails_on_missing_file(tmp_path: Path) -> None:
+    """validate exits non-zero when an input file does not exist."""
+    missing = tmp_path / "missing.geojson"
+
+    result = CliRunner().invoke(app, ["validate", "--input", str(missing)])
+
+    assert result.exit_code == 1, result.output
+    assert "missing.geojson" in result.output
+
+
+def test_validate_checks_every_file_before_failing(tmp_path: Path) -> None:
+    """A bad file does not stop the remaining files being validated."""
+    bad = tmp_path / "bad.geojson"
+    bad.write_text("not json")
+
+    result = CliRunner().invoke(app, ["validate", "--input", str(bad), "--input", str(FIXTURE)])
+
+    assert result.exit_code == 1, result.output
+    assert "bad.geojson" in result.output
+    assert "3 valid operators" in result.output
