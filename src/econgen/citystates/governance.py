@@ -251,6 +251,7 @@ def assign_initial_governance(
     # Pass 2: coverage — ensure all types appear at least once.
     assigned_types = set(initial.values())
     unassigned = [g.name for g in CATALOG if g.name not in assigned_types]
+    overridden: set = set()
 
     for missing_type in unassigned:
         # Find the citystate where this type scores best as an override.
@@ -258,19 +259,27 @@ def assign_initial_governance(
         best_gain = -999.0
         for spec in specs:
             current = initial[spec.name]
+            # Reason: never undo an earlier coverage override, never override
+            # hard-coded lore, and never remove the only holder of a type.
+            if (
+                spec.name in overridden
+                or spec.name in LORE_ASSIGNMENTS
+                or type_counts[current] <= 1
+            ):
+                continue
             gov = gov_by_name[missing_type]
             score, _ = _score_type(spec, gov, spec.state, {}, Counter())
             current_gov = gov_by_name[current]
             current_score, _ = _score_type(spec, current_gov, spec.state, {}, Counter())
             gain = score - current_score
-            # Don't override hard-coded or special assignments.
-            if spec.name in LORE_ASSIGNMENTS:
-                continue
             if gain > best_gain:
                 best_gain = gain
                 best_city = spec.name
         if best_city:
+            type_counts[initial[best_city]] -= 1
+            type_counts[missing_type] += 1
             initial[best_city] = missing_type
+            overridden.add(best_city)
 
     return initial
 
