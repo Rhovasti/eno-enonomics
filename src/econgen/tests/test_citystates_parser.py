@@ -8,6 +8,7 @@ from ..citystates.parser import (
     GROWTH_PRIOR_BY_STATE,
     SYNTHETIC_FOUNDED_CYCLE,
     CitystateSpec,
+    load_citystates,
     parse_citystate,
 )
 from .conftest import BUNDLED_CITYSTATES_DIR
@@ -110,3 +111,14 @@ def test_parse_bundled_stub_gets_synthetic_values() -> None:
     assert spec.founded_cycle == SYNTHETIC_FOUNDED_CYCLE
     assert (spec.latitude, spec.longitude) == (0.0, 0.0)
     assert spec.growth_rate == GROWTH_PRIOR_BY_STATE["Dusk"]
+
+
+def test_load_citystates_rejects_a_missing_folder(tmp_path: Path) -> None:
+    """A folder that does not exist is an error, not an empty set of profiles."""
+    with pytest.raises(FileNotFoundError, match="no-such-folder"):
+        load_citystates(tmp_path / "no-such-folder")
+
+
+def test_load_citystates_accepts_an_empty_folder(tmp_path: Path) -> None:
+    """An existing folder with no profiles loads as an empty list."""
+    assert load_citystates(tmp_path) == []
