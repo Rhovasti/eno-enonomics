@@ -8,13 +8,11 @@ derived from each citystate's temporal_state — crisis cities hoard and exploit
 innovative cities spend and invest.
 """
 
-from typing import Dict
-
 # (wage_share, propensity_to_consume, savings_rate) by temporal_state.
 # wage_share: fraction of GDP paid as wages (rest = producer surplus).
 # propensity: fraction of household income spent on consumption.
 # savings_rate: fraction saved (= 1 - propensity, explicit for clarity).
-FINANCIAL_PARAMS: Dict[str, Dict[str, float]] = {
+FINANCIAL_PARAMS: dict[str, dict[str, float]] = {
     "Dawn": {"wage_share": 0.50, "propensity": 0.90, "savings_rate": 0.10},  # spend-heavy, invest
     "Day": {"wage_share": 0.60, "propensity": 0.80, "savings_rate": 0.20},  # balanced prosperity
     "Noon": {"wage_share": 0.55, "propensity": 0.75, "savings_rate": 0.25},  # stagnant, hoarding
@@ -27,7 +25,7 @@ FINANCIAL_PARAMS: Dict[str, Dict[str, float]] = {
     "Dwellers": {"wage_share": 0.50, "propensity": 0.75, "savings_rate": 0.25},
     "Autotrophic Founder": {"wage_share": 0.55, "propensity": 0.85, "savings_rate": 0.15},
 }
-DEFAULT_PARAMS: Dict[str, float] = {"wage_share": 0.50, "propensity": 0.80, "savings_rate": 0.20}
+DEFAULT_PARAMS: dict[str, float] = {"wage_share": 0.50, "propensity": 0.80, "savings_rate": 0.20}
 
 # Labor tiers: (name, wage_multiplier). From the Eno lore.
 LABOR_TIERS = [
@@ -39,7 +37,7 @@ LABOR_TIERS = [
 ]
 
 # Workforce fraction per tier, by tech level. More advanced = more skilled.
-TIER_DISTRIBUTION: Dict[str, list] = {
+TIER_DISTRIBUTION: dict[str, list] = {
     "tribal": [0.70, 0.20, 0.10, 0.00, 0.00],
     "medieval": [0.40, 0.30, 0.20, 0.10, 0.00],
     "industrial": [0.20, 0.25, 0.30, 0.20, 0.05],
@@ -62,7 +60,7 @@ OFFENSE_TIERS = [
 INTENT_MULTIPLIERS = {"intentional": 1.0, "reckless": 0.9, "negligent": 0.8, "accidental": 0.7}
 
 # Average intent weight by temporal_state (crisis cities = more intentional harm).
-AVG_INTENT_BY_STATE: Dict[str, float] = {
+AVG_INTENT_BY_STATE: dict[str, float] = {
     "Night": 0.90,
     "Symbiotic Decline": 0.88,
     "Noon": 0.80,
@@ -79,7 +77,7 @@ DEFAULT_AVG_INTENT = 0.78
 
 # Offense rates: offenses per 1000 population per cycle, per tier [dignity..society].
 # Crisis cities generate serious offenses (liberty/bodily/life); prosperous generate minor.
-OFFENSE_RATES_BY_STATE: Dict[str, list] = {
+OFFENSE_RATES_BY_STATE: dict[str, list] = {
     "Night": [50, 20, 10, 5, 2, 0.5, 0.01],  # crisis: heavy all tiers
     "Symbiotic Decline": [45, 18, 8, 4, 1.5, 0.3, 0.005],
     "Noon": [20, 8, 3, 0.5, 0.1, 0.01, 0],  # stagnant

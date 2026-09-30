@@ -9,7 +9,6 @@ break a strict YAML parse, so we parse line-by-line with regexes.
 
 import re
 from pathlib import Path
-from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -51,9 +50,9 @@ class CitystateSpec(BaseModel):
     valley: str
     latitude: float
     longitude: float
-    elevation: Optional[float] = None
-    infrastructure: List[str] = Field(default_factory=list)
-    tags: List[str] = Field(default_factory=list)
+    elevation: float | None = None
+    infrastructure: list[str] = Field(default_factory=list)
+    tags: list[str] = Field(default_factory=list)
     state: str = ""
     source_file: str = ""
 
@@ -66,7 +65,7 @@ def _split_frontmatter(text: str) -> tuple[str, str]:
     return "", text
 
 
-def _parse_list(value: str) -> List[str]:
+def _parse_list(value: str) -> list[str]:
     """Parse a ``[a, b, c]`` bracket value into a list of trimmed strings."""
     inner = value.strip().strip("[]")
     if not inner:
@@ -167,7 +166,7 @@ def parse_citystate(path: Path) -> CitystateSpec:
     )
 
 
-def load_citystates(directory) -> List[CitystateSpec]:
+def load_citystates(directory) -> list[CitystateSpec]:
     """Load every ``*.md`` citystate profile under ``directory`` (skips sidecars)."""
     directory = Path(directory)
     return [
@@ -178,8 +177,8 @@ def load_citystates(directory) -> List[CitystateSpec]:
 
 
 __all__ = [
-    "CitystateSpec",
-    "parse_citystate",
-    "load_citystates",
     "GROWTH_PRIOR_BY_STATE",
+    "CitystateSpec",
+    "load_citystates",
+    "parse_citystate",
 ]

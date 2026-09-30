@@ -1,11 +1,12 @@
 from decimal import Decimal
+
 from ..cli import _calculate_supply_from_capacities
-from ..models import Capacity, Operator, TechLevel, SimulationConfig
+from ..demand import DemandCalculator, create_default_demand_profiles
+from ..models import Capacity, Operator, SimulationConfig, TechLevel
+from ..pricing import PriceCalculator
 from ..rules import RulesEngine, create_default_rules
 from ..taxonomy import create_default_taxonomy
-from ..demand import DemandCalculator, create_default_demand_profiles
 from ..trade import TradeNetwork
-from ..pricing import PriceCalculator
 
 
 class TestSupplyDemandIntegration:

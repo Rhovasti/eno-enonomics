@@ -129,7 +129,7 @@ def analyze_district_file(filepath):
         )
 
         # Mountainous determination (simplified - based on coordinate clustering)
-        mountainous = len(set(round(coord, 1) for coord in x_coords)) > 5
+        mountainous = len({round(coord, 1) for coord in x_coords}) > 5
 
         if coastal:
             endowments["fish"] = random.randint(100, 400)
@@ -147,7 +147,7 @@ def analyze_district_file(filepath):
             "mountainous": mountainous,
         }
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - skip unreadable files, keep processing the rest
         print(f"Error processing {filepath}: {e}")
         return None
 

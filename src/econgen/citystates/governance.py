@@ -6,19 +6,16 @@ cities, then scored assignment with diversity penalty for the rest.
 """
 
 from collections import Counter
-from typing import Dict, List, Optional
-
-from .parser import CitystateSpec
-
 
 from .governance_types import (
     CATALOG,
-    GovType,
     LORE_ASSIGNMENTS,
     ROOT_TO_INITIAL,
     SIMPLE_CATEGORIES,
     STATE_PATTERNS,
+    GovType,
 )
+from .parser import CitystateSpec
 
 
 class GovernanceAssignment:
@@ -31,7 +28,7 @@ class GovernanceAssignment:
         category: str,
         eno_note: str,
         score: float,
-        rationale: List[str],
+        rationale: list[str],
         hard_coded: bool = False,
     ):
         self.name = name
@@ -54,7 +51,7 @@ class GovernanceAssignment:
         }
 
 
-def _hard_code(spec: CitystateSpec, state_field: str) -> Optional[str]:
+def _hard_code(spec: CitystateSpec, state_field: str) -> str | None:
     """Check for hard-coded lore assignments by name or state field."""
     if spec.name in LORE_ASSIGNMENTS:
         return LORE_ASSIGNMENTS[spec.name]
@@ -70,7 +67,7 @@ def _score_type(
 ) -> tuple:
     """Score a governance type for a citystate. Returns (score, rationale)."""
     score = 0.0
-    reasons: List[str] = []
+    reasons: list[str] = []
 
     if spec.temporal_state in gov.temporal_states:
         score += 20
@@ -133,12 +130,12 @@ def _score_type(
 
 
 def assign_governance(
-    specs: List[CitystateSpec],
-    economic_data: Optional[Dict[str, dict]] = None,
-) -> List[GovernanceAssignment]:
+    specs: list[CitystateSpec],
+    economic_data: dict[str, dict] | None = None,
+) -> list[GovernanceAssignment]:
     """Assign governance types to all citystates with diversity."""
     economic_data = economic_data or {}
-    assignments: List[GovernanceAssignment] = []
+    assignments: list[GovernanceAssignment] = []
     type_counts: Counter = Counter()
 
     for spec in specs:
@@ -165,8 +162,8 @@ def assign_governance(
 
         # Pass 2: scored.
         best_score = -999.0
-        best_gov: Optional[GovType] = None
-        best_reasons: List[str] = []
+        best_gov: GovType | None = None
+        best_reasons: list[str] = []
         for gov in CATALOG:
             score, reasons = _score_type(spec, gov, state_field, econ, type_counts)
             if score > best_score:
@@ -191,22 +188,22 @@ def assign_governance(
 
 
 __all__ = [
+    "CATALOG",
+    "LORE_ASSIGNMENTS",
+    "ROOT_TO_INITIAL",
     "GovernanceAssignment",
     "assign_governance",
     "assign_initial_governance",
     "compute_progression",
     "create_dam_settlement",
-    "CATALOG",
-    "LORE_ASSIGNMENTS",
-    "ROOT_TO_INITIAL",
 ]
 
 
 def assign_initial_governance(
-    specs: List[CitystateSpec],
-    roots: Dict[str, str],
-    settled: Dict[str, str],
-) -> Dict[str, str]:
+    specs: list[CitystateSpec],
+    roots: dict[str, str],
+    settled: dict[str, str],
+) -> dict[str, str]:
     """Assign initial governance (at founding) for each citystate.
 
     Uses the Root type to prefer simpler governance types, with a coverage
@@ -215,7 +212,7 @@ def assign_initial_governance(
     from .roots import assign_root  # noqa: F401 (already used externally)
 
     gov_by_name = {g.name: g for g in CATALOG}
-    initial: Dict[str, str] = {}
+    initial: dict[str, str] = {}
     type_counts: Counter = Counter()
 
     # Pass 1: assign based on Root preferences + scoring.

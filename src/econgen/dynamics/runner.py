@@ -2,7 +2,6 @@
 
 import json
 from pathlib import Path
-from typing import Dict, List
 
 from .builder import PRICE_ALPHA, MinskyModelBuilder
 from .client import MinskyClient
@@ -30,9 +29,9 @@ def simulate(client: MinskyClient, dynamics_input: DynamicsInput) -> SimulationR
     minsky.srand(seed)
     minsky.reset()
 
-    time: List[float] = []
-    series: Dict[str, List[float]] = {name: [] for name in builder.series}
-    prices: Dict[str, List[float]] = {name: [] for name in builder.series}
+    time: list[float] = []
+    series: dict[str, list[float]] = {name: [] for name in builder.series}
+    prices: dict[str, list[float]] = {name: [] for name in builder.series}
     # Recompute the bounded scarcity price from each step's stock (matches builder).
     specs = {f"{s.city}/{s.resource}": s for s in dynamics_input.stocks}
     for _ in range(dynamics_input.n_steps):

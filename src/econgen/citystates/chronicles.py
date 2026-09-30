@@ -7,8 +7,6 @@ mainstays), trade character, and the cycle-998 state. Only **extractive** resour
 are described as mainstays whose stocks track population.
 """
 
-from typing import List, Optional, Set
-
 from .parser import CitystateSpec
 
 
@@ -25,17 +23,17 @@ def _tier_name(tech_level: float) -> str:
 
 
 def _fmt_pop(value: float) -> str:
-    return f"{int(round(value)):,}"
+    return f"{round(value):,}"
 
 
-def _first_crossing(values: List[float], threshold: float) -> Optional[int]:
+def _first_crossing(values: list[float], threshold: float) -> int | None:
     for i, v in enumerate(values):
         if v >= threshold:
             return i
     return None
 
 
-def extract_milestones(history: dict, spec: CitystateSpec, extractive: Set[str]) -> dict:
+def extract_milestones(history: dict, spec: CitystateSpec, extractive: set[str]) -> dict:
     """Extract key narrative milestones from a citystate's dynamic history."""
     pop = history["population"]
     tech = history["tech"]
@@ -133,7 +131,7 @@ def _tech_narrative(m: dict) -> str:
     return f"The settlement {main}{tail} by cycle 998."
 
 
-def _resource_eras(m: dict) -> List[str]:
+def _resource_eras(m: dict) -> list[str]:
     """Narrative lines: extractive depletion stories + renewable mainstays."""
     lines = []
     extractive_events = [e for e in m["resource_events"] if e["extractive"]]
@@ -168,7 +166,7 @@ def _trade_narrative(m: dict) -> str:
     return "broadly self-sufficient in trade"
 
 
-def render_chronicle(history: dict, spec: CitystateSpec, extractive: Set[str]) -> str:
+def render_chronicle(history: dict, spec: CitystateSpec, extractive: set[str]) -> str:
     """Render a citystate's dynamic history as a narrative markdown chronicle."""
     m = extract_milestones(history, spec, extractive)
     name = spec.name
@@ -177,9 +175,11 @@ def render_chronicle(history: dict, spec: CitystateSpec, extractive: Set[str]) -
     lines = [
         f"# Economic Chronicle: {name}",
         "",
-        f"**{name}** was founded in cycle {m['founded']} in {m['valley']} Valley — a "
-        f"{m['temporal_state']}-temporal settlement of {_fmt_pop(m['pop_initial'])} souls. "
-        f"What follows is the economic history of its {m['run_cycles']}-cycle recorded lifespan, to cycle 998.",
+        (
+            f"**{name}** was founded in cycle {m['founded']} in {m['valley']} Valley — a "
+            f"{m['temporal_state']}-temporal settlement of {_fmt_pop(m['pop_initial'])} souls. "
+            f"What follows is the economic history of its {m['run_cycles']}-cycle recorded lifespan, to cycle 998."
+        ),
         "",
         "## Population",
         "",
@@ -199,9 +199,11 @@ def render_chronicle(history: dict, spec: CitystateSpec, extractive: Set[str]) -
         "",
         "## At Cycle 998",
         "",
-        f"By cycle 998, {name} had a population of {_fmt_pop(m['pop_final'])} "
-        f"(×{m['pop_ratio']:.2f} of its founding size), a {_tier_name(m['tech_final'])} economy, "
-        f"and {'its mines were largely spent' if depleted else 'a stable resource base'}.",
+        (
+            f"By cycle 998, {name} had a population of {_fmt_pop(m['pop_final'])} "
+            f"(×{m['pop_ratio']:.2f} of its founding size), a {_tier_name(m['tech_final'])} economy, "
+            f"and {'its mines were largely spent' if depleted else 'a stable resource base'}."
+        ),
         "",
     ]
 
@@ -228,4 +230,4 @@ def render_chronicle(history: dict, spec: CitystateSpec, extractive: Set[str]) -
     return "\n".join(lines)
 
 
-__all__ = ["render_chronicle", "extract_milestones"]
+__all__ = ["extract_milestones", "render_chronicle"]

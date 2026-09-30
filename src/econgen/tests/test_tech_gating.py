@@ -22,12 +22,12 @@ def _operator(tech: TechLevel) -> Operator:
         coord=(0.0, 0.0),
         population=10000,
         endowments={
-            "agriculture": Decimal("1"),
-            "fishing": Decimal("1"),
-            "craftsmanship": Decimal("1"),
-            "general_labor": Decimal("1"),
-            "skilled_labor": Decimal("1"),
-            "industrial_capacity": Decimal("1"),
+            "agriculture": Decimal(1),
+            "fishing": Decimal(1),
+            "craftsmanship": Decimal(1),
+            "general_labor": Decimal(1),
+            "skilled_labor": Decimal(1),
+            "industrial_capacity": Decimal(1),
         },
     )
 

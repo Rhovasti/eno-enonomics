@@ -9,7 +9,6 @@ steady-state); Phase 3 can make them a time series.
 """
 
 from collections import defaultdict
-from typing import Dict, List
 
 from ..dynamics.adapter import recipe_input_rates
 from ..models import SimulationConfig
@@ -24,11 +23,11 @@ ALCHEMICAL_MARGIN = 0.25
 
 
 def compute_market_prices(
-    specs: List[CitystateSpec],
+    specs: list[CitystateSpec],
     taxonomy: ResourceTaxonomy,
     rules_engine: RulesEngine,
     demand_calc: DemandCalculator,
-) -> Dict[str, float]:
+) -> dict[str, float]:
     """Return ``{resource_id: world_market_price}`` averaged across all citystates."""
     operators = [spec_to_operator(spec) for spec in specs]
     supply = {op.operator_id: supply_for_operator(op, rules_engine) for op in operators}
@@ -37,8 +36,8 @@ def compute_market_prices(
     price_calc = PriceCalculator(taxonomy, SimulationConfig())
     prices = price_calc.calculate_prices(operators, supply, demand)
 
-    sums: Dict[str, float] = defaultdict(float)
-    counts: Dict[str, int] = defaultdict(int)
+    sums: dict[str, float] = defaultdict(float)
+    counts: dict[str, int] = defaultdict(int)
     for op_prices in prices.values():
         for resource, price in op_prices.items():
             sums[resource] += float(price)
@@ -49,10 +48,10 @@ def compute_market_prices(
 
 
 def _apply_input_floors(
-    prices: Dict[str, float],
-    requirements: Dict[str, Dict[str, float]],
+    prices: dict[str, float],
+    requirements: dict[str, dict[str, float]],
     margin: float = ALCHEMICAL_MARGIN,
-) -> Dict[str, float]:
+) -> dict[str, float]:
     """Raise crafted prices to ``(1 + margin) * sum(input_price * qty)`` when lower.
 
     Inputs are worth at least their recipe cost plus a guild markup, so scarcity

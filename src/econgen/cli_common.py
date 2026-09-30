@@ -4,23 +4,22 @@ Command modules (``cli``, ``cli_dynamics``, ``cli_citystates``) all register
 their commands on the single :data:`app` defined here.
 """
 
-from pathlib import Path
-from typing import Dict, List, Optional, Tuple
-from decimal import Decimal
 import logging
+from decimal import Decimal
+from pathlib import Path
 
 import typer
 import yaml
 from rich.console import Console
 
-from .io_geojson import GeoJSONLoader
-from .models import SimulationConfig, ProductionRule, Resource, DemandProfile
-from .taxonomy import ResourceTaxonomy, create_default_taxonomy
-from .rules import RulesEngine, create_default_rules
 from .calibration import calibrate_with_input_demand
 from .capacity import CapacityCalculator
 from .demand import DemandCalculator, create_default_demand_profiles
 from .dynamics.state import DynamicsConfig
+from .io_geojson import GeoJSONLoader
+from .models import DemandProfile, ProductionRule, Resource, SimulationConfig
+from .rules import RulesEngine, create_default_rules
+from .taxonomy import ResourceTaxonomy, create_default_taxonomy
 
 # Initialize Typer app and Rich console (shared by all command modules)
 app = typer.Typer(
@@ -37,8 +36,8 @@ logger = logging.getLogger(__name__)
 
 
 def _load_configuration(
-    config_path: Optional[Path],
-) -> Tuple[SimulationConfig, List[Resource], List[ProductionRule], List[DemandProfile]]:
+    config_path: Path | None,
+) -> tuple[SimulationConfig, list[Resource], list[ProductionRule], list[DemandProfile]]:
     """Load configuration or use defaults."""
     if config_path and config_path.exists():
         with open(config_path) as f:
@@ -70,7 +69,7 @@ def _load_configuration(
     return config, resources, rules, demand_profiles
 
 
-def _load_dynamics_config(config_path: Optional[Path]) -> DynamicsConfig:
+def _load_dynamics_config(config_path: Path | None) -> DynamicsConfig:
     """Load the optional ``dynamics:`` section of a configuration file."""
     if config_path and config_path.exists():
         with open(config_path) as f:
@@ -81,10 +80,10 @@ def _load_dynamics_config(config_path: Optional[Path]) -> DynamicsConfig:
 
 
 def _calculate_supply_from_capacities(
-    capacities: List, operators: List, rules_engine: RulesEngine
-) -> Dict[str, Dict[str, Decimal]]:
+    capacities: list, operators: list, rules_engine: RulesEngine
+) -> dict[str, dict[str, Decimal]]:
     """Calculate supply quantities from production capacities."""
-    supply: Dict[str, Dict[str, Decimal]] = {}
+    supply: dict[str, dict[str, Decimal]] = {}
 
     for capacity in capacities:
         if capacity.operator_id not in supply:
@@ -112,11 +111,11 @@ def _calculate_supply_from_capacities(
 
 
 def _compute_supply_and_demand(
-    input_paths: List[Path],
-    config_path: Optional[Path],
-    seed: Optional[int],
+    input_paths: list[Path],
+    config_path: Path | None,
+    seed: int | None,
     strict: bool,
-) -> Tuple[List, Dict, Dict, DynamicsConfig, SimulationConfig, ResourceTaxonomy, RulesEngine]:
+) -> tuple[list, dict, dict, DynamicsConfig, SimulationConfig, ResourceTaxonomy, RulesEngine]:
     """Run the static pipeline up to calibrated supply/demand for the dynamics layer.
 
     Mirrors the ``run`` pipeline (including input-demand calibration) and returns
@@ -151,9 +150,9 @@ def _compute_supply_and_demand(
 
 def _resolve_dynamics_config(
     dynamics_config: DynamicsConfig,
-    steps: Optional[int],
-    seed: Optional[int],
-    resource: Optional[str],
+    steps: int | None,
+    seed: int | None,
+    resource: str | None,
 ) -> DynamicsConfig:
     """Apply CLI overrides (--steps/--seed/--resource) to the dynamics config."""
     updates: dict = {}

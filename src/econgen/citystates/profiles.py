@@ -6,8 +6,6 @@ prices — no integration needed. The Minsky per-city harness (``simulator.py``)
 returns in Phase 3 to produce dynamic *histories* with long-run drivers.
 """
 
-from typing import Dict, List
-
 from pydantic import BaseModel, Field
 
 from ..taxonomy import ResourceTaxonomy
@@ -34,11 +32,11 @@ class CitystateProfile(BaseModel):
     valley: str
     population: int
     tech: str
-    resources: List[ResourceProfile]
+    resources: list[ResourceProfile]
     trade_balance: float  # value of net imports (+) / exports (-)
-    top_exports: List[str]
-    top_imports: List[str]
-    specialization: List[str]
+    top_exports: list[str]
+    top_imports: list[str]
+    specialization: list[str]
     character: str
 
 
@@ -57,19 +55,19 @@ def _role(production: float, consumption: float) -> str:
 
 def compute_citystate_profile(
     spec: CitystateSpec,
-    supply: Dict,
-    demand: Dict,
-    market_prices: Dict[str, float],
+    supply: dict,
+    demand: dict,
+    market_prices: dict[str, float],
     taxonomy: ResourceTaxonomy,
     config: ProfileConfig,
 ) -> CitystateProfile:
     """Compute a steady-state (cycle-998) economic profile for one citystate."""
     from decimal import Decimal
 
-    resources: List[ResourceProfile] = []
+    resources: list[ResourceProfile] = []
     for resource in sorted(set(supply) | set(demand)):
-        production = float(supply.get(resource, Decimal("0")))
-        consumption = float(demand.get(resource, Decimal("0")))
+        production = float(supply.get(resource, Decimal(0)))
+        consumption = float(demand.get(resource, Decimal(0)))
         if production <= 0 and consumption <= 0:
             continue
         net_trade = consumption - production  # + import, - export
@@ -136,11 +134,15 @@ def render_profile(profile: CitystateProfile) -> str:
     lines = [
         f"# Economic Profile: {profile.name}",
         "",
-        f"- **State**: {profile.temporal_state} · **Valley**: {profile.valley} · "
-        f"**Population**: {profile.population:,} · **Tech**: {profile.tech}",
+        (
+            f"- **State**: {profile.temporal_state} · **Valley**: {profile.valley} · "
+            f"**Population**: {profile.population:,} · **Tech**: {profile.tech}"
+        ),
         f"- **Founded**: cycle {profile.founded_cycle} · **Profiled at**: cycle {profile.final_cycle}",
-        f"- **Trade balance**: {profile.trade_balance:+.1f} (net "
-        f"{'importer' if profile.trade_balance > 0 else 'exporter'})",
+        (
+            f"- **Trade balance**: {profile.trade_balance:+.1f} (net "
+            f"{'importer' if profile.trade_balance > 0 else 'exporter'})"
+        ),
         f"- **Specialization**: {', '.join(profile.specialization) or 'none'}",
         f"- **Top exports**: {', '.join(profile.top_exports) or 'none'}",
         f"- **Top imports**: {', '.join(profile.top_imports) or 'none'}",
@@ -163,8 +165,8 @@ def render_profile(profile: CitystateProfile) -> str:
 
 __all__ = [
     "CitystateProfile",
-    "ResourceProfile",
     "ProfileConfig",
+    "ResourceProfile",
     "compute_citystate_profile",
     "render_profile",
 ]

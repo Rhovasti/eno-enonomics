@@ -6,7 +6,6 @@ default taxonomy/rules/demand (see ``fantastical.py``).
 """
 
 from decimal import Decimal
-from typing import Dict, Tuple
 
 from ..demand import DemandCalculator, create_default_demand_profiles
 from ..models import TECH_ORDER, Operator, ProductionRule, TechLevel
@@ -61,7 +60,7 @@ def spec_to_operator(spec: CitystateSpec) -> Operator:
     )
 
 
-def make_economy() -> Tuple[ResourceTaxonomy, RulesEngine, DemandCalculator]:
+def make_economy() -> tuple[ResourceTaxonomy, RulesEngine, DemandCalculator]:
     """Build the default (fantastical-enabled) taxonomy/rules/demand calculators."""
     taxonomy = create_default_taxonomy()
     rules_engine = RulesEngine(create_default_rules())
@@ -69,23 +68,23 @@ def make_economy() -> Tuple[ResourceTaxonomy, RulesEngine, DemandCalculator]:
     return taxonomy, rules_engine, demand_calc
 
 
-def supply_for_operator(operator: Operator, rules_engine: RulesEngine) -> Dict[str, Decimal]:
+def supply_for_operator(operator: Operator, rules_engine: RulesEngine) -> dict[str, Decimal]:
     """Population-linear supply: production ∝ population × endowment × tech / labor.
 
     Scales with population (like demand) so cities can be self-sufficient or
     surplus/deficit — unlike the multi-city sqrt(pop)/10000 capacity formula.
     """
     tech = _TECH_FACTOR.get(str(operator.tech), 1.0)
-    supply: Dict[str, Decimal] = {}
+    supply: dict[str, Decimal] = {}
     for rule in rules_engine.get_eligible_rules(operator):
         for resource, production in _rule_output(operator, rule, tech).items():
-            supply[resource] = supply.get(resource, Decimal("0")) + production
+            supply[resource] = supply.get(resource, Decimal(0)) + production
     return supply
 
 
 def potential_supply_for_operator(
     operator: Operator, rules_engine: RulesEngine
-) -> Tuple[Dict[str, Decimal], Dict[str, int]]:
+) -> tuple[dict[str, Decimal], dict[str, int]]:
     """Current supply plus resources the city unlocks as its tech level rises.
 
     The dynamic simulator gates production on a rising tech level, which can only
@@ -102,7 +101,7 @@ def potential_supply_for_operator(
         to the tech rank (``TECH_ORDER``) at which the city can first produce it
     """
     supply = supply_for_operator(operator, rules_engine)
-    unlock_rank: Dict[str, int] = {}
+    unlock_rank: dict[str, int] = {}
     current_rank = TECH_ORDER[str(operator.tech)]
     for level, rank in sorted(TECH_ORDER.items(), key=lambda item: item[1]):
         if rank <= current_rank:
@@ -116,10 +115,10 @@ def potential_supply_for_operator(
     return supply, unlock_rank
 
 
-def _rule_output(operator: Operator, rule: ProductionRule, tech: float) -> Dict[str, Decimal]:
+def _rule_output(operator: Operator, rule: ProductionRule, tech: float) -> dict[str, Decimal]:
     """Output of one rule for an operator at the given tech factor."""
     if rule.capacity_driver:
-        endowment = operator.endowments.get(rule.capacity_driver, Decimal("0"))
+        endowment = operator.endowments.get(rule.capacity_driver, Decimal(0))
         factor = 1.0 + float(endowment)
     else:
         factor = 1.0  # universal rules (e.g. dust)
@@ -135,7 +134,7 @@ def city_supply_demand(
     taxonomy: ResourceTaxonomy,
     rules_engine: RulesEngine,
     demand_calc: DemandCalculator,
-) -> Tuple[Dict[str, Decimal], Dict[str, Decimal]]:
+) -> tuple[dict[str, Decimal], dict[str, Decimal]]:
     """Return (supply, demand) dicts {resource_id: qty} for one citystate."""
     operator = spec_to_operator(spec)
     supply = supply_for_operator(operator, rules_engine)
@@ -149,7 +148,7 @@ def city_potential_supply_demand(
     taxonomy: ResourceTaxonomy,
     rules_engine: RulesEngine,
     demand_calc: DemandCalculator,
-) -> Tuple[Dict[str, Decimal], Dict[str, Decimal], Dict[str, int]]:
+) -> tuple[dict[str, Decimal], dict[str, Decimal], dict[str, int]]:
     """Return (potential supply, demand, unlock_rank) for the dynamic simulator.
 
     See ``potential_supply_for_operator``: supply includes resources the city only
@@ -162,11 +161,11 @@ def city_potential_supply_demand(
 
 
 __all__ = [
-    "tech_for",
-    "spec_to_operator",
-    "make_economy",
-    "city_supply_demand",
     "city_potential_supply_demand",
-    "supply_for_operator",
+    "city_supply_demand",
+    "make_economy",
     "potential_supply_for_operator",
+    "spec_to_operator",
+    "supply_for_operator",
+    "tech_for",
 ]

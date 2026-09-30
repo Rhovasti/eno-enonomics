@@ -1,18 +1,19 @@
 """Tests for Pydantic models."""
 
-import pytest
 from decimal import Decimal
+
+import pytest
 from pydantic import ValidationError
 
 from ..models import (
-    TechLevel,
-    Resource,
-    ProductionRule,
-    Operator,
     Capacity,
     DemandProfile,
-    TradeLink,
+    Operator,
+    ProductionRule,
+    Resource,
     SimulationConfig,
+    TechLevel,
+    TradeLink,
 )
 
 
@@ -66,7 +67,7 @@ def test_resource_validation():
             name="Test Wood",
             tier=0,
             tech_min=TechLevel.TRIBAL,
-            base_price=Decimal("0"),  # Should be > 0
+            base_price=Decimal(0),  # Should be > 0
         )
 
 
@@ -110,7 +111,7 @@ def test_production_rule_validation():
         ProductionRule(
             rule_id="test-rule",
             name="Test Rule",
-            inputs={"input": Decimal("0")},  # Should be > 0
+            inputs={"input": Decimal(0)},  # Should be > 0
             outputs={"output": Decimal("1.0")},
             tech_min=TechLevel.TRIBAL,
         )
@@ -168,7 +169,7 @@ def test_capacity_model():
         Capacity(
             operator_id="test-op",
             rule_id="test-rule",
-            max_rate=Decimal("0"),  # Should be > 0
+            max_rate=Decimal(0),  # Should be > 0
             efficiency=Decimal("1.0"),
         )
 
@@ -219,12 +220,12 @@ def test_simulation_config():
     # Default config
     config = SimulationConfig()
     assert config.max_trade_neighbors == 8
-    assert config.max_trade_radius_km == Decimal("800")
+    assert config.max_trade_radius_km == Decimal(800)
     assert config.strict_validation
 
     # Custom config
     custom_config = SimulationConfig(
-        max_trade_neighbors=12, max_trade_radius_km=Decimal("1200"), seed=42
+        max_trade_neighbors=12, max_trade_radius_km=Decimal(1200), seed=42
     )
     assert custom_config.max_trade_neighbors == 12
     assert custom_config.seed == 42

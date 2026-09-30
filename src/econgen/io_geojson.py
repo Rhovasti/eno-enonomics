@@ -1,15 +1,17 @@
 """GeoJSON loading and validation for economic operators."""
 
 import json
-from pathlib import Path
-from typing import Any, Callable, Dict, List, Sequence, Union
-import geojson_pydantic as geojson
-from pyproj import Transformer
-from pydantic import ValidationError
+import logging
+from collections.abc import Callable, Sequence
 from decimal import Decimal
+from pathlib import Path
+from typing import Any
+
+import geojson_pydantic as geojson
+from pydantic import ValidationError
+from pyproj import Transformer
 
 from .models import Operator, TechLevel
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +38,7 @@ class GeoJSONLoader:
         self.transformer = Transformer.from_crs("EPSG:3857", "EPSG:4326", always_xy=True)
         logger.info(f"Initialized GeoJSON loader (strict={strict})")
 
-    def load_operators(self, paths: Sequence[Union[Path, str]]) -> List[Operator]:
+    def load_operators(self, paths: Sequence[Path | str]) -> list[Operator]:
         """Load operators from GeoJSON files.
 
         Args:
@@ -99,7 +101,7 @@ class GeoJSONLoader:
                     )
                     op = self._feature_to_operator(feature_dict, f"{path.stem}_{i}")
                     operators.append(op)
-                except Exception as e:
+                except Exception as e:  # noqa: BLE001 - re-raised in strict mode
                     error_msg = f"Failed to convert feature {i} from {path}: {e}"
                     if self.strict:
                         raise ValueError(error_msg)
@@ -109,7 +111,7 @@ class GeoJSONLoader:
         logger.info(f"Successfully loaded {len(operators)} operators from {len(paths)} files")
         return operators
 
-    def _feature_to_operator(self, feature: Dict[str, Any], fallback_id: str) -> Operator:
+    def _feature_to_operator(self, feature: dict[str, Any], fallback_id: str) -> Operator:
         """Convert GeoJSON feature to Operator instance.
 
         Args:
@@ -171,7 +173,7 @@ class GeoJSONLoader:
             shanty_town=props.get("Shanty Town") == "shanty town",
         )
 
-    def _infer_tech_level(self, props: Dict[str, Any]) -> TechLevel:
+    def _infer_tech_level(self, props: dict[str, Any]) -> TechLevel:
         """Infer technology level from feature properties.
 
         Args:
@@ -197,7 +199,7 @@ class GeoJSONLoader:
         else:
             return TechLevel.TRIBAL
 
-    def _extract_tags(self, props: Dict[str, Any]) -> List[str]:
+    def _extract_tags(self, props: dict[str, Any]) -> list[str]:
         """Extract tags from feature properties.
 
         Args:
@@ -235,7 +237,7 @@ class GeoJSONLoader:
 
         return tags
 
-    def _extract_endowments(self, props: Dict[str, Any]) -> Dict[str, Decimal]:
+    def _extract_endowments(self, props: dict[str, Any]) -> dict[str, Decimal]:
         """Extract resource endowments from feature properties.
 
         Args:
@@ -258,18 +260,18 @@ class GeoJSONLoader:
         # emits (wood/stone/iron_ore/fish), so extraction rules (forestry,
         # quarrying, mining, fishing) fire for cities holding those stocks even
         # when geographic signals (Culture/Elevation/Mountainous) are absent.
-        wood = endowments.get("wood", Decimal("0"))
+        wood = endowments.get("wood", Decimal(0))
         if wood > 0:
             endowments["forestry"] = max(
-                endowments.get("forestry", Decimal("0")), _stock_driver(wood)
+                endowments.get("forestry", Decimal(0)), _stock_driver(wood)
             )
-        ore = max(endowments.get("stone", Decimal("0")), endowments.get("iron_ore", Decimal("0")))
+        ore = max(endowments.get("stone", Decimal(0)), endowments.get("iron_ore", Decimal(0)))
         if ore > 0:
             endowments["mining_potential"] = max(
-                endowments.get("mining_potential", Decimal("0")), _stock_driver(ore)
+                endowments.get("mining_potential", Decimal(0)), _stock_driver(ore)
             )
-        if endowments.get("fish", Decimal("0")) > 0:
-            endowments["fishing"] = max(endowments.get("fishing", Decimal("0")), Decimal("0.6"))
+        if endowments.get("fish", Decimal(0)) > 0:
+            endowments["fishing"] = max(endowments.get("fishing", Decimal(0)), Decimal("0.6"))
 
         # Infer endowments from features
         if props.get("Port") == "port":
@@ -314,7 +316,7 @@ class GeoJSONLoader:
         # Add basic endowments for all settlements without overriding specializations
         if pop > 1000:
             for driver, baseline in (("agriculture", "0.5"), ("craftsmanship", "0.4")):
-                endowments[driver] = max(endowments.get(driver, Decimal("0")), Decimal(baseline))
+                endowments[driver] = max(endowments.get(driver, Decimal(0)), Decimal(baseline))
 
         # Tech-based industrial capacity
         # Reason: use the inferred tech level; most datasets have no explicit "tech" field
@@ -328,8 +330,8 @@ class GeoJSONLoader:
 
     def _infer_fantastical_endowments(
         self,
-        props: Dict[str, Any],
-        endowments: Dict[str, Decimal],
+        props: dict[str, Any],
+        endowments: dict[str, Decimal],
         operator_id: str,
         lon: float,
     ) -> None:
@@ -354,7 +356,7 @@ class GeoJSONLoader:
             lon: Longitude (dark vs sun side of Eno)
         """
         h = _stable_hash(operator_id)
-        zero = Decimal("0")
+        zero = Decimal(0)
 
         # Reason: worldbuilder exports carry resource stocks; plain geographic
         # datasets (e.g. kaupungit) do not, so fall back to the derived drivers.
@@ -378,10 +380,7 @@ class GeoJSONLoader:
             endowments["ash_pilgrimage"] = Decimal("0.4")
 
         # Pitch: dredged from the deep sea by coastal / trading cities.
-        if (
-            endowments.get("fish", Decimal("0")) > 0
-            or endowments.get("trade_access", Decimal("0")) > 0
-        ):
+        if endowments.get("fish", Decimal(0)) > 0 or endowments.get("trade_access", Decimal(0)) > 0:
             endowments["pitch_depth"] = Decimal("0.5")
             # Natra (salt): evaporated from the sea at the same coastal sites.
             endowments["natra_deposit"] = Decimal("0.5")
@@ -393,13 +392,13 @@ class GeoJSONLoader:
         # Element deposits: cities with a mining or precious signal specialize
         # in 1-2 periodic elements (deterministic per city, so specialization is
         # stable but varied across the map).
-        has_precious = endowments.get("luxury_goods", Decimal("0")) > 0
+        has_precious = endowments.get("luxury_goods", Decimal(0)) > 0
         if has_mining or has_precious:
             pool = list(CORE_ELEMENTS)
             if has_precious:
                 pool += ["aru", "sira"]
             count = 1 + (h % 2)
-            chosen: List[str] = []
+            chosen: list[str] = []
             seed = h
             while len(chosen) < count:
                 seed = (seed * 1103515245 + 12345) % 2147483647
@@ -416,7 +415,7 @@ class GeoJSONLoader:
             endowments["mold_deposit"] = Decimal("0.4")
 
 
-def ensure_element_coverage(operators: List[Operator]) -> None:
+def ensure_element_coverage(operators: list[Operator]) -> None:
     """Give every element at least one deposit a city can actually work.
 
     Deposits are drawn per city at random (by stable hash), and element mining is
@@ -430,7 +429,7 @@ def ensure_element_coverage(operators: List[Operator]) -> None:
     Args:
         operators: Loaded operators; endowments are extended in place
     """
-    zero = Decimal("0")
+    zero = Decimal(0)
 
     def mining_signal(op: Operator) -> Decimal:
         return max(op.endowments.get("mining_potential", zero), op.endowments.get("iron_ore", zero))
@@ -447,7 +446,7 @@ def ensure_element_coverage(operators: List[Operator]) -> None:
 
 
 def _cover_element(
-    element: str, candidates: List[Operator], signal: Callable[[Operator], Decimal]
+    element: str, candidates: list[Operator], signal: Callable[[Operator], Decimal]
 ) -> None:
     """Add ``element``'s deposit to the best candidate unless one already holds it."""
     key = f"{element}_deposit"
@@ -481,14 +480,14 @@ def _stock_driver(stock: Any) -> Decimal:
     integers (e.g. wood ~ 40-160), so scale them into a graded [0.2, 0.9] band.
     """
     value = Decimal(str(stock))
-    return min(Decimal("0.9"), Decimal("0.2") + value / Decimal("250"))
+    return min(Decimal("0.9"), Decimal("0.2") + value / Decimal(250))
 
 
 # Export main class
 __all__ = [
+    "COASTAL_ELEMENTS",
     "CORE_ELEMENTS",
     "MINED_ELEMENTS",
-    "COASTAL_ELEMENTS",
     "GeoJSONLoader",
     "ensure_element_coverage",
 ]

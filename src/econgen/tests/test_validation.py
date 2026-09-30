@@ -1,19 +1,19 @@
 """Comprehensive validation tests for specific critical issues."""
 
-import pytest
-from pathlib import Path
 from decimal import Decimal
-from typing import List, Dict
+from pathlib import Path
 
-from ..io_geojson import GeoJSONLoader
-from ..models import Operator, SimulationConfig
-from ..taxonomy import create_default_taxonomy
-from ..rules import create_default_rules, RulesEngine
-from ..trade import TradeNetwork
+import pytest
+
+from ..calibration import calibrate_with_input_demand
 from ..capacity import CapacityCalculator
 from ..demand import DemandCalculator, create_default_demand_profiles
+from ..io_geojson import GeoJSONLoader
+from ..models import Operator, SimulationConfig
 from ..pricing import PriceCalculator
-from ..calibration import calibrate_with_input_demand
+from ..rules import RulesEngine, create_default_rules
+from ..taxonomy import create_default_taxonomy
+from ..trade import TradeNetwork
 
 
 class TestCriticalValidation:
@@ -148,10 +148,10 @@ class TestCriticalValidation:
             assert len(profitable_routes) > 0, "Trade routes exist but none are profitable"
 
     def _create_mock_supply(
-        self, operators: List[Operator], taxonomy
-    ) -> Dict[str, Dict[str, Decimal]]:
+        self, operators: list[Operator], taxonomy
+    ) -> dict[str, dict[str, Decimal]]:
         """Create mock supply data for testing trade routes."""
-        supply: Dict[str, Dict[str, Decimal]] = {}
+        supply: dict[str, dict[str, Decimal]] = {}
 
         # Get available resources
         resources = list(taxonomy.resources.keys())
@@ -166,7 +166,7 @@ class TestCriticalValidation:
                     if (i + j) % 2 == 0:  # Alternating pattern
                         # Scale supply by population
                         base_supply = Decimal("10.0")
-                        pop_multiplier = Decimal(str(operator.population)) / Decimal("10000")
+                        pop_multiplier = Decimal(str(operator.population)) / Decimal(10000)
                         supply_amount = base_supply * pop_multiplier
                         supply[operator.operator_id][resource_id] = supply_amount
 

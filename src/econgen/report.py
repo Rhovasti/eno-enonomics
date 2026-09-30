@@ -1,12 +1,12 @@
 """Report generation for economic simulation results."""
 
-from typing import Any, List, Dict, Optional
-from decimal import Decimal
-from datetime import datetime
-
-from .models import Operator, TradeLink, Capacity, TechLevel
-from .util import format_number
 import logging
+from datetime import datetime
+from decimal import Decimal
+from typing import Any
+
+from .models import Capacity, Operator, TechLevel, TradeLink
+from .util import format_number
 
 logger = logging.getLogger(__name__)
 
@@ -16,12 +16,12 @@ class ReportGenerator:
 
     def __init__(
         self,
-        operators: List[Operator],
-        trade_links: List[TradeLink],
-        capacities: List[Capacity],
-        prices: Optional[Dict[str, Dict[str, Decimal]]] = None,
-        supply: Optional[Dict[str, Dict[str, Decimal]]] = None,
-        demand: Optional[Dict[str, Dict[str, Decimal]]] = None,
+        operators: list[Operator],
+        trade_links: list[TradeLink],
+        capacities: list[Capacity],
+        prices: dict[str, dict[str, Decimal]] | None = None,
+        supply: dict[str, dict[str, Decimal]] | None = None,
+        demand: dict[str, dict[str, Decimal]] | None = None,
     ):
         """Initialize report generator.
 
@@ -70,7 +70,7 @@ class ReportGenerator:
 
     def _generate_header(self) -> str:
         """Generate report header."""
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        timestamp = datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S")
 
         return f"""# Economic Worldbuilding Analysis Report
 
@@ -90,7 +90,7 @@ class ReportGenerator:
         total_trade_volume = sum(link.quantity for link in self.trade_links)
 
         # Tech level distribution
-        tech_dist: Dict[str, int] = {}
+        tech_dist: dict[str, int] = {}
         for op in self.operators.values():
             tech_dist[op.tech] = tech_dist.get(op.tech, 0) + 1
 
@@ -180,15 +180,15 @@ The economic simulation analyzed **{total_operators}** cities and settlements ac
             return "## Production Analysis\n\n*No production capacity data available.*"
 
         # Group capacities by operator
-        op_capacities: Dict[str, List[Capacity]] = {}
-        rule_totals: Dict[str, Decimal] = {}
+        op_capacities: dict[str, list[Capacity]] = {}
+        rule_totals: dict[str, Decimal] = {}
 
         for cap in self.capacities:
             if cap.operator_id not in op_capacities:
                 op_capacities[cap.operator_id] = []
             op_capacities[cap.operator_id].append(cap)
 
-            rule_totals[cap.rule_id] = rule_totals.get(cap.rule_id, Decimal("0")) + cap.max_rate
+            rule_totals[cap.rule_id] = rule_totals.get(cap.rule_id, Decimal(0)) + cap.max_rate
 
         # Top production centers
         top_producers = sorted(
@@ -239,19 +239,19 @@ The economic simulation analyzed **{total_operators}** cities and settlements ac
         avg_distance = sum(link.distance_km for link in self.trade_links) / len(self.trade_links)
 
         # Resource trade volumes
-        resource_volumes: Dict[str, Decimal] = {}
+        resource_volumes: dict[str, Decimal] = {}
         for link in self.trade_links:
             resource_volumes[link.resource_id] = (
-                resource_volumes.get(link.resource_id, Decimal("0")) + link.quantity
+                resource_volumes.get(link.resource_id, Decimal(0)) + link.quantity
             )
 
         # Major trade routes (by volume)
-        trade_routes: Dict[str, Dict[str, Any]] = {}
+        trade_routes: dict[str, dict[str, Any]] = {}
         for link in self.trade_links:
             route_key = f"{link.source_id}-{link.dest_id}"
             if route_key not in trade_routes:
                 trade_routes[route_key] = {
-                    "volume": Decimal("0"),
+                    "volume": Decimal(0),
                     "resources": set(),
                     "distance": link.distance_km,
                 }
@@ -266,7 +266,7 @@ The economic simulation analyzed **{total_operators}** cities and settlements ac
 - **Total Trade Volume**: {format_number(total_volume)} units
 - **Active Trade Routes**: {len(self.trade_links)}
 - **Average Trade Distance**: {format_number(avg_distance)} km
-- **Unique Trading Partners**: {len(set(link.source_id for link in self.trade_links) | set(link.dest_id for link in self.trade_links))}
+- **Unique Trading Partners**: {len({link.source_id for link in self.trade_links} | {link.dest_id for link in self.trade_links})}
 
 ### Most Traded Resources
 
@@ -305,7 +305,7 @@ The economic simulation analyzed **{total_operators}** cities and settlements ac
             return "## Market Analysis\n\n*No pricing data available.*"
 
         # Calculate price statistics
-        all_prices: Dict[str, List[Decimal]] = {}  # resource_id -> list of prices
+        all_prices: dict[str, list[Decimal]] = {}  # resource_id -> list of prices
 
         for op_prices in self.prices.values():
             for resource_id, price in op_prices.items():
@@ -383,7 +383,7 @@ The economic simulation analyzed **{total_operators}** cities and settlements ac
             markets = sum(1 for op in region_ops if op.plaza)
 
             # Tech level distribution
-            tech_counts: Dict[str, int] = {}
+            tech_counts: dict[str, int] = {}
             for op in region_ops:
                 tech_counts[op.tech] = tech_counts.get(op.tech, 0) + 1
 
@@ -429,9 +429,9 @@ This economic analysis uses a deterministic agent-based model to simulate produc
 *Report generated by Economic Worldbuilding Generator v0.1.0*
 *For technical support and methodology details, consult the project documentation.*"""
 
-    def _cluster_operators_by_region(self) -> Dict[str, List[Operator]]:
+    def _cluster_operators_by_region(self) -> dict[str, list[Operator]]:
         """Simple regional clustering based on geography and culture."""
-        regions: Dict[str, List[Operator]] = {}
+        regions: dict[str, list[Operator]] = {}
 
         for op in self.operators.values():
             # Simple clustering by culture and geography

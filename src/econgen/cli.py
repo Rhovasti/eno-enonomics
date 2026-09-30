@@ -1,26 +1,20 @@
 """CLI entry point for the economic worldbuilding generator."""
 
-import typer
-from pathlib import Path
-from typing import List, Optional
 import json
+import time
+from pathlib import Path
+
+import typer
 import yaml
+from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.table import Table
-from rich.panel import Panel
-import time
 
-from .io_geojson import GeoJSONLoader
-from .taxonomy import ResourceTaxonomy
-from .rules import RulesEngine
+# Register the extended command modules on the shared app. Imported at the
+# bottom of the module graph so `run` stays the first command in `--help`.
+from . import cli_citystates, cli_dynamics  # noqa: F401
 from .calibration import calibrate_with_input_demand
-from .paths import minsky_root
 from .capacity import CapacityCalculator
-from .demand import DemandCalculator
-from .trade import TradeNetwork
-from .pricing import PriceCalculator
-from .report import ReportGenerator
-from .util import set_seed
 
 # Shared app/console/configuration helpers (single Typer app for all modules)
 from .cli_common import (
@@ -29,15 +23,20 @@ from .cli_common import (
     app,
     console,
 )
-
-# Register the extended command modules on the shared app. Imported at the
-# bottom of the module graph so `run` stays the first command in `--help`.
-from . import cli_citystates, cli_dynamics  # noqa: F401,E402
+from .demand import DemandCalculator
+from .io_geojson import GeoJSONLoader
+from .paths import minsky_root
+from .pricing import PriceCalculator
+from .report import ReportGenerator
+from .rules import RulesEngine
+from .taxonomy import ResourceTaxonomy
+from .trade import TradeNetwork
+from .util import set_seed
 
 
 @app.command()
 def run(
-    input_paths: List[Path] = typer.Option(
+    input_paths: list[Path] = typer.Option(
         ...,
         "--input",
         "-i",
@@ -46,7 +45,7 @@ def run(
         file_okay=True,
         dir_okay=False,
     ),
-    config_path: Optional[Path] = typer.Option(
+    config_path: Path | None = typer.Option(
         None,
         "--config",
         "-c",
@@ -56,7 +55,7 @@ def run(
     output_dir: Path = typer.Option(
         Path("out/econ"), "--output", "-o", help="Output directory for results"
     ),
-    seed: Optional[int] = typer.Option(
+    seed: int | None = typer.Option(
         None, "--seed", "-s", help="Random seed for deterministic results"
     ),
     strict: bool = typer.Option(
@@ -185,7 +184,7 @@ def run(
 
 @app.command()
 def validate(
-    input_paths: List[Path] = typer.Option(..., "--input", "-i", help="GeoJSON files to validate"),
+    input_paths: list[Path] = typer.Option(..., "--input", "-i", help="GeoJSON files to validate"),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose validation output"),
 ):
     """Validate GeoJSON input files without running full simulation."""
@@ -202,7 +201,7 @@ def validate(
                 # Show some sample data
                 sample = operators[0]
                 console.print(
-                    f"   Sample: {sample.name} ({str(sample.tech)}, pop: {sample.population})"
+                    f"   Sample: {sample.name} ({sample.tech!s}, pop: {sample.population})"
                 )
 
         except Exception as e:
@@ -288,20 +287,17 @@ def _write_outputs(output_dir: Path, operators, capacities, demand, supply, pric
     # Operators
     operators_file = output_dir / "operators.jsonl"
     with open(operators_file, "w") as f:
-        for op in operators:
-            f.write(op.model_dump_json() + "\n")
+        f.writelines(op.model_dump_json() + "\n" for op in operators)
 
     # Capacities
     capacities_file = output_dir / "capacities.jsonl"
     with open(capacities_file, "w") as f:
-        for cap in capacities:
-            f.write(cap.model_dump_json() + "\n")
+        f.writelines(cap.model_dump_json() + "\n" for cap in capacities)
 
     # Trade links
     trade_file = output_dir / "trade_links.jsonl"
     with open(trade_file, "w") as f:
-        for link in trade_links:
-            f.write(link.model_dump_json() + "\n")
+        f.writelines(link.model_dump_json() + "\n" for link in trade_links)
 
     # Demand (JSON)
     demand_file = output_dir / "demand.json"

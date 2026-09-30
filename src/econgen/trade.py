@@ -1,13 +1,14 @@
 """Trade network and flow calculation."""
 
-from typing import List, Dict, Tuple, Any
+import logging
 from decimal import Decimal
+from typing import Any
+
 import numpy as np
 from scipy.spatial import KDTree
 
-from .models import Operator, TradeLink, SimulationConfig
+from .models import Operator, SimulationConfig, TradeLink
 from .util import calculate_great_circle_distance
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +16,7 @@ logger = logging.getLogger(__name__)
 class TradeNetwork:
     """Build and solve trade network flows between operators."""
 
-    def __init__(self, operators: List[Operator], config: SimulationConfig):
+    def __init__(self, operators: list[Operator], config: SimulationConfig):
         """Initialize trade network.
 
         Args:
@@ -25,7 +26,7 @@ class TradeNetwork:
         self.operators = {op.operator_id: op for op in operators}
         self.config = config
         self._build_spatial_index()
-        self._partner_cache: Dict[str, List[str]] = {}
+        self._partner_cache: dict[str, list[str]] = {}
         logger.info(f"Initialized trade network with {len(self.operators)} operators")
 
     def _build_spatial_index(self) -> None:
@@ -48,7 +49,7 @@ class TradeNetwork:
         self.op_ids = op_ids
         logger.info(f"Built spatial index with {len(coords)} operators")
 
-    def find_trade_partners(self, operator_id: str) -> List[str]:
+    def find_trade_partners(self, operator_id: str) -> list[str]:
         """Find potential trade partners within radius and neighbor limit.
 
         Args:
@@ -85,7 +86,7 @@ class TradeNetwork:
                 k=max_neighbors + 1,  # +1 to include self (which we'll filter out)
                 distance_upper_bound=radius_deg,
             )
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001 - a failed lookup means no partners
             logger.error(f"KDTree query failed for {operator_id}: {e}")
             return []
 
@@ -122,7 +123,7 @@ class TradeNetwork:
             Distance in kilometers
         """
         if op1_id not in self.operators or op2_id not in self.operators:
-            return Decimal("999999")  # Very large distance for invalid operators
+            return Decimal(999999)  # Very large distance for invalid operators
 
         op1 = self.operators[op1_id]
         op2 = self.operators[op2_id]
@@ -131,10 +132,10 @@ class TradeNetwork:
 
     def solve_trade_flows(
         self,
-        supply: Dict[str, Dict[str, Decimal]],  # operator_id -> resource_id -> surplus_qty
-        demand: Dict[str, Dict[str, Decimal]],  # operator_id -> resource_id -> needed_qty
-        prices: Dict[str, Dict[str, Decimal]],  # operator_id -> resource_id -> price
-    ) -> List[TradeLink]:
+        supply: dict[str, dict[str, Decimal]],  # operator_id -> resource_id -> surplus_qty
+        demand: dict[str, dict[str, Decimal]],  # operator_id -> resource_id -> needed_qty
+        prices: dict[str, dict[str, Decimal]],  # operator_id -> resource_id -> price
+    ) -> list[TradeLink]:
         """Solve trade flows using greedy profit maximization algorithm.
 
         Args:
@@ -172,10 +173,10 @@ class TradeNetwork:
 
     def _generate_trade_opportunities(
         self,
-        supply: Dict[str, Dict[str, Decimal]],
-        demand: Dict[str, Dict[str, Decimal]],
-        prices: Dict[str, Dict[str, Decimal]],
-    ) -> List[Tuple[Decimal, str, str, str, Decimal]]:
+        supply: dict[str, dict[str, Decimal]],
+        demand: dict[str, dict[str, Decimal]],
+        prices: dict[str, dict[str, Decimal]],
+    ) -> list[tuple[Decimal, str, str, str, Decimal]]:
         """Generate all potential trade opportunities.
 
         Returns:
@@ -183,7 +184,7 @@ class TradeNetwork:
         """
         opportunities = []
 
-        for source_id in supply:
+        for source_id, source_supply in supply.items():
             # Get trade partners for this source
             partners = self.find_trade_partners(source_id)
 
@@ -192,22 +193,22 @@ class TradeNetwork:
                     continue
 
                 # Find common resources (source has surplus, dest has demand)
-                source_resources = set(supply[source_id].keys())
+                source_resources = set(source_supply.keys())
                 dest_resources = set(demand[dest_id].keys())
                 # Reason: sorted so tie-breaking between equal-profit trades is reproducible
                 common_resources = sorted(source_resources & dest_resources)
 
                 for resource_id in common_resources:
                     # Check if both have positive quantities
-                    supply_qty = supply[source_id].get(resource_id, Decimal("0"))
-                    demand_qty = demand[dest_id].get(resource_id, Decimal("0"))
+                    supply_qty = source_supply.get(resource_id, Decimal(0))
+                    demand_qty = demand[dest_id].get(resource_id, Decimal(0))
 
                     if supply_qty <= 0 or demand_qty <= 0:
                         continue
 
                     # Calculate profitability
-                    source_price = prices.get(source_id, {}).get(resource_id, Decimal("1"))
-                    dest_price = prices.get(dest_id, {}).get(resource_id, Decimal("1"))
+                    source_price = prices.get(source_id, {}).get(resource_id, Decimal(1))
+                    dest_price = prices.get(dest_id, {}).get(resource_id, Decimal(1))
 
                     distance = self.calculate_distance(source_id, dest_id)
                     transport_cost = distance * self.config.transport_cost_per_km
@@ -224,11 +225,11 @@ class TradeNetwork:
 
     def _execute_trades(
         self,
-        opportunities: List[Tuple[Decimal, str, str, str, Decimal]],
-        remaining_supply: Dict[str, Dict[str, Decimal]],
-        remaining_demand: Dict[str, Dict[str, Decimal]],
-        prices: Dict[str, Dict[str, Decimal]],
-    ) -> List[TradeLink]:
+        opportunities: list[tuple[Decimal, str, str, str, Decimal]],
+        remaining_supply: dict[str, dict[str, Decimal]],
+        remaining_demand: dict[str, dict[str, Decimal]],
+        prices: dict[str, dict[str, Decimal]],
+    ) -> list[TradeLink]:
         """Execute trade opportunities in order of profitability.
 
         Args:
@@ -244,8 +245,8 @@ class TradeNetwork:
 
         for profit, source_id, dest_id, resource_id, distance in opportunities:
             # Check if trade is still viable
-            supply_available = remaining_supply.get(source_id, {}).get(resource_id, Decimal("0"))
-            demand_needed = remaining_demand.get(dest_id, {}).get(resource_id, Decimal("0"))
+            supply_available = remaining_supply.get(source_id, {}).get(resource_id, Decimal(0))
+            demand_needed = remaining_demand.get(dest_id, {}).get(resource_id, Decimal(0))
 
             if supply_available <= 0 or demand_needed <= 0:
                 continue
@@ -267,8 +268,8 @@ class TradeNetwork:
                 quantity=trade_qty,
                 distance_km=distance,
                 transport_cost=transport_cost_total,
-                price_source=prices.get(source_id, {}).get(resource_id, Decimal("1")),
-                price_dest=prices.get(dest_id, {}).get(resource_id, Decimal("1")),
+                price_source=prices.get(source_id, {}).get(resource_id, Decimal(1)),
+                price_dest=prices.get(dest_id, {}).get(resource_id, Decimal(1)),
                 profit_margin=profit * trade_qty,
             )
 
@@ -288,9 +289,9 @@ class TradeNetwork:
 
     def _net_positions(
         self,
-        quantities: Dict[str, Dict[str, Decimal]],
-        offsets: Dict[str, Dict[str, Decimal]],
-    ) -> Dict[str, Dict[str, Decimal]]:
+        quantities: dict[str, dict[str, Decimal]],
+        offsets: dict[str, dict[str, Decimal]],
+    ) -> dict[str, dict[str, Decimal]]:
         """Return positive quantities left after subtracting each operator's offsets.
 
         Args:
@@ -300,23 +301,23 @@ class TradeNetwork:
         Returns:
             Only the strictly positive remainders, by operator and resource
         """
-        net: Dict[str, Dict[str, Decimal]] = {}
+        net: dict[str, dict[str, Decimal]] = {}
         for operator_id, resources in quantities.items():
             own = offsets.get(operator_id, {})
             positive = {
-                resource_id: qty - own.get(resource_id, Decimal("0"))
+                resource_id: qty - own.get(resource_id, Decimal(0))
                 for resource_id, qty in resources.items()
-                if qty > own.get(resource_id, Decimal("0"))
+                if qty > own.get(resource_id, Decimal(0))
             }
             if positive:
                 net[operator_id] = positive
         return net
 
-    def _deep_copy_dict(self, d: Dict[str, Dict[str, Decimal]]) -> Dict[str, Dict[str, Decimal]]:
+    def _deep_copy_dict(self, d: dict[str, dict[str, Decimal]]) -> dict[str, dict[str, Decimal]]:
         """Create deep copy of nested dictionary."""
         return {k: {k2: v2 for k2, v2 in v.items()} for k, v in d.items()}
 
-    def get_network_statistics(self, trade_links: List[TradeLink]) -> Dict[str, Any]:
+    def get_network_statistics(self, trade_links: list[TradeLink]) -> dict[str, Any]:
         """Calculate network statistics from trade links.
 
         Args:
@@ -366,7 +367,7 @@ class TradeNetwork:
             "average_trade_size": float(total_volume / len(trade_links)) if trade_links else 0,
         }
 
-    def get_operator_trade_summary(self, trade_links: List[TradeLink]) -> Dict[str, Dict[str, Any]]:
+    def get_operator_trade_summary(self, trade_links: list[TradeLink]) -> dict[str, dict[str, Any]]:
         """Get trade summary for each operator.
 
         Args:
@@ -375,17 +376,17 @@ class TradeNetwork:
         Returns:
             Dictionary mapping operator_id to trade statistics
         """
-        summary: Dict[str, Dict[str, Any]] = {}
+        summary: dict[str, dict[str, Any]] = {}
 
         # Initialize all operators
         for op_id in self.operators:
             summary[op_id] = {
                 "exports": {},  # resource -> quantity
                 "imports": {},  # resource -> quantity
-                "export_value": Decimal("0"),
-                "import_value": Decimal("0"),
+                "export_value": Decimal(0),
+                "import_value": Decimal(0),
                 "trade_partners": set(),
-                "trade_balance": Decimal("0"),
+                "trade_balance": Decimal(0),
             }
 
         # Process trade links
@@ -394,7 +395,7 @@ class TradeNetwork:
             if link.source_id in summary:
                 exports = summary[link.source_id]["exports"]
                 exports[link.resource_id] = (
-                    exports.get(link.resource_id, Decimal("0")) + link.quantity
+                    exports.get(link.resource_id, Decimal(0)) + link.quantity
                 )
 
                 export_value = link.quantity * link.price_source
@@ -406,7 +407,7 @@ class TradeNetwork:
             if link.dest_id in summary:
                 imports = summary[link.dest_id]["imports"]
                 imports[link.resource_id] = (
-                    imports.get(link.resource_id, Decimal("0")) + link.quantity
+                    imports.get(link.resource_id, Decimal(0)) + link.quantity
                 )
 
                 import_value = link.quantity * link.price_dest
@@ -415,15 +416,15 @@ class TradeNetwork:
                 summary[link.dest_id]["trade_balance"] -= import_value
 
         # Convert sets to counts and Decimals to floats for JSON serialization
-        for op_id in summary:
-            summary[op_id]["trade_partners"] = len(summary[op_id]["trade_partners"])
-            summary[op_id]["export_value"] = float(summary[op_id]["export_value"])
-            summary[op_id]["import_value"] = float(summary[op_id]["import_value"])
-            summary[op_id]["trade_balance"] = float(summary[op_id]["trade_balance"])
+        for op_summary in summary.values():
+            op_summary["trade_partners"] = len(op_summary["trade_partners"])
+            op_summary["export_value"] = float(op_summary["export_value"])
+            op_summary["import_value"] = float(op_summary["import_value"])
+            op_summary["trade_balance"] = float(op_summary["trade_balance"])
 
             # Convert Decimal quantities to float
-            summary[op_id]["exports"] = {k: float(v) for k, v in summary[op_id]["exports"].items()}
-            summary[op_id]["imports"] = {k: float(v) for k, v in summary[op_id]["imports"].items()}
+            op_summary["exports"] = {k: float(v) for k, v in op_summary["exports"].items()}
+            op_summary["imports"] = {k: float(v) for k, v in op_summary["imports"].items()}
 
         return summary
 

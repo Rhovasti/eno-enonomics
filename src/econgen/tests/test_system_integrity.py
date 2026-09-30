@@ -4,17 +4,18 @@ Configuration, utility, data-integrity and report-shape tests for Enonomics.
 Split out of test_comprehensive_suite.py to keep each test module under 500 lines.
 """
 
-import pytest
 from decimal import Decimal
 
-from ..models import Operator, TechLevel, SimulationConfig, DemandProfile
-from ..taxonomy import create_default_taxonomy
+import pytest
+
 from ..demand import create_default_demand_profiles
+from ..models import DemandProfile, Operator, SimulationConfig, TechLevel
 from ..rules import create_default_rules
+from ..taxonomy import create_default_taxonomy
 from ..util import (
     clamp,
-    safe_divide,
     format_number,
+    safe_divide,
     validate_positive_decimal,
 )
 
@@ -45,11 +46,11 @@ class TestConfigurationValidation:
         for i in range(len(levels) - 1):
             assert levels[i] < levels[i + 1], f"{levels[i]} should be less than {levels[i + 1]}"
 
-        # Test equality
+        # Test equality (comparing each level with itself is the point here)
         for level in levels:
-            assert level == level
-            assert not (level < level)
-            assert not (level > level)
+            assert level == level  # noqa: PLR0124
+            assert not (level < level)  # noqa: PLR0124
+            assert not (level > level)  # noqa: PLR0124
 
     def test_demand_profile_validation(self):
         """Test demand profile structure and validation"""
@@ -92,8 +93,8 @@ class TestUtilityFunctions:
         assert safe_divide(10, 0, default=float("inf")) == float("inf")
 
         # Test with decimals
-        assert safe_divide(Decimal("10"), Decimal("2")) == Decimal("5")
-        assert safe_divide(Decimal("10"), Decimal("0"), default=Decimal("0")) == Decimal("0")
+        assert safe_divide(Decimal(10), Decimal(2)) == Decimal(5)
+        assert safe_divide(Decimal(10), Decimal(0), default=Decimal(0)) == Decimal(0)
 
     def test_format_number_function(self):
         """Test number formatting utility"""
@@ -116,10 +117,10 @@ class TestUtilityFunctions:
 
         # Zero and negatives are not positive and should raise ValueError
         with pytest.raises(ValueError):
-            validate_positive_decimal(Decimal("0"))
+            validate_positive_decimal(Decimal(0))
 
         with pytest.raises(ValueError):
-            validate_positive_decimal(Decimal("-5"))
+            validate_positive_decimal(Decimal(-5))
 
         with pytest.raises(ValueError):
             validate_positive_decimal(-10.5)
@@ -149,13 +150,13 @@ class TestDataIntegrity:
 
         for rule in rules:
             # Check inputs reference valid resources
-            for input_resource, _ in rule.inputs.items():
+            for input_resource in rule.inputs:
                 assert input_resource in taxonomy.resources, (
                     f"Rule references unknown input resource: {input_resource}"
                 )
 
             # Check outputs reference valid resources
-            for output_resource, _ in rule.outputs.items():
+            for output_resource in rule.outputs:
                 assert output_resource in taxonomy.resources, (
                     f"Rule references unknown output resource: {output_resource}"
                 )

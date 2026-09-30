@@ -1,17 +1,17 @@
 """Utility functions for determinism, distance calculations, and helpers."""
 
+import logging
 import random
 import re
-import numpy as np
-import logging
-from typing import Optional, Tuple, Union
 from decimal import Decimal
-from math import radians, sin, cos, sqrt, atan2
+from math import atan2, cos, radians, sin, sqrt
+
+import numpy as np
 
 logger = logging.getLogger(__name__)
 
 
-def set_seed(seed: Optional[int]) -> None:
+def set_seed(seed: int | None) -> None:
     """Set random seed for deterministic behavior across all random number generators.
 
     Args:
@@ -24,7 +24,7 @@ def set_seed(seed: Optional[int]) -> None:
 
 
 def calculate_great_circle_distance(
-    coord1: Tuple[float, float], coord2: Tuple[float, float]
+    coord1: tuple[float, float], coord2: tuple[float, float]
 ) -> Decimal:
     """Calculate great circle distance between two coordinates using Haversine formula.
 
@@ -90,9 +90,7 @@ def clamp(value: Decimal, min_val: Decimal, max_val: Decimal) -> Decimal:
     return max(min_val, min(value, max_val))
 
 
-def safe_divide(
-    numerator: Decimal, denominator: Decimal, default: Decimal = Decimal("0")
-) -> Decimal:
+def safe_divide(numerator: Decimal, denominator: Decimal, default: Decimal = Decimal(0)) -> Decimal:
     """Safely divide two Decimal values, returning default if denominator is zero.
 
     Args:
@@ -108,7 +106,7 @@ def safe_divide(
     return numerator / denominator
 
 
-def format_number(value: Union[Decimal, float, int], precision: int = 2) -> str:
+def format_number(value: Decimal | float, precision: int = 2) -> str:
     """Format Decimal number with specified precision.
 
     Args:
@@ -188,13 +186,13 @@ def get_deterministic_sample(items: list, n: int, seed_suffix: str = "") -> list
 
 # Export key functions
 __all__ = [
-    "set_seed",
     "calculate_great_circle_distance",
-    "normalize_resource_id",
     "clamp",
-    "safe_divide",
-    "format_number",
     "deduplicate_list_preserve_order",
-    "validate_positive_decimal",
+    "format_number",
     "get_deterministic_sample",
+    "normalize_resource_id",
+    "safe_divide",
+    "set_seed",
+    "validate_positive_decimal",
 ]

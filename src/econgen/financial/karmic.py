@@ -8,8 +8,6 @@ Utaia extracts from the remaining outstanding debt.
 Base unit: 1 property offense (Tier 3). 1 life offense = 100,000 dignity offenses.
 """
 
-from typing import Dict
-
 from pydantic import BaseModel
 
 from ..citystates.parser import CitystateSpec
@@ -29,7 +27,7 @@ FINAL_CYCLE = 998
 class KarmicSFC(BaseModel):
     """Karmic-debt financial snapshot using the 7-tier offense hierarchy."""
 
-    offenses_by_tier: Dict[str, float]  # raw offense counts per tier
+    offenses_by_tier: dict[str, float]  # raw offense counts per tier
     karmic_debt: float  # total weighted debt (property-offense units)
     dominant_tier: str  # tier contributing most to total debt
     forgiveness_tokens: float  # tokens generated (= forgiven debt)
@@ -47,7 +45,7 @@ def compute_karmic_sfc(spec: CitystateSpec, gdp: float) -> KarmicSFC:
     pop_factor = max(spec.population, 1) / 1000.0
 
     # Offense counts per tier (rate × pop × cycles × intent).
-    offenses_by_tier: Dict[str, float] = {}
+    offenses_by_tier: dict[str, float] = {}
     for i, (tier_name, _weight) in enumerate(OFFENSE_TIERS):
         offenses_by_tier[tier_name] = rates[i] * pop_factor * run_cycles * intent
 

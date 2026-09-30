@@ -1,7 +1,5 @@
 """Combined financial analysis: material SFC + karmic-debt + health score + Utaia aggregate."""
 
-from typing import Dict, List
-
 from pydantic import BaseModel
 
 from ..citystates.economy import tech_for
@@ -35,15 +33,15 @@ class UtaiaPortfolio(BaseModel):
     total_tokens: float  # forgiveness tokens in circulation
     total_outstanding_debt: float  # unforgiven debt under Utaia's management
     debtor_count: int
-    most_indebted: List[str]
+    most_indebted: list[str]
     extraction_as_pct_of_regional_gdp: float
 
 
 def compute_financial_analysis(
     spec: CitystateSpec,
-    supply: Dict,
-    demand: Dict,
-    market_prices: Dict[str, float],
+    supply: dict,
+    demand: dict,
+    market_prices: dict[str, float],
 ) -> FinancialAnalysis:
     """Compute the combined financial analysis for one citystate."""
     tech = tech_for(spec)
@@ -82,7 +80,7 @@ def compute_financial_analysis(
     )
 
 
-def compute_utai_aggregate(analyses: List[FinancialAnalysis]) -> UtaiaPortfolio:
+def compute_utai_aggregate(analyses: list[FinancialAnalysis]) -> UtaiaPortfolio:
     """Aggregate all citystates' karmic debt into Utaia's portfolio."""
     total_debt = sum(a.karmic.karmic_debt for a in analyses)
     total_tokens = sum(a.karmic.forgiveness_tokens for a in analyses)

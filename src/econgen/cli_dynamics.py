@@ -1,9 +1,8 @@
 """``simulate`` CLI command: Minsky stock/flow dynamics over a static snapshot."""
 
-import time
 import logging
+import time
 from pathlib import Path
-from typing import List, Optional
 
 import typer
 from rich.panel import Panel
@@ -14,8 +13,6 @@ from .cli_common import (
     app,
     console,
 )
-from .trade import TradeNetwork
-from .util import set_seed
 from .dynamics import (
     MinskyClient,
     MinskyUnavailable,
@@ -23,11 +20,13 @@ from .dynamics import (
     write_outputs,
 )
 from .dynamics.runner import simulate as run_dynamics_simulation
+from .trade import TradeNetwork
+from .util import set_seed
 
 
 @app.command()
 def simulate(
-    input_paths: List[Path] = typer.Option(
+    input_paths: list[Path] = typer.Option(
         ...,
         "--input",
         "-i",
@@ -36,7 +35,7 @@ def simulate(
         file_okay=True,
         dir_okay=False,
     ),
-    config_path: Optional[Path] = typer.Option(
+    config_path: Path | None = typer.Option(
         None,
         "--config",
         "-c",
@@ -46,13 +45,13 @@ def simulate(
     output_dir: Path = typer.Option(
         Path("out/econ"), "--output", "-o", help="Output directory for results"
     ),
-    seed: Optional[int] = typer.Option(
+    seed: int | None = typer.Option(
         None, "--seed", "-s", help="Random seed for deterministic results"
     ),
-    steps: Optional[int] = typer.Option(
+    steps: int | None = typer.Option(
         None, "--steps", help="Number of integration steps (overrides dynamics.n_steps)"
     ),
-    resource: Optional[str] = typer.Option(
+    resource: str | None = typer.Option(
         None, "--resource", help="Restrict simulation to a single resource id"
     ),
     trade: bool = typer.Option(

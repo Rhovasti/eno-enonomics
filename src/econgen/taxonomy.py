@@ -1,10 +1,11 @@
 """Resource taxonomy and classification system."""
 
-from typing import Any, List, Dict, Optional
+import logging
 from decimal import Decimal
+from typing import Any
+
 from .fantastical import fantastical_resources
 from .models import Resource, TechLevel
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -12,7 +13,7 @@ logger = logging.getLogger(__name__)
 class ResourceTaxonomy:
     """Manages the hierarchy and relationships of economic resources."""
 
-    def __init__(self, resources: List[Resource]):
+    def __init__(self, resources: list[Resource]):
         """Initialize resource taxonomy.
 
         Args:
@@ -38,7 +39,7 @@ class ResourceTaxonomy:
                     f"but low tech requirement ({resource.tech_min})"
                 )
 
-    def get_resource(self, resource_id: str) -> Optional[Resource]:
+    def get_resource(self, resource_id: str) -> Resource | None:
         """Get resource by ID.
 
         Args:
@@ -49,7 +50,7 @@ class ResourceTaxonomy:
         """
         return self.resources.get(resource_id)
 
-    def get_resources_by_tier(self, tier: int) -> List[Resource]:
+    def get_resources_by_tier(self, tier: int) -> list[Resource]:
         """Get all resources of specified tier.
 
         Args:
@@ -60,7 +61,7 @@ class ResourceTaxonomy:
         """
         return [r for r in self.resources.values() if r.tier == tier]
 
-    def get_resources_by_tech(self, tech_level: TechLevel) -> List[Resource]:
+    def get_resources_by_tech(self, tech_level: TechLevel) -> list[Resource]:
         """Get all resources available at specified tech level.
 
         Args:
@@ -73,27 +74,27 @@ class ResourceTaxonomy:
             r for r in self.resources.values() if TechLevel(r.tech_min) <= TechLevel(tech_level)
         ]
 
-    def get_raw_materials(self) -> List[Resource]:
+    def get_raw_materials(self) -> list[Resource]:
         """Get all raw materials (tier 0)."""
         return self.get_resources_by_tier(0)
 
-    def get_refined_goods(self) -> List[Resource]:
+    def get_refined_goods(self) -> list[Resource]:
         """Get all refined goods (tier 1)."""
         return self.get_resources_by_tier(1)
 
-    def get_advanced_goods(self) -> List[Resource]:
+    def get_advanced_goods(self) -> list[Resource]:
         """Get all advanced goods (tier 2)."""
         return self.get_resources_by_tier(2)
 
-    def get_luxury_goods(self) -> List[Resource]:
+    def get_luxury_goods(self) -> list[Resource]:
         """Get all luxury goods (tier 3)."""
         return self.get_resources_by_tier(3)
 
-    def get_transportable_resources(self) -> List[Resource]:
+    def get_transportable_resources(self) -> list[Resource]:
         """Get all resources that can be traded."""
         return [r for r in self.resources.values() if r.transportable]
 
-    def get_perishable_resources(self) -> List[Resource]:
+    def get_perishable_resources(self) -> list[Resource]:
         """Get all resources that are perishable."""
         return [r for r in self.resources.values() if r.perishable]
 
@@ -107,7 +108,7 @@ class ResourceTaxonomy:
             Base price or zero if resource not found
         """
         resource = self.get_resource(resource_id)
-        return resource.base_price if resource else Decimal("0")
+        return resource.base_price if resource else Decimal(0)
 
     def is_available_at_tech(self, resource_id: str, tech_level: TechLevel) -> bool:
         """Check if resource is available at given tech level.
@@ -122,18 +123,18 @@ class ResourceTaxonomy:
         resource = self.get_resource(resource_id)
         return resource is not None and TechLevel(resource.tech_min) <= TechLevel(tech_level)
 
-    def get_technology_gaps(self) -> Dict[TechLevel, List[Resource]]:
+    def get_technology_gaps(self) -> dict[TechLevel, list[Resource]]:
         """Get resources grouped by minimum technology level.
 
         Returns:
             Dictionary mapping tech levels to available resources
         """
-        gaps: Dict[TechLevel, List[Resource]] = {level: [] for level in TechLevel}
+        gaps: dict[TechLevel, list[Resource]] = {level: [] for level in TechLevel}
         for resource in self.resources.values():
             gaps[resource.tech_min].append(resource)
         return gaps
 
-    def get_resource_summary(self) -> Dict[str, Any]:
+    def get_resource_summary(self) -> dict[str, Any]:
         """Get summary statistics about the resource taxonomy.
 
         Returns:

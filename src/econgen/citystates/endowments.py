@@ -6,8 +6,6 @@ elevation, valley, temporal_state, infrastructure, tags, and longitude. This is
 the ``.md`` analog of ``io_geojson._infer_fantastical_endowments``.
 """
 
-from typing import Dict
-
 from .parser import CitystateSpec
 
 # Industrial-capacity prior by temporal_state (peak economies > stagnant > crisis).
@@ -50,14 +48,14 @@ def _pick_elements(name: str) -> list[str]:
     return chosen
 
 
-def infer_endowments(spec: CitystateSpec) -> Dict[str, float]:
+def infer_endowments(spec: CitystateSpec) -> dict[str, float]:
     """Derive the capacity-driver endowments for one citystate.
 
     Returns a ``{driver_key: magnitude}`` dict whose keys match the
     ``ProductionRule.capacity_driver`` strings.
     """
     signals = {s.lower() for s in (list(spec.infrastructure) + list(spec.tags))}
-    endowments: Dict[str, float] = {
+    endowments: dict[str, float] = {
         # Universal basics so staples (food/tools/wood) are locally producible.
         "agriculture": 0.5,
         "craftsmanship": 0.4,
@@ -118,4 +116,4 @@ def infer_endowments(spec: CitystateSpec) -> Dict[str, float]:
     return endowments
 
 
-__all__ = ["infer_endowments", "INDUSTRIAL_BY_STATE"]
+__all__ = ["INDUSTRIAL_BY_STATE", "infer_endowments"]

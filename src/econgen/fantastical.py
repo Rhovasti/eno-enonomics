@@ -17,12 +17,11 @@ Three tiers of fantastical material:
 """
 
 from decimal import Decimal
-from typing import Dict, List, Optional
 
 from .models import DemandProfile, ProductionRule, Resource
 
 # (resource_id, name, tier, tech_min, base_price, perishable)
-_COMPONENTS: List[tuple] = [
+_COMPONENTS: list[tuple] = [
     ("dust", "Dust", 0, "tribal", 0.5, False),
     ("sap", "Sap", 0, "tribal", 4.0, False),
     ("phos", "Phos", 0, "medieval", 15.0, False),
@@ -33,7 +32,7 @@ _COMPONENTS: List[tuple] = [
     ("mold", "Mold", 0, "medieval", 30.0, False),
 ]
 
-_ELEMENTS: List[tuple] = [
+_ELEMENTS: list[tuple] = [
     ("sirael", "Sirael (Silica)", 0, "medieval", 3.0, False),
     ("plon", "Plon (Lead)", 0, "medieval", 3.0, False),
     ("suhra", "Suhra (Sulfur)", 0, "medieval", 4.0, False),
@@ -45,7 +44,7 @@ _ELEMENTS: List[tuple] = [
     ("natra", "Natra (Salt)", 0, "medieval", 2.0, False),
 ]
 
-_STUFFS: List[tuple] = [
+_STUFFS: list[tuple] = [
     ("grave-lead", "Grave Lead", 2, "medieval", 35.0, False),
     ("dreamfire", "Dreamfire", 2, "medieval", 50.0, False),
     ("living-bronze", "Living Bronze", 2, "medieval", 45.0, False),
@@ -59,7 +58,7 @@ _STUFFS: List[tuple] = [
 
 # (rule_id, name, tech_min, inputs, outputs, capacity_driver, labor_required)
 # capacity_driver=None means universal (no endowment gate).
-_GATHERING: List[tuple] = [
+_GATHERING: list[tuple] = [
     ("dust-collection", "Dust Collection", "tribal", {}, {"dust": 1.0}, None, 1.0),
     ("sap-tapping", "Sap Tapping", "tribal", {}, {"sap": 2.0}, "sap_harvest", 2.0),
     ("phos-venting", "Phos Venting", "medieval", {}, {"phos": 1.0}, "phos_vent", 3.5),
@@ -70,7 +69,7 @@ _GATHERING: List[tuple] = [
     ("mold-excavation", "Mold Excavation", "medieval", {}, {"mold": 0.5}, "mold_deposit", 5.0),
 ]
 
-_MINING: List[tuple] = [
+_MINING: list[tuple] = [
     (
         f"{rid}-mining",
         f"{name.split(' ')[0]} Mining",
@@ -83,7 +82,7 @@ _MINING: List[tuple] = [
     for rid, name, _tier, _tech, _price, _per in _ELEMENTS
 ]
 
-_RECIPES: List[tuple] = [
+_RECIPES: list[tuple] = [
     # Recipes gate on the element deposit, so crafting specializes to the cities
     # that mine that element (inputs are not availability-gated by the engine).
     (
@@ -173,7 +172,7 @@ _RECIPES: List[tuple] = [
 ]
 
 # Per-capita fantastical demand added on top of mundane demand, by tech level.
-_DEMAND: Dict[str, Dict[str, Decimal]] = {
+_DEMAND: dict[str, dict[str, Decimal]] = {
     "tribal": {"sap": Decimal("0.05")},
     "medieval": {
         "sap": Decimal("0.1"),
@@ -204,9 +203,9 @@ _DEMAND: Dict[str, Dict[str, Decimal]] = {
 }
 
 
-def fantastical_resources() -> List[Resource]:
+def fantastical_resources() -> list[Resource]:
     """All Eno fantastical resources (components + elements + stuffs)."""
-    resources: List[Resource] = []
+    resources: list[Resource] = []
     for rid, name, tier, tech, price, perishable in _COMPONENTS + _ELEMENTS + _STUFFS:
         resources.append(
             Resource(
@@ -222,9 +221,9 @@ def fantastical_resources() -> List[Resource]:
     return resources
 
 
-def fantastical_rules() -> List[ProductionRule]:
+def fantastical_rules() -> list[ProductionRule]:
     """All Eno production rules (gathering + mining + alchemical recipes)."""
-    rules: List[ProductionRule] = []
+    rules: list[ProductionRule] = []
     for rid, name, tech, inputs, outputs, driver, labor in _GATHERING + _MINING + _RECIPES:
         rules.append(
             ProductionRule(
@@ -240,9 +239,9 @@ def fantastical_rules() -> List[ProductionRule]:
     return rules
 
 
-def with_fantastical_demand(profiles: List[DemandProfile]) -> List[DemandProfile]:
+def with_fantastical_demand(profiles: list[DemandProfile]) -> list[DemandProfile]:
     """Return copies of ``profiles`` with Eno per-capita demand merged in."""
-    merged: List[DemandProfile] = []
+    merged: list[DemandProfile] = []
     for profile in profiles:
         tech_key = str(profile.tech)
         extra = _DEMAND.get(tech_key, {})
@@ -253,22 +252,22 @@ def with_fantastical_demand(profiles: List[DemandProfile]) -> List[DemandProfile
 
 
 # resource_id -> "component" | "element" | "stuff" (the three catalog tiers).
-ALCHEMICAL_CLASSES: Dict[str, str] = {
+ALCHEMICAL_CLASSES: dict[str, str] = {
     **{rid: "component" for rid, *_ in _COMPONENTS},
     **{rid: "element" for rid, *_ in _ELEMENTS},
     **{rid: "stuff" for rid, *_ in _STUFFS},
 }
 
 
-def alchemical_class(resource_id: str) -> Optional[str]:
+def alchemical_class(resource_id: str) -> str | None:
     """Return the alchemical tier of ``resource_id``, or None if mundane."""
     return ALCHEMICAL_CLASSES.get(resource_id)
 
 
 __all__ = [
+    "ALCHEMICAL_CLASSES",
+    "alchemical_class",
     "fantastical_resources",
     "fantastical_rules",
     "with_fantastical_demand",
-    "ALCHEMICAL_CLASSES",
-    "alchemical_class",
 ]
