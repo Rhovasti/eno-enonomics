@@ -86,4 +86,8 @@ jobs:
         env:
           # Fail instead of skipping if pyminsky cannot be imported.
           ENO_REQUIRE_MINSKY: "1"
-        run: uv run pytest src/econgen/tests/test_dynamics_builder.py src/econgen/tests/test_dynamics_runner.py
+        run: >-
+          uv run pytest
+          src/econgen/tests/test_dynamics_builder.py
+          src/econgen/tests/test_dynamics_runner.py
+          src/econgen/tests/test_cli_dynamics.py
