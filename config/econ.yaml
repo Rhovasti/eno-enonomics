@@ -214,6 +214,42 @@ rules:
     capacity_driver: mining_potential
     labor_required: 4.5
 
+  - rule_id: seed-cultivation
+    name: Seed Cultivation
+    tech_min: tribal
+    inputs: {}
+    outputs:
+      seed: 4.0
+    capacity_driver: agriculture
+    labor_required: 1.0
+
+  - rule_id: fiber-farming
+    name: Fiber Farming
+    tech_min: tribal
+    inputs: {}
+    outputs:
+      fiber: 2.0
+    capacity_driver: agriculture
+    labor_required: 2.0
+
+  - rule_id: precious-metal-mining
+    name: Precious Metal Mining
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      precious-metals: 0.5
+    capacity_driver: mining_potential
+    labor_required: 5.0
+
+  - rule_id: gem-mining
+    name: Gem Mining
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      gems: 0.3
+    capacity_driver: mining_potential
+    labor_required: 5.0
+
   # Secondary production (crafting/manufacturing)
   - rule_id: toolmaking
     name: Tool Making

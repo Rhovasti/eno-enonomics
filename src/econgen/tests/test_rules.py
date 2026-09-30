@@ -18,12 +18,22 @@ ALL_DRIVERS = [
     "mining_potential",
 ]
 
-TRIBAL_RULES = {"farming", "fishing", "toolmaking", "forestry", "quarrying"}
+TRIBAL_RULES = {
+    "farming",
+    "fishing",
+    "toolmaking",
+    "forestry",
+    "quarrying",
+    "seed-cultivation",
+    "fiber-farming",
+}
 MEDIEVAL_RULES = TRIBAL_RULES | {
     "weaving",
     "jewelry-crafting",
     "iron-mining",
     "coal-mining",
+    "precious-metal-mining",
+    "gem-mining",
 }
 INDUSTRIAL_RULES = MEDIEVAL_RULES | {"steel-making", "machinery-production"}
 
@@ -70,3 +80,12 @@ def test_get_rules_by_tech_includes_lower_tiers() -> None:
     assert {
         r.rule_id for r in engine.get_rules_by_tech(TechLevel.TRIBAL)
     } == TRIBAL_RULES
+
+
+def test_every_rule_input_has_a_producer() -> None:
+    """Each resource consumed by a default rule is produced by some default rule."""
+    rules = create_default_rules()
+    produced = {resource for rule in rules for resource in rule.outputs}
+    consumed = {resource for rule in rules for resource in rule.inputs}
+
+    assert consumed - produced == set()

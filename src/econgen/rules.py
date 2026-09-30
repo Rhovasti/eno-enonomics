@@ -272,6 +272,42 @@ def create_default_rules() -> List[ProductionRule]:
         
         # Raw material extraction
         ProductionRule(
+            rule_id="seed-cultivation",
+            name="Seed Cultivation",
+            tech_min=TechLevel.TRIBAL,
+            inputs={},
+            outputs={"seed": Decimal("4.0")},
+            capacity_driver="agriculture",
+            labor_required=Decimal("1.0")
+        ),
+        ProductionRule(
+            rule_id="fiber-farming",
+            name="Fiber Farming",
+            tech_min=TechLevel.TRIBAL,
+            inputs={},
+            outputs={"fiber": Decimal("2.0")},
+            capacity_driver="agriculture",
+            labor_required=Decimal("2.0")
+        ),
+        ProductionRule(
+            rule_id="precious-metal-mining",
+            name="Precious Metal Mining",
+            tech_min=TechLevel.MEDIEVAL,
+            inputs={},
+            outputs={"precious-metals": Decimal("0.5")},
+            capacity_driver="mining_potential",
+            labor_required=Decimal("5.0")
+        ),
+        ProductionRule(
+            rule_id="gem-mining",
+            name="Gem Mining",
+            tech_min=TechLevel.MEDIEVAL,
+            inputs={},
+            outputs={"gems": Decimal("0.3")},
+            capacity_driver="mining_potential",
+            labor_required=Decimal("5.0")
+        ),
+        ProductionRule(
             rule_id="forestry",
             name="Forestry",
             tech_min=TechLevel.TRIBAL,
