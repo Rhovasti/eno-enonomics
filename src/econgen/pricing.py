@@ -4,10 +4,14 @@ from typing import Dict, List
 from decimal import Decimal
 from .models import Operator, SimulationConfig, TechLevel
 from .taxonomy import ResourceTaxonomy
-from .util import clamp, safe_divide
+from .util import clamp
 import logging
 
 logger = logging.getLogger(__name__)
+
+# Bounds on local supply/demand ratio: 5% self-sufficiency to 20x oversupply
+MIN_SUPPLY_RATIO = Decimal("0.05")
+MAX_SUPPLY_RATIO = Decimal("20")
 
 
 class PriceCalculator:
@@ -163,60 +167,40 @@ class PriceCalculator:
         local_demand: Decimal,
         regional_ratio: Decimal
     ) -> Decimal:
-        """Apply scarcity-based price adjustment.
-        
+        """Apply a constant-elasticity scarcity adjustment.
+
+        The local multiplier is (demand / supply) ** (1 / price_elasticity): a smooth,
+        monotonic curve where higher elasticity means flatter prices. The supply/demand
+        ratio is bounded so that zero supply or zero demand gives a finite multiplier.
+
         Args:
             base_price: Base resource price
             local_supply: Local supply quantity
             local_demand: Local demand quantity
             regional_ratio: Regional supply/demand ratio
-            
+
         Returns:
             Adjusted price
         """
-        price = base_price
-        
-        # Local scarcity effect (stronger influence)
-        local_ratio = safe_divide(local_supply, local_demand, Decimal("1.0"))
-        
-        if local_ratio < Decimal("0.5"):
-            # Severe local shortage
-            scarcity_multiplier = Decimal("2.0") / (local_ratio + Decimal("0.1"))
-        elif local_ratio < Decimal("0.8"):
-            # Moderate local shortage
-            scarcity_multiplier = Decimal("1.5") / (local_ratio + Decimal("0.2"))
-        elif local_ratio > Decimal("2.0"):
-            # Local surplus
-            abundance_factor = local_ratio - Decimal("1.0")
-            scarcity_multiplier = Decimal("1.0") / (Decimal("1.0") + abundance_factor * Decimal("0.3"))
+        if local_demand > 0:
+            local_ratio = local_supply / local_demand
         else:
-            # Roughly balanced locally
-            scarcity_multiplier = Decimal("1.0")
-        
-        price *= scarcity_multiplier
-        
+            local_ratio = MAX_SUPPLY_RATIO if local_supply > 0 else Decimal("1")
+        local_ratio = clamp(local_ratio, MIN_SUPPLY_RATIO, MAX_SUPPLY_RATIO)
+
+        exponent = Decimal("1") / self.config.price_elasticity
+        scarcity_multiplier = (Decimal("1") / local_ratio) ** exponent
+
         # Regional influence (weaker effect)
         if regional_ratio < Decimal("0.7"):
-            # Regional shortage
             regional_multiplier = Decimal("1.2")
         elif regional_ratio > Decimal("1.5"):
-            # Regional abundance
             regional_multiplier = Decimal("0.9")
         else:
-            # Regional balance
             regional_multiplier = Decimal("1.0")
-        
-        price *= regional_multiplier
-        
-        # Apply elasticity
-        if self.config.price_elasticity > 0:
-            elasticity_factor = Decimal("1.0") + (
-                (scarcity_multiplier - Decimal("1.0")) * self.config.price_elasticity
-            )
-            price *= elasticity_factor
-        
-        return price
-    
+
+        return base_price * scarcity_multiplier * regional_multiplier
+
     def _apply_operator_modifiers(
         self,
         price: Decimal,
