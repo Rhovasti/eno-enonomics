@@ -7,6 +7,12 @@ import json
 import random
 from pathlib import Path
 
+from src.econgen.paths import worldbuilder_dir
+
+# Eno-Worldbuilder2 checkout ($ENO_WORLDBUILDER_DIR); outputs go next to this script.
+WORLDBUILDER_DIR = worldbuilder_dir()
+OUTPUT_DIR = Path(__file__).resolve().parent
+
 
 def determine_tech_level(city_data):
     """Determine tech level based on city characteristics."""
@@ -123,8 +129,8 @@ def determine_geographic_flags(city_data):
 
 def main():
     # Load comprehensive city data
-    data_path = Path(
-        "/root/Eno/Eno-Worldbuilder2/GIS/comprehensive_city_analysis_results_updated_manually.json"
+    data_path = (
+        WORLDBUILDER_DIR / "GIS" / "comprehensive_city_analysis_results_updated_manually.json"
     )
 
     with open(data_path, "r", encoding="utf-8") as f:
@@ -190,7 +196,7 @@ def main():
     geojson = {"type": "FeatureCollection", "features": features}
 
     # Write to file
-    output_path = Path("/root/Eno/Enonomics/accurate_cities.geojson")
+    output_path = OUTPUT_DIR / "accurate_cities.geojson"
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(geojson, f, indent=2, ensure_ascii=False)
 

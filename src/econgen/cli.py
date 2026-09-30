@@ -14,6 +14,7 @@ from .io_geojson import GeoJSONLoader
 from .taxonomy import ResourceTaxonomy
 from .rules import RulesEngine
 from .calibration import calibrate_with_input_demand
+from .paths import minsky_root
 from .capacity import CapacityCalculator
 from .demand import DemandCalculator
 from .trade import TradeNetwork
@@ -235,7 +236,7 @@ def config_template(
         },
         "dynamics": {
             # Optional Minsky stock/flow layer (see `simulate` command)
-            "minsky_root": "/root/minsky",
+            "minsky_root": minsky_root(),
             "n_steps": 50,
             "include_trade": False,
             "resources": None,

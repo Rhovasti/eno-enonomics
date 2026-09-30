@@ -5,8 +5,14 @@ Extract city information from district files and create a GeoJSON for economic s
 
 import json
 import random
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
+
+from src.econgen.paths import worldbuilder_dir
+
+# Eno-Worldbuilder2 checkout ($ENO_WORLDBUILDER_DIR); outputs go next to this script.
+WORLDBUILDER_DIR = worldbuilder_dir()
+OUTPUT_DIR = Path(__file__).resolve().parent
 
 
 def get_polygon_centroid(coordinates):
@@ -147,7 +153,7 @@ def analyze_district_file(filepath):
 
 
 def main():
-    districts_dir = Path("/root/Eno/Eno-Worldbuilder2/GIS/districts")
+    districts_dir = WORLDBUILDER_DIR / "GIS" / "districts"
 
     cities = []
 
@@ -190,7 +196,7 @@ def main():
     geojson = {"type": "FeatureCollection", "features": features}
 
     # Write to file
-    output_path = Path("/root/Eno/Enonomics/worldbuilder_cities.geojson")
+    output_path = OUTPUT_DIR / "worldbuilder_cities.geojson"
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(geojson, f, indent=2, ensure_ascii=False)
 

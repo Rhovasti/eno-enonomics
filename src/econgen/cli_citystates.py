@@ -12,6 +12,8 @@ from rich.progress import Progress, SpinnerColumn, TextColumn
 
 from .cli_common import app, console
 from .citystates import load_citystates
+from .paths import DEFAULT_CITYSTATES_DIR as DEFAULT_CITYSTATES_PATH
+from .paths import ENV_CITYSTATES_DIR
 from .citystates.economy import city_potential_supply_demand, city_supply_demand, make_economy
 from .citystates.market import compute_market_prices
 from .citystates.profiles import (
@@ -20,7 +22,7 @@ from .citystates.profiles import (
     render_profile,
 )
 
-DEFAULT_CITYSTATES_DIR = Path("/root/Eno/Eno-Worldbuilder2/citystates for economic profiles")
+DEFAULT_CITYSTATES_DIR = Path(DEFAULT_CITYSTATES_PATH)
 
 
 def _write_citystate_index(output_dir: Path, profiles: list) -> None:
@@ -44,7 +46,10 @@ def _write_citystate_index(output_dir: Path, profiles: list) -> None:
 @app.command()
 def citystate_sim(
     citystates_dir: Path = typer.Option(
-        DEFAULT_CITYSTATES_DIR, "--citystates-dir", help="Directory of citystate .md profiles"
+        DEFAULT_CITYSTATES_DIR,
+        "--citystates-dir",
+        envvar=ENV_CITYSTATES_DIR,
+        help="Directory of citystate .md profiles",
     ),
     output_dir: Path = typer.Option(
         Path("out/citystates"), "--output", "-o", help="Output directory for profiles"
@@ -104,7 +109,10 @@ def citystate_sim(
 @app.command()
 def citystate_dynamic(
     citystates_dir: Path = typer.Option(
-        DEFAULT_CITYSTATES_DIR, "--citystates-dir", help="Directory of citystate .md profiles"
+        DEFAULT_CITYSTATES_DIR,
+        "--citystates-dir",
+        envvar=ENV_CITYSTATES_DIR,
+        help="Directory of citystate .md profiles",
     ),
     output_dir: Path = typer.Option(
         Path("out/citystates_dynamic"),
@@ -169,6 +177,7 @@ def citystate_chronicle(
     citystates_dir: Path = typer.Option(
         DEFAULT_CITYSTATES_DIR,
         "--citystates-dir",
+        envvar=ENV_CITYSTATES_DIR,
         help="Directory of citystate .md profiles (for temporal_state/valley)",
     ),
     histories_dir: Path = typer.Option(
@@ -220,7 +229,10 @@ def citystate_chronicle(
 @app.command()
 def citystate_financial(
     citystates_dir: Path = typer.Option(
-        DEFAULT_CITYSTATES_DIR, "--citystates-dir", help="Directory of citystate .md profiles"
+        DEFAULT_CITYSTATES_DIR,
+        "--citystates-dir",
+        envvar=ENV_CITYSTATES_DIR,
+        help="Directory of citystate .md profiles",
     ),
     output_dir: Path = typer.Option(
         Path("out/citystates_financial"),
@@ -313,7 +325,10 @@ def citystate_financial(
 @app.command()
 def citystate_governance(
     citystates_dir: Path = typer.Option(
-        DEFAULT_CITYSTATES_DIR, "--citystates-dir", help="Directory of citystate .md profiles"
+        DEFAULT_CITYSTATES_DIR,
+        "--citystates-dir",
+        envvar=ENV_CITYSTATES_DIR,
+        help="Directory of citystate .md profiles",
     ),
     output_dir: Path = typer.Option(
         Path("out/citystates_governance"),

@@ -10,13 +10,18 @@ from typing import Dict, List, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from ..paths import minsky_root
+
 
 class DynamicsConfig(BaseModel):
     """Configuration for the dynamic-simulation step (YAML ``dynamics:`` key)."""
 
     model_config = ConfigDict(use_enum_values=True)
 
-    minsky_root: str = Field(default="/root/minsky", description="Path to the built minsky tree.")
+    minsky_root: str = Field(
+        default_factory=minsky_root,
+        description="Path to the built minsky tree (default: $ENO_MINSKY_ROOT or /root/minsky).",
+    )
     n_steps: int = Field(default=50, ge=1, description="Number of integration steps to run.")
     seed: Optional[int] = Field(default=None, description="RNG seed for repeatable runs.")
     resources: Optional[List[str]] = Field(

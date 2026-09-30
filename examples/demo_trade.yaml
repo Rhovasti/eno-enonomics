@@ -8,7 +8,7 @@ simulation:
   transport_cost_per_km: 0.02
 
 dynamics:
-  minsky_root: /root/minsky
+  # minsky_root defaults to $ENO_MINSKY_ROOT (or /root/minsky); set it here to override.
   n_steps: 60
   seed: 0
   include_trade: true
