@@ -2,24 +2,7 @@
 
 import pytest
 
-from ..paths import citystates_dir
-
 from ..citystates.endowments import infer_endowments
-from ..citystates.parser import load_citystates
-
-CITYSTATES_DIR = citystates_dir()  # $ENO_CITYSTATES_DIR, see econgen.paths
-
-
-def _dir_readable(path) -> bool:
-    # CI runners cannot stat paths under /root (PermissionError), so the
-    # existence probe itself must be guarded, not just the tests.
-    try:
-        return path.is_dir()
-    except OSError:
-        return False
-
-
-HAS_DATA = _dir_readable(CITYSTATES_DIR)
 
 UNIVERSAL_DRIVERS = {
     "agriculture",
@@ -29,13 +12,6 @@ UNIVERSAL_DRIVERS = {
     "forestry",
     "industrial_capacity",
 }
-
-
-@pytest.fixture(scope="module")
-def all_specs():
-    if not HAS_DATA:
-        pytest.skip("citystates profile folder not present")
-    return load_citystates(CITYSTATES_DIR)
 
 
 def test_universal_basics_present(all_specs) -> None:
