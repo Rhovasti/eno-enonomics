@@ -36,6 +36,11 @@ is now part of the default economy and runs through every layer:
   split into `cli_common`/`cli`/`cli_dynamics`/`cli_citystates`; `governance_types` holds
   the catalog tables).
 
+On geography-only datasets (no worldbuilder stocks), sap and element deposits fall back to
+vegetation and mining potential, and an element coverage pass ensures each core element has
+at least one medieval+ mining city. On `kaupungit` alchemical trade stays thin: its mountain
+cities are mostly tribal, so each element comes from only 1-3 distant cities.
+
 Minsky-dependent tests skip without a local pyminsky build; citystate-corpus tests skip
 without the Worldbuilder2 profiles folder. CI runs ruff check, ruff format, mypy and pytest.
 
@@ -43,9 +48,9 @@ without the Worldbuilder2 profiles folder. CI runs ruff check, ruff format, mypy
 
 | Check | Result |
 |---|---|
-| `uv run pytest` | 85 passed |
-| CLI `run` on `data/performance_test.geojson` | 491 trade links |
-| CLI `run` on `Data/kaupungit.geojson` | 66 links (fish 21, textiles 8, jewelry 7, tools 7, stone 5, iron-ore 5, food 4, wood 4, precious-metals 2, gems 2, fiber 1) |
+| `uv run pytest` | 123 passed, 19 skipped (Minsky / citystate corpus) |
+| CLI `run` on `data/performance_test.geojson` | 793 trade links, 318 of them alchemical |
+| CLI `run` on `Data/kaupungit.geojson` | 72 links; every alchemical good produced, 6 alchemical links (few, distant producers) |
 | Default run vs. `--config config/econ.yaml` | Identical data outputs |
 | `uv run ruff check .` | Passing |
 | `uv run ruff format --check .` | Passing (line length 100, set in `pyproject.toml`) |
