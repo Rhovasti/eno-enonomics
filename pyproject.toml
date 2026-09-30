@@ -27,3 +27,6 @@ dev = [
     "types-networkx>=3.6.1.20260911",
     "types-pyyaml>=6.0.12.20250809",
 ]
+
+[tool.ruff]
+line-length = 100
