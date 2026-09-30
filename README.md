@@ -66,22 +66,20 @@ Cities and settlements with:
 
 ## Known Issues
 
-### 1. YAML Config Diverges from Built-in Defaults (Minor)
+### 1. Weapons in Demand Profiles (Minor)
 **Status:** OPEN - design decision pending
 
-`config/econ.yaml` still defines `weapons` and rules producing wood, stone and iron ore,
-none of which exist in the built-in defaults. Runs with `--config config/econ.yaml` trade
-those goods; default runs cannot.
-
-### 2. Weapons in Demand Profiles (Minor)
-**Status:** OPEN - design decision pending
-
-`weapons` was removed from the default taxonomy (see `PRPs/REVISION-001.md`), and the
-tribal profile no longer demands it. The medieval and industrial profiles and several
+`weapons` was removed from the default taxonomy and from `config/econ.yaml` (see
+`PRPs/REVISION-001.md`), and the tribal profile no longer demands it. The medieval and industrial profiles and several
 demand modifiers in `demand.py` still reference `weapons` (and `armor`), which logs an
 "unknown resources" warning at runtime.
 
 ### Resolved
+- **YAML config vs. built-in defaults:** `config/econ.yaml` now matches the defaults exactly
+  (enforced by `test_config.py`). The YAML-only extraction rules (forestry, quarrying,
+  iron-mining, coal-mining) moved into the defaults; `weapons`/`weaponsmithing` left the YAML.
+- **Run-to-run output order:** set iteration in pricing and trade is sorted, so data outputs
+  are byte-identical for the same input (only the report timestamp changes).
 - **City names:** read from the `Burg` attribute (covered by `test_city_names_from_burg_attribute`).
 - **Missing default resources:** `seed`, `fiber`, `coal`, `precious-metals`, `gems` and
   `slag` are now in the default taxonomy, so every default rule references known resources.

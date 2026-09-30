@@ -14,9 +14,10 @@ dropped trade to 0, and production has since been recalibrated against demand (s
 
 | Check | Result |
 |---|---|
-| `uv run pytest` | 63 passed |
-| CLI `run` on `data/performance_test.geojson` | 250 trade links, 1 importing at the price cap |
-| CLI `run` on `Data/kaupungit.geojson` | 43 links (fish 21, textiles 8, jewelry 7, food 4, tools 3), none at the cap |
+| `uv run pytest` | 75 passed |
+| CLI `run` on `data/performance_test.geojson` | 304 trade links, 1 importing at the price cap |
+| CLI `run` on `Data/kaupungit.geojson` | 54 links (fish 21, textiles 8, jewelry 7, stone 5, food 4, wood 4, tools 3, iron-ore 2), none at the cap |
+| Default run vs. `--config config/econ.yaml` | Identical data outputs |
 | `uv run ruff check .` / `ruff format --check .` | Failing (unused imports; unformatted files) |
 | `uv run mypy src/` | Failing (~50 errors) |
 | CI | None configured |
@@ -43,13 +44,23 @@ dropped trade to 0, and production has since been recalibrated against demand (s
 - Loader: baseline agriculture/craftsmanship endowments no longer overwrite higher
   culture-based values (e.g. Noon agriculture 0.8 was reset to 0.5).
 
+### YAML alignment
+- `config/econ.yaml` and the built-in defaults now define the same resources, rules,
+  demand profiles and simulation settings; `test_config.py` fails if they drift.
+- Built-in defaults gained forestry, quarrying, iron-mining and coal-mining (previously
+  YAML-only), using the `forestry` and `mining_potential` endowments the loader already set.
+  On `kaupungit` this took trade from 43 to 54 links and capped prices from 163 to 0.
+- The YAML dropped `weapons` and `weaponsmithing` (removed from defaults in REVISION-001).
+- Pricing and trade iterate resources in sorted order, so repeated runs give byte-identical
+  data files (previously `prices.json` key order changed between runs).
+
 ### Price curve
 - The scarcity adjustment in `pricing.py` applied its multiplier twice (roughly squaring
   it), jumped at supply ratios 0.5, 0.8 and 2.0, and went negative above ~9x oversupply.
 - Replaced with a constant-elasticity curve: `(demand/supply) ** (1/price_elasticity)`,
   with the supply ratio bounded to [0.05, 20].
 - `Data/kaupungit.geojson`: prices at the 10x cap fell from 567/851 to 163/851, and all
-  of those are wood, stone and iron-ore, which no default rule produces. Links importing
+  of those were wood, stone and iron-ore, then produced by no default rule. Links importing
   at the cap fell from 73/95 to 0/43.
 - Trade on `kaupungit` fell from 95 to 43 links, mostly food (42 -> 4): its cities are a
   median ~470 km apart, and at realistic food prices long-haul grain no longer covers
