@@ -1,8 +1,8 @@
 """Tests for the citystate profile parser (Phase 1)."""
 
-from pathlib import Path
-
 import pytest
+
+from ..paths import citystates_dir
 
 from ..citystates.parser import (
     GROWTH_PRIOR_BY_STATE,
@@ -11,7 +11,7 @@ from ..citystates.parser import (
     parse_citystate,
 )
 
-CITYSTATES_DIR = Path("/root/Eno/Eno-Worldbuilder2/citystates for economic profiles")
+CITYSTATES_DIR = citystates_dir()  # $ENO_CITYSTATES_DIR, see econgen.paths
 
 
 def _dir_readable(path) -> bool:

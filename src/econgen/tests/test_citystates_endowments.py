@@ -1,13 +1,13 @@
 """Tests for citystate endowment inference (Phase 1)."""
 
-from pathlib import Path
-
 import pytest
+
+from ..paths import citystates_dir
 
 from ..citystates.endowments import infer_endowments
 from ..citystates.parser import load_citystates
 
-CITYSTATES_DIR = Path("/root/Eno/Eno-Worldbuilder2/citystates for economic profiles")
+CITYSTATES_DIR = citystates_dir()  # $ENO_CITYSTATES_DIR, see econgen.paths
 
 
 def _dir_readable(path) -> bool:

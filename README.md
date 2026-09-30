@@ -34,6 +34,19 @@ uv run python -m src.econgen.cli citystate-financial --limit 5
 uv run python -m src.econgen.cli citystate-governance --limit 5
 ```
 
+### External Resources
+
+The Minsky dynamics layer and the citystate commands use resources that live outside this
+repository. Their locations are set with environment variables (see `src/econgen/paths.py`):
+
+| Variable | Default | Used by |
+|---|---|---|
+| `ENO_MINSKY_ROOT` | `/root/minsky` | `simulate`, `citystate-dynamic` (the `pyminsky` build) |
+| `ENO_CITYSTATES_DIR` | `/root/Eno/Eno-Worldbuilder2/citystates for economic profiles` | `citystate-*` commands (`--citystates-dir` overrides it) |
+| `ENO_WORLDBUILDER_DIR` | `/root/Eno/Eno-Worldbuilder2` | `create_cities_from_*.py` scripts |
+
+Tests that need these resources skip when they are not available.
+
 ## System Architecture Overview
 
 The simulation operates through a multi-stage pipeline that processes GeoJSON city data to generate economic relationships:
