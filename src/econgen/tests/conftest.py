@@ -1,5 +1,6 @@
 """Shared pytest fixtures for dynamics and citystate tests."""
 
+import os
 from pathlib import Path
 from typing import List
 
@@ -20,7 +21,11 @@ def minsky_client():
     client = MinskyClient()
     try:
         client.connect()
-    except MinskyUnavailable:
+    except MinskyUnavailable as exc:
+        # Reason: the Minsky CI job sets ENO_REQUIRE_MINSKY so a broken install
+        # fails loudly instead of silently skipping every dynamics test.
+        if os.environ.get("ENO_REQUIRE_MINSKY"):
+            pytest.fail(f"ENO_REQUIRE_MINSKY is set but pyminsky is unavailable: {exc}")
         pytest.skip("pyminsky extension not available in this environment")
     return client
 
