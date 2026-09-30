@@ -1,7 +1,7 @@
 """Render FinancialAnalysis into markdown profiles + Godley transactions matrix."""
 
 from collections import Counter
-from typing import List
+from typing import Dict, List, Tuple
 
 from .analysis import FinancialAnalysis, UtaiaPortfolio
 from .parameters import OFFENSE_TIERS
@@ -26,6 +26,11 @@ def render_financial_profile(analysis: FinancialAnalysis) -> str:
         f"- **Consumption**: {m.consumption:,.0f} | **Savings**: {m.savings:,.0f}",
         f"- **Household wealth**: {m.household_wealth:,.0f} ({m.per_capita_wealth:.1f}/cap)",
         f"- **Trade balance**: {m.trade_balance:+,.0f} ({'deficit' if m.trade_balance > 0 else 'surplus'})",
+        f"- **Alchemists' Guild value added**: {m.alchemical_value_added:,.0f} "
+        f"({m.alchemical_value_added / max(m.gdp, 1) * 100:.1f}% of GDP — "
+        f"components {m.alchemical_split['component']:,.0f}, "
+        f"elements {m.alchemical_split['element']:,.0f}, "
+        f"stuffs {m.alchemical_split['stuff']:,.0f})",
         "",
         "### Income by Labor Tier",
         "",
@@ -77,28 +82,68 @@ def render_financial_profile(analysis: FinancialAnalysis) -> str:
     return "\n".join(lines)
 
 
-def _godley_matrix(analysis: FinancialAnalysis) -> List[str]:
-    """Render a Godley-style transactions matrix (sectors as columns, sum to zero)."""
+def _godley_transactions(analysis: FinancialAnalysis) -> List[Tuple[str, Dict[str, float]]]:
+    """The Godley-style transactions rows: (label, {sector: signed flow}).
+
+    Sectors: Households, Producers, Alchemists' Guild, Utaia, Rest-of-World.
+    Each row's cells sum to zero. The Guild column balances exactly by
+    construction (value added - guild wages - dividends = 0).
+    """
     m = analysis.material
     k = analysis.karmic
     w, c, t, e = m.wages, m.consumption, m.trade_balance, k.utai_extraction
-    # Household balance = wages - consumption - debt_servicing_share
-    # Producers balance = GDP - wages + consumption_from_households + trade
-    # Utaia = +extraction; RoW = -trade
+    va, w_a, c_a, d_a = (
+        m.alchemical_value_added,
+        m.guild_wages,
+        m.guild_consumption,
+        m.guild_surplus,
+    )
+    return [
+        ("Consumption", {"Households": -(c - c_a), "Producers": c - c_a}),
+        ("Alchemical consumption", {"Households": -c_a, "Guild": c_a}),
+        ("Wages", {"Households": w - w_a, "Producers": -(w - w_a)}),
+        ("Alchemical wages", {"Households": w_a, "Guild": -w_a}),
+        (
+            "Alchemical input sales",
+            {"Producers": -(va - c_a), "Guild": va - c_a},
+        ),
+        ("Guild dividends", {"Producers": d_a, "Guild": -d_a}),
+        ("Net trade", {"Producers": t, "Rest-of-World": -t}),
+        ("Debt servicing", {"Households": -e, "Utaia": e}),
+    ]
+
+
+SECTORS = ["Households", "Producers", "Guild", "Utaia", "Rest-of-World"]
+
+
+def _godley_matrix(analysis: FinancialAnalysis) -> List[str]:
+    """Render a Godley-style transactions matrix (each row sums to zero)."""
+    rows = _godley_transactions(analysis)
     lines = [
         "",
         "## Godley Transactions Matrix",
         "",
-        "| Transaction | Households | Producers | Utaia | Rest-of-World | Σ |",
-        "|---|---|---|---|---|---|",
-        f"| Consumption | {-c:,.0f} | {c:,.0f} | | | 0 |",
-        f"| Wages | {w:,.0f} | {-w:,.0f} | | | 0 |",
-        f"| Net trade | | {t:,.0f} | | {-t:,.0f} | 0 |",
-        f"| Debt servicing | {-e:,.0f} | | {e:,.0f} | | 0 |",
-        f"| **Sector balance** | **{w - c - e:,.0f}** | **{m.gdp - w + c + t:,.0f}** | **{e:,.0f}** | **{-t:,.0f}** | **0** |",
-        "",
-        "_Columns sum to zero (stock-flow consistent). Positive = inflow, negative = outflow._",
+        "| Transaction | " + " | ".join(SECTORS) + " | Σ |",
+        "|---|" + "---|" * (len(SECTORS) + 1),
     ]
+    for label, cells in rows:
+        values = [cells.get(sector) for sector in SECTORS]
+        rendered = " | ".join(f"{v:,.0f}" if v is not None else "" for v in values)
+        lines.append(f"| {label} | {rendered} | 0 |")
+
+    balances: Dict[str, float] = {sector: 0.0 for sector in SECTORS}
+    for _, cells in rows:
+        for sector, value in cells.items():
+            balances[sector] += value
+    balance_cells = " | ".join(f"**{balances[s]:,.0f}**" for s in SECTORS)
+    lines.append(f"| **Sector balance** | {balance_cells} | |")
+    lines.extend(
+        [
+            "",
+            "_Each transaction row sums to zero; the Guild column balances exactly "
+            "(value added − guild wages − dividends). Positive = inflow._",
+        ]
+    )
     return lines
 
 

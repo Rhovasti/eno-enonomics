@@ -15,7 +15,7 @@ Three tiers of fantastical material:
 """
 
 from decimal import Decimal
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from .models import DemandProfile, ProductionRule, Resource
 
@@ -186,8 +186,23 @@ def with_fantastical_demand(profiles: List[DemandProfile]) -> List[DemandProfile
     return merged
 
 
+# resource_id -> "component" | "element" | "stuff" (the three catalog tiers).
+ALCHEMICAL_CLASSES: Dict[str, str] = {
+    **{rid: "component" for rid, *_ in _COMPONENTS},
+    **{rid: "element" for rid, *_ in _ELEMENTS},
+    **{rid: "stuff" for rid, *_ in _STUFFS},
+}
+
+
+def alchemical_class(resource_id: str) -> Optional[str]:
+    """Return the alchemical tier of ``resource_id``, or None if mundane."""
+    return ALCHEMICAL_CLASSES.get(resource_id)
+
+
 __all__ = [
     "fantastical_resources",
     "fantastical_rules",
     "with_fantastical_demand",
+    "ALCHEMICAL_CLASSES",
+    "alchemical_class",
 ]

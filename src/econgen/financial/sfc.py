@@ -2,7 +2,8 @@
 
 Reads the real economy (production × market_price = GDP; trade balance; population)
 and computes the material financial flows using the Eno lore's labor-tier system
-and temporal_state-derived behavioral parameters.
+and temporal_state-derived behavioral parameters. Alchemical production is carved
+out as an Alchemists' Guild sector (value added, wages, dividends).
 """
 
 from typing import Dict
@@ -10,6 +11,7 @@ from typing import Dict
 from pydantic import BaseModel
 
 from ..citystates.parser import CitystateSpec
+from ..fantastical import alchemical_class
 from .parameters import (
     DEFAULT_PARAMS,
     FINANCIAL_PARAMS,
@@ -31,6 +33,12 @@ class MaterialSFC(BaseModel):
     income_by_tier: Dict[str, float]
     per_capita_income: float
     per_capita_wealth: float
+    # Alchemists' Guild slice (a diagnostic carve-out of GDP, not an addition).
+    alchemical_value_added: float = 0.0
+    alchemical_split: Dict[str, float] = {}
+    guild_wages: float = 0.0
+    guild_consumption: float = 0.0
+    guild_surplus: float = 0.0
 
 
 def _params_for(state: str) -> dict:
@@ -63,6 +71,22 @@ def compute_material_sfc(
     savings = wages - consumption
     producer_surplus = gdp - wages
 
+    # Alchemists' Guild value added: alchemical production at market prices,
+    # split by catalog tier (components gathered, elements mined, stuffs crafted).
+    alchemical_split = {"component": 0.0, "element": 0.0, "stuff": 0.0}
+    for resource in all_resources:
+        tier = alchemical_class(resource)
+        if tier is not None:
+            alchemical_split[tier] += float(supply.get(resource, 0)) * market_prices.get(
+                resource, 1.0
+            )
+    alchemical_value_added = sum(alchemical_split.values())
+    guild_wages = params["wage_share"] * alchemical_value_added
+    # Households spend on alchemical goods in proportion to the guild's share
+    # of the economy (a share-of-spending assumption, deterministic).
+    guild_consumption = consumption * (alchemical_value_added / gdp) if gdp > 0 else 0.0
+    guild_surplus = alchemical_value_added - guild_wages
+
     # Household wealth: accumulated savings over the city's lifespan (discounted —
     # not all savings persist; wealth depreciates / is consumed over centuries).
     lifespan = max(998 - spec.founded_cycle, 1)
@@ -91,6 +115,11 @@ def compute_material_sfc(
         income_by_tier=income_by_tier,
         per_capita_income=wages / pop,
         per_capita_wealth=household_wealth / pop,
+        alchemical_value_added=alchemical_value_added,
+        alchemical_split=alchemical_split,
+        guild_wages=guild_wages,
+        guild_consumption=guild_consumption,
+        guild_surplus=guild_surplus,
     )
 
 
