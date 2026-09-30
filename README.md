@@ -236,6 +236,9 @@ uv run ruff format .
 uv run ruff check .
 ```
 
+CI (`.github/workflows/ci.yml`) runs `uv sync --locked`, `ruff check`, `ruff format --check`,
+`mypy src/` and `pytest` on every push and pull request.
+
 ## License
 
 [License information to be added]

@@ -21,7 +21,7 @@ dropped trade to 0, and production has since been recalibrated against demand (s
 | `uv run ruff check .` | Passing |
 | `uv run ruff format --check .` | Passing (line length 100, set in `pyproject.toml`) |
 | `uv run mypy src/` | Passing (type stubs for networkx and scipy added as dev deps) |
-| CI | None configured |
+| CI | GitHub Actions (`.github/workflows/ci.yml`): ruff check, ruff format, mypy, pytest |
 
 ### Changes in this update
 - `pytest.ini` header corrected (`[tool:pytest]` -> `[pytest]`) so its settings apply.
