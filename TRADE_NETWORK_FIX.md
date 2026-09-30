@@ -1,5 +1,10 @@
 # Enonomics Trade Network Fix Documentation
 
+> **Superseded (2026-09-30):** The trade links reported below were produced by a
+> tech-gating bug (tech levels compared as strings, so tribal settlements could make
+> medieval and industrial goods). With that bug fixed, trade dropped to 0 until production
+> was calibrated to demand. See `STATUS.md` for the current state.
+
 ## Issue Summary
 The Enonomics trade network solver was previously producing 0 trade links across all test scenarios, which was the primary system functionality blocker.
 

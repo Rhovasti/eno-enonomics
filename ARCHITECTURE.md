@@ -101,8 +101,22 @@ ProductionRule(
 
 **Processing Flow:**
 ```
-Operator + Rule → Capacity Calculation → Production Rate → Supply Output
+Operator + Rule → Capacity Calculation → Calibration → Production Rate → Supply Output
 ```
+
+Raw capacity scales linearly with population (workforce / `labor_required`) and is
+multiplied by endowment, tech, infrastructure and specialization factors. It only sets
+*relative* productivity. `calibration.py` then scales each rule so that world output of
+its primary product equals world demand × `supply_demand_ratio` (default 1.0). Local
+differences in productivity become surpluses and deficits for trade to balance. Rules
+sharing a primary output (e.g. `iron-mining` and `industrial-iron-mining`) are scaled by
+one shared factor, so together they meet demand once and keep their relative shares.
+
+Production inputs count as demand: toolmaking's wood and stone, steel-making's iron ore
+and coal, and so on are added to the producing operator's demand
+(`calculate_input_demand`). `calibrate_with_input_demand` targets final plus input
+demand, repeating calibration until total demand is stable (at most one pass per rule,
+since the rule graph is acyclic), and the pipeline uses that total demand from then on.
 
 ### 4. Demand Modeling (`demand.py`)
 
@@ -151,10 +165,14 @@ final_capacity = base_capacity * endowment_scaling * efficiency
 
 **Pricing Model:**
 ```python
-scarcity_ratio = demand / max(supply, min_supply)
-price_multiplier = scarcity_ratio ** price_elasticity  
-local_price = base_price * price_multiplier
+supply_ratio = clamp(supply / demand, 0.05, 20)   # no demand + supply -> 20
+price_multiplier = (1 / supply_ratio) ** (1 / price_elasticity)
+local_price = base_price * price_multiplier * regional_multiplier * operator_modifiers
+local_price = clamp(local_price, 0.1 * base_price, 10 * base_price)
 ```
+
+`price_elasticity` is the price elasticity of demand: higher values give flatter prices.
+With the default 1.5 the local multiplier ranges smoothly from 0.14x to 7.4x.
 
 **Economic Factors:**
 - **Base Price:** Resource taxonomy defines starting values
@@ -214,8 +232,8 @@ if profit_per_unit > 0:
 
 ### Primary Pipeline
 ```
-GeoJSON → Operators → Capacities → Supply
-                   → Demand → Prices → Trade Links → Reports
+GeoJSON → Operators → Capacities → Calibration → Supply
+                   → Demand ────────↗          → Prices → Trade Links → Reports
 ```
 
 ### Component Dependencies
@@ -224,6 +242,7 @@ io_geojson → models
 taxonomy → models
 rules → models, taxonomy
 capacity → models, rules
+calibration → models, rules
 demand → models, taxonomy  
 pricing → models, taxonomy
 trade → models, util (distance calculation)

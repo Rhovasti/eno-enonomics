@@ -9,30 +9,31 @@ from enum import Enum
 
 class TechLevel(str, Enum):
     """Technology levels in ascending order."""
+
     TRIBAL = "tribal"
     MEDIEVAL = "medieval"
     INDUSTRIAL = "industrial"
-    
+
     def __ge__(self, other):
         """Enable comparison: tribal < medieval < industrial."""
         if not isinstance(other, TechLevel):
             return NotImplemented
         order = {self.TRIBAL: 0, self.MEDIEVAL: 1, self.INDUSTRIAL: 2}
         return order[self] >= order[other]
-    
+
     def __gt__(self, other):
         """Enable comparison: tribal < medieval < industrial."""
         if not isinstance(other, TechLevel):
             return NotImplemented
         order = {self.TRIBAL: 0, self.MEDIEVAL: 1, self.INDUSTRIAL: 2}
         return order[self] > order[other]
-    
+
     def __le__(self, other):
         """Enable comparison: tribal < medieval < industrial."""
         if not isinstance(other, TechLevel):
             return NotImplemented
         return not self > other
-    
+
     def __lt__(self, other):
         """Enable comparison: tribal < medieval < industrial."""
         if not isinstance(other, TechLevel):
@@ -42,8 +43,9 @@ class TechLevel(str, Enum):
 
 class Resource(BaseModel):
     """Resource definition with tech requirements."""
+
     model_config = ConfigDict(use_enum_values=True)
-    
+
     resource_id: str = Field(..., pattern=r"^[a-z0-9-]+$")
     name: str
     tier: int = Field(..., ge=0, le=3)  # 0=raw, 1=refined, 2=advanced
@@ -51,7 +53,7 @@ class Resource(BaseModel):
     base_price: Decimal = Field(..., gt=0)
     transportable: bool = True
     perishable: bool = False
-    
+
     @field_validator("resource_id")
     @classmethod
     def validate_id(cls, v):
@@ -63,8 +65,9 @@ class Resource(BaseModel):
 
 class ProductionRule(BaseModel):
     """Production transformation rules."""
+
     model_config = ConfigDict(use_enum_values=True)
-    
+
     rule_id: str = Field(..., pattern=r"^[a-z0-9-]+$")
     name: str
     inputs: Dict[str, Decimal]  # resource_id -> quantity
@@ -73,7 +76,7 @@ class ProductionRule(BaseModel):
     byproducts: Dict[str, Decimal] = Field(default_factory=dict)
     capacity_driver: Optional[str] = None  # endowment that scales capacity
     labor_required: Decimal = Field(default=Decimal("1.0"))
-    
+
     @field_validator("outputs")
     @classmethod
     def validate_outputs(cls, v):
@@ -84,7 +87,7 @@ class ProductionRule(BaseModel):
             if qty <= 0:
                 raise ValueError("Quantities must be positive")
         return v
-    
+
     @field_validator("inputs")
     @classmethod
     def validate_inputs(cls, v):
@@ -98,8 +101,9 @@ class ProductionRule(BaseModel):
 
 class Operator(BaseModel):
     """Economic operator (city, org, building, etc)."""
+
     model_config = ConfigDict(use_enum_values=True)
-    
+
     operator_id: str
     name: str
     kind: Literal["city", "organization", "building", "district", "person"]
@@ -108,7 +112,7 @@ class Operator(BaseModel):
     population: int = 0
     tags: List[str] = Field(default_factory=list)
     endowments: Dict[str, Decimal] = Field(default_factory=dict)
-    
+
     # Derived fields
     capital: bool = False
     port: bool = False
@@ -117,7 +121,7 @@ class Operator(BaseModel):
     plaza: bool = False
     temple: bool = False
     shanty_town: bool = False
-    
+
     @field_validator("coord")
     @classmethod
     def validate_coordinates(cls, v):
@@ -132,6 +136,7 @@ class Operator(BaseModel):
 
 class Capacity(BaseModel):
     """Production capacity for operator-rule pair."""
+
     operator_id: str
     rule_id: str
     max_rate: Decimal = Field(..., gt=0)  # units per time step
@@ -140,14 +145,16 @@ class Capacity(BaseModel):
 
 class DemandProfile(BaseModel):
     """Per-capita consumption by tech level."""
+
     model_config = ConfigDict(use_enum_values=True)
-    
+
     tech: TechLevel
     per_capita: Dict[str, Decimal]  # resource_id -> quantity
 
 
 class TradeLink(BaseModel):
     """Trade flow between operators."""
+
     link_id: UUID = Field(default_factory=uuid4)
     source_id: str
     dest_id: str
@@ -158,7 +165,7 @@ class TradeLink(BaseModel):
     price_source: Decimal
     price_dest: Decimal
     profit_margin: Decimal
-    
+
     @property
     def is_profitable(self) -> bool:
         """Check if trade link is profitable."""
@@ -167,18 +174,22 @@ class TradeLink(BaseModel):
 
 class SimulationConfig(BaseModel):
     """Main simulation configuration."""
+
     model_config = ConfigDict(use_enum_values=True)
-    
+
     # Trade parameters
     max_trade_neighbors: int = Field(default=8, ge=1, le=50)
     max_trade_radius_km: Decimal = Field(default=Decimal("800"), gt=0)
     min_trade_quantity: Decimal = Field(default=Decimal("0.5"), gt=0)
     transport_cost_per_km: Decimal = Field(default=Decimal("0.02"), ge=0)
-    
+
+    # Calibration: world supply of each produced resource = world demand x this ratio
+    supply_demand_ratio: Decimal = Field(default=Decimal("1.0"), gt=0)
+
     # Pricing parameters
     scarcity_multiplier: bool = True
     price_elasticity: Decimal = Field(default=Decimal("1.5"), gt=0)
-    
+
     # Simulation parameters
     time_steps: int = Field(default=1, ge=1)
     seed: Optional[int] = None

@@ -23,5 +23,10 @@ dev = [
     "pytest>=8.4.1",
     "pytest-cov>=6.2.1",
     "ruff>=0.12.8",
+    "scipy-stubs>=1.18.1.1",
+    "types-networkx>=3.6.1.20260911",
     "types-pyyaml>=6.0.12.20250809",
 ]
+
+[tool.ruff]
+line-length = 100

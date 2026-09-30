@@ -1,12 +1,119 @@
 # Development Status Report
 
 **Project:** Enonomics - Economic Worldbuilding Generator  
-**Date:** 2025-08-10  
+**Date:** 2026-09-30 (previous report: 2025-08-10)  
 **Version:** 0.1.0
 
 ## Current State Summary
 
-The economic simulation system has a solid architectural foundation with most core components implemented and functional. However, a critical issue with trade route generation prevents the system from achieving its primary objective.
+The pipeline runs end-to-end on all bundled datasets and produces tech-consistent trade.
+The trade links reported in `TRADE_NETWORK_FIX.md` came from a tech-gating bug. Fixing it
+dropped trade to 0, and production has since been recalibrated against demand (see Issue #1).
+
+### Health check (2026-09-30)
+
+| Check | Result |
+|---|---|
+| `uv run pytest` | 85 passed |
+| CLI `run` on `data/performance_test.geojson` | 491 trade links |
+| CLI `run` on `Data/kaupungit.geojson` | 66 links (fish 21, textiles 8, jewelry 7, tools 7, stone 5, iron-ore 5, food 4, wood 4, precious-metals 2, gems 2, fiber 1) |
+| Default run vs. `--config config/econ.yaml` | Identical data outputs |
+| `uv run ruff check .` | Passing |
+| `uv run ruff format --check .` | Passing (line length 100, set in `pyproject.toml`) |
+| `uv run mypy src/` | Passing (type stubs for networkx and scipy added as dev deps) |
+| CI | GitHub Actions (`.github/workflows/ci.yml`): ruff check, ruff format, mypy, pytest |
+
+### Changes in this update
+- `pytest.ini` header corrected (`[tool:pytest]` -> `[pytest]`) so its settings apply.
+- Tech-level comparisons fixed: models store tech as plain strings, which compared
+  alphabetically. Rule/resource eligibility now follows tribal < medieval < industrial.
+- Default taxonomy gained `seed`, `fiber`, `coal`, `precious-metals`, `gems`, `slag`
+  (all referenced by default rules); `slag` added to `config/econ.yaml`.
+- `normalize_resource_id` collapses any non-alphanumeric run to a single hyphen.
+- Tests rewritten to match the actual API; added `test_rules.py` (tech gating) and
+  `test_cli.py` (end-to-end run).
+- Generated outputs (`out/`, `.coverage`), Windows `Zone.Identifier` files and the Serena
+  cache are no longer tracked.
+
+### Recalibration
+- Capacity scales linearly with population (workforce / `labor_required`) instead of
+  sqrt(population / 10,000) clamped to 10, and the 1,000-unit cap is gone.
+- New `calibration.py`: each rule is scaled so world output of its primary product equals
+  world demand x `supply_demand_ratio` (new config field, default 1.0).
+- Trade uses net positions: exports are supply minus own demand; imports are demand minus
+  own supply. Previously a city could export food it needed itself.
+- Loader: baseline agriculture/craftsmanship endowments no longer overwrite higher
+  culture-based values (e.g. Noon agriculture 0.8 was reset to 0.5).
+
+### Local industrial mining
+- New rules `industrial-iron-mining` and `industrial-coal-mining` (industrial tech,
+  `industrial_capacity` endowment) let industrial cities source ore and coal locally,
+  without giving them gems/stone/precious metals via `mining_potential`.
+- Calibration now computes one factor per resource shared by every rule producing it;
+  per-rule factors would have sized each rule to the full demand, doubling supply.
+- Industrial cities' needs met locally: `kaupungit` iron ore 0% -> 100%, coal 0% -> 84%
+  (iron-ore links 2 -> 5, now exported); `performance_test` iron ore 82% -> 91%, coal
+  79% -> 88% (links 497 -> 491 as local mining replaces some imports).
+
+### Steel on kaupungit
+- `_extract_endowments` set `industrial_capacity` from a raw `tech` property, which
+  `Data/kaupungit.geojson` does not have, so no city could run steel-making. It now uses the
+  inferred tech level (explicit `tech` still wins); `performance_test` is unaffected.
+- `kaupungit`: 5 steel-making cities; world steel supply 0 -> ~543k (matches demand), and
+  calibration raised iron ore to ~3.1M and coal to ~1.1M to cover steel inputs.
+- Trade stays at 63 links: the industrial cities are 878+ km apart, and mines are mostly
+  elsewhere, so their iron ore and coal needs remain largely unmet.
+
+### Production inputs
+- Inputs consumed by production are added to each operator's demand
+  (`calculate_input_demand`), so trade exports output minus own consumption minus inputs.
+- `calibrate_with_input_demand` sizes each rule for final plus input demand, repeating
+  calibration until total demand stops changing (3 passes on `kaupungit`).
+- `performance_test`: 304 -> 319 links; coal starts trading (23 links), iron ore 17 -> 41,
+  steel 1 -> 3, while stone (37 -> 20) and tools (53 -> 36) are now used locally by
+  toolmakers and machinery producers. `kaupungit`: 54 -> 58 links (tools 3 -> 7).
+- New extraction rules supply the inputs that had no producer: `seed-cultivation` and
+  `fiber-farming` (tribal, agriculture), `precious-metal-mining` and `gem-mining`
+  (medieval, mining potential). World supply matches demand for all four; other goods'
+  trade is unchanged.
+- Seed never trades: it is driven by the same endowment as farming, so farmers grow their
+  own. Fiber is grown in 135 `kaupungit` cities but woven in 35, and precious metals/gems
+  are mined in only 5 cities for 47 jewelers; distance limits these to 1-2 links each
+  there (`performance_test`: fiber 94, precious metals 41, gems 43 links).
+
+### Weapons and armor removed from demand
+- Dropped `weapons` from the medieval and industrial demand profiles (code and YAML) and
+  `weapons`/`armor` from the plaza, citadel, walls, Night, wildlands and mining modifiers.
+- The runtime "Demand profiles reference unknown resources" warning is gone; trade,
+  supply and prices are unchanged (weapons were never produced or priced).
+- Removed dead weapon/armor/military references from production bonuses (citadel in
+  `rules.py` and `capacity.py`, walls, Aumir religion) and the Night culture price
+  discount in `pricing.py`. None matched an existing rule or resource; outputs unchanged.
+- The walls production bonus matched `stone` in rule IDs, but the stone rule is
+  `quarrying`, so it never applied. It now matches `quarrying` (`test_capacity.py`).
+
+### YAML alignment
+- `config/econ.yaml` and the built-in defaults now define the same resources, rules,
+  demand profiles and simulation settings; `test_config.py` fails if they drift.
+- Built-in defaults gained forestry, quarrying, iron-mining and coal-mining (previously
+  YAML-only), using the `forestry` and `mining_potential` endowments the loader already set.
+  On `kaupungit` this took trade from 43 to 54 links and capped prices from 163 to 0.
+- The YAML dropped `weapons` and `weaponsmithing` (removed from defaults in REVISION-001).
+- Pricing and trade iterate resources in sorted order, so repeated runs give byte-identical
+  data files (previously `prices.json` key order changed between runs).
+
+### Price curve
+- The scarcity adjustment in `pricing.py` applied its multiplier twice (roughly squaring
+  it), jumped at supply ratios 0.5, 0.8 and 2.0, and went negative above ~9x oversupply.
+- Replaced with a constant-elasticity curve: `(demand/supply) ** (1/price_elasticity)`,
+  with the supply ratio bounded to [0.05, 20].
+- `Data/kaupungit.geojson`: prices at the 10x cap fell from 567/851 to 163/851, and all
+  of those were wood, stone and iron-ore, then produced by no default rule. Links importing
+  at the cap fell from 73/95 to 0/43.
+- Trade on `kaupungit` fell from 95 to 43 links, mostly food (42 -> 4): its cities are a
+  median ~470 km apart, and at realistic food prices long-haul grain no longer covers
+  transport cost (0.02/km). `transport_cost_per_km` is the main lever: at 0.01, the YAML
+  config gives 80 links instead of 59.
 
 ## Implementation Status
 
@@ -37,15 +144,19 @@ The economic simulation system has a solid architectural foundation with most co
 
 ### ❌ BROKEN COMPONENTS
 
-#### Trade Flow Solver (0% Functional)
-- **Root Cause:** Resource ID mapping inconsistency between supply and demand
-- **Impact:** No trade routes generated, rendering core functionality unusable
-- **Status:** High priority investigation required
+#### Supply/Demand Calibration (Resolved)
+- **Root Cause:** Production capacity (~1 unit per rule per operator) was orders of
+  magnitude below demand (per-capita x population): supply ~3,100 vs. demand ~12.9 million
+  units on `Data/kaupungit.geojson`.
+- **Fix:** Population-linear capacity plus per-rule calibration (`calibration.py`) and net
+  surplus/deficit trading. See "Recalibration" above.
 
-#### Supply Calculation (Partially Broken)
-- **Issue:** Synthetic resource IDs don't match demand resource IDs
-- **Location:** `cli.py:313-331` - `_calculate_supply_from_capacities()`
-- **Fix Required:** Use actual output resource IDs from production rules
+#### Price Curve (Resolved)
+- Constant-elasticity curve replaces the step function (see "Price curve" above).
+
+#### Supply Calculation (Resolved)
+- `_calculate_supply_from_capacities()` uses rule output resource IDs
+  (covered by `test_integration.py`).
 
 ### ⚠️ PARTIAL/QUESTIONABLE COMPONENTS
 
@@ -105,6 +216,12 @@ The economic simulation system has a solid architectural foundation with most co
 **Severity:** Blocks core functionality  
 **Confidence:** High - reproduced across multiple test scenarios  
 **Investigation Priority:** Highest
+
+**Update 2026-09-30:** The resource ID mismatch described below was fixed earlier, and trade
+links appeared - but only because tech levels compared alphabetically, letting tribal
+operators run medieval/industrial rules. With that fixed, the remaining cause is the
+supply/demand scale mismatch, now resolved by calibration (see "Recalibration" above).
+The original analysis is kept below for history.
 
 **Suspected Root Cause:** Resource ID mismatch between components
 ```python

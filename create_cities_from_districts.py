@@ -4,11 +4,10 @@ Extract city information from district files and create a GeoJSON for economic s
 """
 
 import json
-import os
 import random
 from pathlib import Path
 from collections import defaultdict
-import numpy as np
+
 
 def get_polygon_centroid(coordinates):
     """Calculate centroid of a polygon."""
@@ -23,21 +22,22 @@ def get_polygon_centroid(coordinates):
 
     return [centroid_x, centroid_y]
 
+
 def analyze_district_file(filepath):
     """Analyze a district file to extract city information."""
     try:
-        with open(filepath, 'r', encoding='utf-8') as f:
+        with open(filepath, "r", encoding="utf-8") as f:
             data = json.load(f)
 
-        city_name = data.get('name', '')
+        city_name = data.get("name", "")
         if not city_name:
             # Extract from filename
-            city_name = Path(filepath).stem.split('.')[0]
+            city_name = Path(filepath).stem.split(".")[0]
 
         # Capitalize city name
         city_name = city_name.capitalize()
 
-        districts = data.get('features', [])
+        districts = data.get("features", [])
         if not districts:
             return None
 
@@ -48,14 +48,14 @@ def analyze_district_file(filepath):
         all_coords = []
 
         for district in districts:
-            props = district.get('properties', {})
-            district_types[props.get('Type', 'Unknown')] += 1
-            eras[props.get('Era', 'Unknown')] += 1
+            props = district.get("properties", {})
+            district_types[props.get("Type", "Unknown")] += 1
+            eras[props.get("Era", "Unknown")] += 1
 
             # Collect coordinates for centroid calculation
-            geom = district.get('geometry', {})
-            if geom.get('type') == 'Polygon':
-                coords = geom.get('coordinates', [])
+            geom = district.get("geometry", {})
+            if geom.get("type") == "Polygon":
+                coords = geom.get("coordinates", [])
                 if coords:
                     all_coords.extend(coords[0])
 
@@ -63,39 +63,36 @@ def analyze_district_file(filepath):
         if all_coords:
             x_coords = [point[0] for point in all_coords]
             y_coords = [point[1] for point in all_coords]
-            city_center = [
-                sum(x_coords) / len(x_coords),
-                sum(y_coords) / len(y_coords)
-            ]
+            city_center = [sum(x_coords) / len(x_coords), sum(y_coords) / len(y_coords)]
         else:
             return None
 
         # Determine dominant era
-        dominant_era = max(eras.items(), key=lambda x: x[1])[0] if eras else 'Medieval'
+        dominant_era = max(eras.items(), key=lambda x: x[1])[0] if eras else "Medieval"
 
         # Map era to tech level
         tech_mapping = {
-            'Ancient': 'tribal',
-            'Medieval': 'medieval',
-            'Renaissance': 'medieval',
-            'Industrial': 'industrial',
-            'Modern': 'industrial'
+            "Ancient": "tribal",
+            "Medieval": "medieval",
+            "Renaissance": "medieval",
+            "Industrial": "industrial",
+            "Modern": "industrial",
         }
-        tech_level = tech_mapping.get(dominant_era, 'medieval')
+        tech_level = tech_mapping.get(dominant_era, "medieval")
 
         # Estimate population based on district count and types
         base_population = total_districts * 500  # Base per district
 
         # Adjust for district types
-        residential_districts = district_types.get('Residential', 0)
-        commercial_districts = district_types.get('Commercial', 0)
-        industrial_districts = district_types.get('Industrial', 0)
+        residential_districts = district_types.get("Residential", 0)
+        commercial_districts = district_types.get("Commercial", 0)
+        industrial_districts = district_types.get("Industrial", 0)
 
         population = (
-            base_population +
-            residential_districts * 1000 +
-            commercial_districts * 300 +
-            industrial_districts * 200
+            base_population
+            + residential_districts * 1000
+            + commercial_districts * 300
+            + industrial_districts * 200
         )
 
         # Add some randomness but keep it deterministic per city
@@ -106,61 +103,65 @@ def analyze_district_file(filepath):
         endowments = {}
 
         # Base resources
-        endowments['food'] = random.randint(50, 200)
-        endowments['wood'] = random.randint(30, 150)
-        endowments['stone'] = random.randint(20, 100)
+        endowments["food"] = random.randint(50, 200)
+        endowments["wood"] = random.randint(30, 150)
+        endowments["stone"] = random.randint(20, 100)
 
         # Special resources based on characteristics
         if commercial_districts > 2:
-            endowments['luxury_goods'] = random.randint(10, 50)
+            endowments["luxury_goods"] = random.randint(10, 50)
 
         if industrial_districts > 1:
-            endowments['iron_ore'] = random.randint(50, 200)
-            endowments['tools'] = random.randint(20, 80)
+            endowments["iron_ore"] = random.randint(50, 200)
+            endowments["tools"] = random.randint(20, 80)
 
         # Coastal determination (simplified - based on coordinate ranges)
         coastal = (
-            min(x_coords) < 30 and max(x_coords) > 25 or  # Coastal longitude ranges
-            abs(city_center[1] - 36) < 2  # Near latitude 36
+            min(x_coords) < 30
+            and max(x_coords) > 25  # Coastal longitude ranges
+            or abs(city_center[1] - 36) < 2  # Near latitude 36
         )
 
         # Mountainous determination (simplified - based on coordinate clustering)
         mountainous = len(set(round(coord, 1) for coord in x_coords)) > 5
 
         if coastal:
-            endowments['fish'] = random.randint(100, 400)
+            endowments["fish"] = random.randint(100, 400)
 
         return {
-            'name': city_name,
-            'population': population,
-            'tech': tech_level,
-            'center': city_center,
-            'districts': total_districts,
-            'dominant_era': dominant_era,
-            'district_types': dict(district_types),
-            'endowments': endowments,
-            'coastal': coastal,
-            'mountainous': mountainous
+            "name": city_name,
+            "population": population,
+            "tech": tech_level,
+            "center": city_center,
+            "districts": total_districts,
+            "dominant_era": dominant_era,
+            "district_types": dict(district_types),
+            "endowments": endowments,
+            "coastal": coastal,
+            "mountainous": mountainous,
         }
 
     except Exception as e:
         print(f"Error processing {filepath}: {e}")
         return None
 
+
 def main():
-    districts_dir = Path('/root/Eno/Eno-Worldbuilder2/GIS/districts')
+    districts_dir = Path("/root/Eno/Eno-Worldbuilder2/GIS/districts")
 
     cities = []
 
     print("Analyzing district files...")
-    for district_file in districts_dir.glob('*.geojson'):
+    for district_file in districts_dir.glob("*.geojson"):
         city_info = analyze_district_file(district_file)
         if city_info:
             cities.append(city_info)
-            print(f"Processed: {city_info['name']} ({city_info['population']:,} pop, {city_info['districts']} districts)")
+            print(
+                f"Processed: {city_info['name']} ({city_info['population']:,} pop, {city_info['districts']} districts)"
+            )
 
     # Sort by population (largest first)
-    cities.sort(key=lambda x: x['population'], reverse=True)
+    cities.sort(key=lambda x: x["population"], reverse=True)
 
     # Create GeoJSON FeatureCollection
     features = []
@@ -170,43 +171,42 @@ def main():
             "type": "Feature",
             "properties": {
                 "Id": str(i + 1),
-                "Burg": city['name'],
-                "Population": city['population'],
+                "Burg": city["name"],
+                "Population": city["population"],
                 "type": "city",
-                "tech": city['tech'],
-                "endowments": city['endowments'],
-                "Coastal": city['coastal'],
-                "Mountainous": city['mountainous'],
-                "districts_count": city['districts'],
-                "dominant_era": city['dominant_era'],
-                "district_types": city['district_types']
+                "tech": city["tech"],
+                "endowments": city["endowments"],
+                "Coastal": city["coastal"],
+                "Mountainous": city["mountainous"],
+                "districts_count": city["districts"],
+                "dominant_era": city["dominant_era"],
+                "district_types": city["district_types"],
             },
-            "geometry": {
-                "type": "Point",
-                "coordinates": city['center']
-            }
+            "geometry": {"type": "Point", "coordinates": city["center"]},
         }
         features.append(feature)
 
     # Create final GeoJSON
-    geojson = {
-        "type": "FeatureCollection",
-        "features": features
-    }
+    geojson = {"type": "FeatureCollection", "features": features}
 
     # Write to file
-    output_path = Path('/root/Eno/Enonomics/worldbuilder_cities.geojson')
-    with open(output_path, 'w', encoding='utf-8') as f:
+    output_path = Path("/root/Eno/Enonomics/worldbuilder_cities.geojson")
+    with open(output_path, "w", encoding="utf-8") as f:
         json.dump(geojson, f, indent=2, ensure_ascii=False)
 
     print(f"\n✅ Created {output_path}")
     print(f"📊 Processed {len(cities)} cities")
-    print(f"📈 Population range: {min(c['population'] for c in cities):,} - {max(c['population'] for c in cities):,}")
+    print(
+        f"📈 Population range: {min(c['population'] for c in cities):,} - {max(c['population'] for c in cities):,}"
+    )
 
     # Print top 10 cities
     print("\n🏙️ Top 10 Cities by Population:")
     for i, city in enumerate(cities[:10]):
-        print(f"{i+1:2d}. {city['name']:<15} {city['population']:>7,} pop ({city['tech']}, {city['districts']} districts)")
+        print(
+            f"{i + 1:2d}. {city['name']:<15} {city['population']:>7,} pop ({city['tech']}, {city['districts']} districts)"
+        )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

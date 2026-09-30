@@ -7,6 +7,9 @@ simulation:
   max_trade_radius_km: 800
   min_trade_quantity: 0.5
   transport_cost_per_km: 0.02
+
+  # Calibration: world supply of each produced resource = world demand x this ratio
+  supply_demand_ratio: 1.0
   
   # Market dynamics
   scarcity_multiplier: true
@@ -110,14 +113,6 @@ resources:
     transportable: true
     perishable: false
 
-  - resource_id: weapons
-    name: Weapons
-    tier: 1
-    tech_min: medieval
-    base_price: 8.0
-    transportable: true
-    perishable: false
-
   - resource_id: textiles
     name: Textiles
     tier: 1
@@ -140,6 +135,15 @@ resources:
     tier: 2
     tech_min: industrial
     base_price: 25.0
+    transportable: true
+    perishable: false
+
+  # Byproducts
+  - resource_id: slag
+    name: Slag
+    tier: 2
+    tech_min: industrial
+    base_price: 0.2
     transportable: true
     perishable: false
 
@@ -210,6 +214,60 @@ rules:
     capacity_driver: mining_potential
     labor_required: 4.5
 
+  - rule_id: industrial-iron-mining
+    name: Industrial Iron Mining
+    tech_min: industrial
+    inputs: {}
+    outputs:
+      iron-ore: 1.5
+    capacity_driver: industrial_capacity
+    labor_required: 4.0
+
+  - rule_id: industrial-coal-mining
+    name: Industrial Coal Mining
+    tech_min: industrial
+    inputs: {}
+    outputs:
+      coal: 1.8
+    capacity_driver: industrial_capacity
+    labor_required: 4.5
+
+  - rule_id: seed-cultivation
+    name: Seed Cultivation
+    tech_min: tribal
+    inputs: {}
+    outputs:
+      seed: 4.0
+    capacity_driver: agriculture
+    labor_required: 1.0
+
+  - rule_id: fiber-farming
+    name: Fiber Farming
+    tech_min: tribal
+    inputs: {}
+    outputs:
+      fiber: 2.0
+    capacity_driver: agriculture
+    labor_required: 2.0
+
+  - rule_id: precious-metal-mining
+    name: Precious Metal Mining
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      precious-metals: 0.5
+    capacity_driver: mining_potential
+    labor_required: 5.0
+
+  - rule_id: gem-mining
+    name: Gem Mining
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      gems: 0.3
+    capacity_driver: mining_potential
+    labor_required: 5.0
+
   # Secondary production (crafting/manufacturing)
   - rule_id: toolmaking
     name: Tool Making
@@ -222,19 +280,8 @@ rules:
     capacity_driver: craftsmanship
     labor_required: 3.0
 
-  - rule_id: weaponsmithing
-    name: Weapon Smithing
-    tech_min: medieval
-    inputs:
-      iron-ore: 3.0
-      wood: 1.0
-    outputs:
-      weapons: 1.0
-    capacity_driver: skilled_labor
-    labor_required: 4.0
-
   - rule_id: weaving
-    name: Textile Weaving
+    name: Weaving
     tech_min: medieval
     inputs:
       fiber: 2.0
@@ -295,7 +342,6 @@ demand_profiles:
       stone: 0.3
       iron-ore: 0.5
       tools: 0.4
-      weapons: 0.3
       textiles: 0.6
       fish: 0.5
       jewelry: 0.1
@@ -308,7 +354,6 @@ demand_profiles:
       iron-ore: 0.8
       steel: 0.4
       tools: 0.6
-      weapons: 0.2
       textiles: 1.0
       machinery: 0.3
       fish: 0.4

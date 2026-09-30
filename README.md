@@ -28,7 +28,7 @@ uv run python -m src.econgen.cli config-template --output my_config.yaml
 The simulation operates through a multi-stage pipeline that processes GeoJSON city data to generate economic relationships:
 
 ```
-GeoJSON Input � Operators � Production � Demand � Pricing � Trade Network � Reports
+GeoJSON Input → Operators → Production → Demand → Calibration → Pricing → Trade Network → Reports
 ```
 
 ### Core Components
@@ -64,89 +64,83 @@ Cities and settlements with:
 - Resource endowments (derived from geographic features)
 - Infrastructure flags (port, capital, walls, etc.)
 
-## Known Issues (Critical)
+## Known Issues
 
-### 1. No Active Trade Routes
-**Status:** CONFIRMED BUG  
-**Impact:** High - Primary system functionality broken
+None currently open.
 
-The trade network solver consistently produces 0 trade links across all test scenarios:
-- Performance test: 140 operators, 0 trade routes generated
-- Small test: 3 operators, 0 trade routes generated
-
-**Root Causes Under Investigation:**
-- Supply/demand calculation mismatch
-- Resource ID mapping inconsistencies between components
-- Price calculation preventing profitable trades
-- Trade partner spatial indexing issues
-
-### 2. City Names Read from Wrong Attribute  
-**Status:** CONFIRMED BUG  
-**Impact:** Medium - Data integrity issue
-
-GeoJSON loader correctly attempts to read city names from "Burg" attribute (line 130 in `io_geojson.py`) but some processing may still reference incorrect fields.
-
-**Evidence:**
-```geojson
-{ "Burg": "Jouy", "name": null, ... }  // Correct: using "Burg"
-```
-
-### 3. Weapons in Tribal Technology
-**Status:** CONFIRMED BUG  
-**Impact:** Low - Logic consistency issue
-
-The default taxonomy includes weapons requiring MEDIEVAL tech level, but some tribal-level settlements show weapons in their demand profiles.
-
-**Location:** `taxonomy.py` line 220-227
-```python
-Resource(
-    resource_id="weapons",
-    name="Weapons", 
-    tier=1,
-    tech_min=TechLevel.MEDIEVAL,  # Should not appear in tribal demand
-    ...
-)
-```
+### Resolved
+- **Industrial inputs unmet on kaupungit:** new `industrial-iron-mining` and
+  `industrial-coal-mining` rules (industrial tech, `industrial_capacity` endowment) let
+  industrial cities mine locally; they now cover 100% of their iron ore and 84% of their
+  coal. Calibration scales all rules producing the same resource with one shared factor.
+- **No steel on kaupungit:** the `industrial_capacity` endowment read a raw `tech` property
+  that `kaupungit` lacks. It now uses the inferred tech level, so industrial cities qualify
+  for steel-making.
+- **Inputs with no producer:** new rules `seed-cultivation` and `fiber-farming` (tribal,
+  agriculture) and `precious-metal-mining` and `gem-mining` (medieval, mining potential)
+  supply every rule input (enforced by `test_every_rule_input_has_a_producer`).
+- **Production inputs:** the inputs each operator's production consumes are added to its
+  demand, so net surplus = output - own consumption - inputs used, and missing inputs
+  become import needs. Calibration sizes each rule for final plus input demand.
+- **Weapons and armor in demand:** removed from the medieval and industrial demand profiles
+  and from the demand modifiers in `demand.py`, matching `PRPs/REVISION-001.md`. Every
+  demanded resource now exists in the taxonomy (enforced by
+  `test_demand_profiles_resource_consistency`).
+- **YAML config vs. built-in defaults:** `config/econ.yaml` now matches the defaults exactly
+  (enforced by `test_config.py`). The YAML-only extraction rules (forestry, quarrying,
+  iron-mining, coal-mining) moved into the defaults; `weapons`/`weaponsmithing` left the YAML.
+- **Run-to-run output order:** set iteration in pricing and trade is sorted, so data outputs
+  are byte-identical for the same input (only the report timestamp changes).
+- **City names:** read from the `Burg` attribute (covered by `test_city_names_from_burg_attribute`).
+- **Missing default resources:** `seed`, `fiber`, `coal`, `precious-metals`, `gems` and
+  `slag` are now in the default taxonomy, so every default rule references known resources.
+- **Tech gating:** rule and resource eligibility now follow tech order (`test_rules.py`).
+- **Zero trade after the tech-gating fix:** production is now calibrated to demand
+  (`calibration.py`) and trade uses net surplus/deficit. `Data/kaupungit.geojson` yields
+  95 links (food, fish, tools, textiles, jewelry); `data/performance_test.geojson` 231.
+- **Prices pinned at the cap:** the scarcity curve applied its multiplier twice, had step
+  jumps and could go negative. It is now a smooth constant-elasticity curve (see
+  `ARCHITECTURE.md`); no trade link on the bundled datasets imports at the cap.
 
 ## Successfully Implemented Features
 
-###  GeoJSON Data Loading
+### ✅ GeoJSON Data Loading
 - Robust parsing of FeatureCollection and individual Features
 - Coordinate transformation from Web Mercator to WGS84
 - Property extraction with intelligent defaults
 - Comprehensive error handling and validation modes
 
-###  Resource System
+### ✅ Resource System
 - Hierarchical resource taxonomy (4 tiers)
 - Technology-gated availability
 - Transportability and perishability flags
 - Base price definitions
 
-###  Production Rules Engine
+### ✅ Production Rules Engine
 - DAG validation prevents circular dependencies
 - Technology-level constraints
 - Input/output resource mapping
 - Capacity drivers and labor requirements
 
-###  Spatial Trade Network
+### ✅ Spatial Trade Network
 - KDTree-based nearest neighbor search
 - Configurable trade radius and partner limits
 - Great circle distance calculations
 - Partner caching for performance
 
-###  Economic Operator Modeling
+### ✅ Economic Operator Modeling
 - Population-based technology inference
 - Geographic endowment derivation
 - Infrastructure feature detection
 - Comprehensive attribute preservation
 
-###  Configuration System
+### ✅ Configuration System
 - YAML-based configuration files
 - Default taxonomies and rule sets
 - Environment-specific parameters
 - Template generation
 
-###  Report Generation
+### ✅ Report Generation
 - Markdown-formatted analysis reports
 - Trade network statistics
 - Settlement rankings and distributions
@@ -197,21 +191,22 @@ TradeLink(
 
 ## Development Status
 
-### Phase 1: Core Infrastructure  COMPLETE
+### Phase 1: Core Infrastructure ✅ COMPLETE
 - [x] Data models and validation
 - [x] GeoJSON loading and parsing
 - [x] Resource taxonomy system
 - [x] Production rules engine
 - [x] Configuration management
 
-### Phase 2: Economic Calculation � PARTIAL
+### Phase 2: Economic Calculation ⚠️ PARTIAL
 - [x] Capacity calculation
 - [x] Demand modeling  
 - [x] Price calculation
-- [ ] **Supply/demand balance (BROKEN)**
-- [ ] **Trade flow solving (BROKEN)**
+- [x] Supply/demand calibration (`supply_demand_ratio`, default 1.0)
+- [x] Trade flow solving on net surplus/deficit
+- [x] Constant-elasticity price curve
 
-### Phase 3: Analysis and Output  COMPLETE
+### Phase 3: Analysis and Output ✅ COMPLETE
 - [x] Trade network statistics
 - [x] Report generation
 - [x] Data export (JSON/JSONL)
@@ -240,6 +235,9 @@ uv run ruff format .
 # Check linting
 uv run ruff check .
 ```
+
+CI (`.github/workflows/ci.yml`) runs `uv sync --locked`, `ruff check`, `ruff format --check`,
+`mypy src/` and `pytest` on every push and pull request.
 
 ## License
 
