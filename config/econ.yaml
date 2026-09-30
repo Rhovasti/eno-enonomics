@@ -316,6 +316,54 @@ resources:
     base_price: 60.0
     transportable: true
     perishable: false
+
+  - resource_id: natra
+    name: Natra (Salt)
+    tier: 0
+    tech_min: medieval
+    base_price: 2.0
+    transportable: true
+    perishable: false
+
+  - resource_id: wardsilver
+    name: Wardsilver
+    tier: 2
+    tech_min: medieval
+    base_price: 55.0
+    transportable: true
+    perishable: false
+
+  - resource_id: shapeiron
+    name: Shapeiron
+    tier: 2
+    tech_min: medieval
+    base_price: 40.0
+    transportable: true
+    perishable: false
+
+  - resource_id: sungold
+    name: Sungold
+    tier: 2
+    tech_min: medieval
+    base_price: 90.0
+    transportable: true
+    perishable: false
+
+  - resource_id: dustglass
+    name: Dustglass
+    tier: 2
+    tech_min: medieval
+    base_price: 20.0
+    transportable: true
+    perishable: false
+
+  - resource_id: preservers-salt
+    name: Preserver's Salt
+    tier: 2
+    tech_min: medieval
+    base_price: 30.0
+    transportable: true
+    perishable: false
 # Production rules
 rules:
   # Primary production (resource extraction)
@@ -630,6 +678,15 @@ rules:
     capacity_driver: aru_deposit
     labor_required: 3.0
 
+  - rule_id: natra-mining
+    name: Natra Mining
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      natra: 1.5
+    capacity_driver: natra_deposit
+    labor_required: 3.0
+
   - rule_id: living-bronze-forging
     name: Living Bronze Forging
     tech_min: medieval
@@ -673,6 +730,61 @@ rules:
       grave-lead: 1.0
     capacity_driver: plon_deposit
     labor_required: 5.0
+
+  - rule_id: wardsilver-casting
+    name: Wardsilver Casting
+    tech_min: medieval
+    inputs:
+      sira: 1.0
+      pitch: 1.0
+    outputs:
+      wardsilver: 1.0
+    capacity_driver: sira_deposit
+    labor_required: 5.5
+
+  - rule_id: shapeiron-forging
+    name: Shapeiron Forging
+    tech_min: medieval
+    inputs:
+      feron: 1.0
+      mucus: 1.0
+    outputs:
+      shapeiron: 1.0
+    capacity_driver: feron_deposit
+    labor_required: 5.0
+
+  - rule_id: sungold-refining
+    name: Sungold Refining
+    tech_min: medieval
+    inputs:
+      aru: 1.0
+      mold: 1.0
+    outputs:
+      sungold: 1.0
+    capacity_driver: aru_deposit
+    labor_required: 6.0
+
+  - rule_id: dustglass-firing
+    name: Dustglass Firing
+    tech_min: medieval
+    inputs:
+      sirael: 1.0
+      dust: 1.0
+    outputs:
+      dustglass: 1.0
+    capacity_driver: sirael_deposit
+    labor_required: 4.0
+
+  - rule_id: preservers-salt-curing
+    name: Preserver's Salt Curing
+    tech_min: medieval
+    inputs:
+      natra: 1.0
+      rime: 1.0
+    outputs:
+      preservers-salt: 1.0
+    capacity_driver: natra_deposit
+    labor_required: 4.0
 # Demand profiles by technology level
 demand_profiles:
   - tech: tribal
@@ -699,6 +811,11 @@ demand_profiles:
       cunu: 0.1
       living-bronze: 0.05
       soulstone: 0.03
+      wardsilver: 0.02
+      shapeiron: 0.03
+      sungold: 0.01
+      dustglass: 0.05
+      preservers-salt: 0.05
 
   - tech: industrial
     per_capita:
@@ -719,3 +836,8 @@ demand_profiles:
       soulstone: 0.08
       dreamfire: 0.08
       grave-lead: 0.05
+      wardsilver: 0.03
+      shapeiron: 0.06
+      sungold: 0.02
+      dustglass: 0.1
+      preservers-salt: 0.05

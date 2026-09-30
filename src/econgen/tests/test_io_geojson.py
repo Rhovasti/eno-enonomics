@@ -5,7 +5,7 @@ from pathlib import Path
 from decimal import Decimal
 from typing import Dict
 
-from ..io_geojson import CORE_ELEMENTS, GeoJSONLoader, ensure_element_coverage
+from ..io_geojson import MINED_ELEMENTS, GeoJSONLoader, ensure_element_coverage
 from ..models import Operator, TechLevel
 
 
@@ -266,7 +266,7 @@ def test_element_coverage_adds_missing_elements_to_mining_cities():
 
     ensure_element_coverage(operators)
 
-    assert _elements_held(operators) >= set(CORE_ELEMENTS)
+    assert _elements_held(operators) >= set(MINED_ELEMENTS)
     assert not any(k.endswith("_deposit") for k in operators[2].endowments)  # tribal
     assert not any(k.endswith("_deposit") for k in operators[3].endowments)  # no mining
     # Fewest deposits first: "b" (0 deposits) takes cunu, the first missing element.
@@ -277,10 +277,33 @@ def test_element_coverage_is_a_no_op_when_all_elements_are_held():
     """Datasets that already cover every element are left unchanged."""
     operators = [
         _city(f"m{i}", TechLevel.MEDIEVAL, mining_potential="0.6", **{f"{el}_deposit": "0.6"})
-        for i, el in enumerate(CORE_ELEMENTS)
+        for i, el in enumerate(MINED_ELEMENTS)
     ]
     before = [dict(op.endowments) for op in operators]
 
     ensure_element_coverage(operators)
 
     assert [dict(op.endowments) for op in operators] == before
+
+
+def test_natra_coverage_uses_coastal_cities():
+    """Natra (salt) is only ever placed in a medieval+ coastal city."""
+    operators = [
+        _city("peak", TechLevel.MEDIEVAL, mining_potential="0.6"),
+        _city("harbour", TechLevel.MEDIEVAL, fishing="0.8"),
+        _city("fishing-camp", TechLevel.TRIBAL, fishing="0.8"),
+    ]
+
+    ensure_element_coverage(operators)
+
+    holders = [op.operator_id for op in operators if "natra_deposit" in op.endowments]
+    assert holders == ["harbour"]
+
+
+def test_coastal_cities_get_natra_deposits():
+    """Coastal geography (fish stock or trade access) yields a Natra deposit."""
+    coastal = _fantastical({"Population": 5000, "Port": "port"})
+    inland = _fantastical({"Population": 5000})
+
+    assert "natra_deposit" in coastal
+    assert "natra_deposit" not in inland

@@ -8,10 +8,12 @@ of truth for the Eno alchemical economy layer; ``create_default_taxonomy`` /
 Three tiers of fantastical material:
 - **Alchemical components** (8): Dust, Mold, Mucus, Rime, Phos, Pitch, Sap, Ash —
   soul/matter primitives gathered from mythic-geography endowments.
-- **Periodic elements** (8, curated from 20): Cunu(Cu), Feron(Fe), Aru(Au),
-  Sira(Ag), Charon(C), Sirael(Si), Plon(Pb), Suhra(S) — mined.
-- **Alchemical stuffs** (4): Living Bronze, Soulstone, Dreamfire, Grave Lead —
-  crafted from an element + a component.
+- **Periodic elements** (9, curated from 20): Cunu(Cu), Feron(Fe), Aru(Au),
+  Sira(Ag), Charon(C), Sirael(Si), Plon(Pb), Suhra(S), Natra(Na) — mined.
+- **Alchemical stuffs** (9): Living Bronze, Soulstone, Dreamfire, Grave Lead,
+  Wardsilver, Shapeiron, Sungold, Dustglass, Preserver's Salt — each crafted from
+  an element + a component, following the lore's crafter affinities, so every
+  component and element feeds at least one recipe.
 """
 
 from decimal import Decimal
@@ -40,6 +42,7 @@ _ELEMENTS: List[tuple] = [
     ("charon", "Charon (Carbon)", 0, "medieval", 6.0, False),
     ("sira", "Sira (Silver)", 0, "medieval", 25.0, False),
     ("aru", "Aru (Gold)", 0, "medieval", 40.0, False),
+    ("natra", "Natra (Salt)", 0, "medieval", 2.0, False),
 ]
 
 _STUFFS: List[tuple] = [
@@ -47,6 +50,11 @@ _STUFFS: List[tuple] = [
     ("dreamfire", "Dreamfire", 2, "medieval", 50.0, False),
     ("living-bronze", "Living Bronze", 2, "medieval", 45.0, False),
     ("soulstone", "Soulstone", 2, "medieval", 60.0, False),
+    ("wardsilver", "Wardsilver", 2, "medieval", 55.0, False),
+    ("shapeiron", "Shapeiron", 2, "medieval", 40.0, False),
+    ("sungold", "Sungold", 2, "medieval", 90.0, False),
+    ("dustglass", "Dustglass", 2, "medieval", 20.0, False),
+    ("preservers-salt", "Preserver's Salt", 2, "medieval", 30.0, False),
 ]
 
 # (rule_id, name, tech_min, inputs, outputs, capacity_driver, labor_required)
@@ -114,6 +122,54 @@ _RECIPES: List[tuple] = [
         "plon_deposit",
         5.0,
     ),
+    # Crafter affinities from the lore: Sira-Pitch (wards, forgetting), Feron-Mucus
+    # (forging, change), Aru-Mold (divinity, permanence), Sirael-Dust (foundation),
+    # and the lore's own Preserver's Salt (Natra + Rime).
+    (
+        "wardsilver-casting",
+        "Wardsilver Casting",
+        "medieval",
+        {"sira": 1.0, "pitch": 1.0},
+        {"wardsilver": 1.0},
+        "sira_deposit",
+        5.5,
+    ),
+    (
+        "shapeiron-forging",
+        "Shapeiron Forging",
+        "medieval",
+        {"feron": 1.0, "mucus": 1.0},
+        {"shapeiron": 1.0},
+        "feron_deposit",
+        5.0,
+    ),
+    (
+        "sungold-refining",
+        "Sungold Refining",
+        "medieval",
+        {"aru": 1.0, "mold": 1.0},
+        {"sungold": 1.0},
+        "aru_deposit",
+        6.0,
+    ),
+    (
+        "dustglass-firing",
+        "Dustglass Firing",
+        "medieval",
+        {"sirael": 1.0, "dust": 1.0},
+        {"dustglass": 1.0},
+        "sirael_deposit",
+        4.0,
+    ),
+    (
+        "preservers-salt-curing",
+        "Preserver's Salt Curing",
+        "medieval",
+        {"natra": 1.0, "rime": 1.0},
+        {"preservers-salt": 1.0},
+        "natra_deposit",
+        4.0,
+    ),
 ]
 
 # Per-capita fantastical demand added on top of mundane demand, by tech level.
@@ -125,6 +181,11 @@ _DEMAND: Dict[str, Dict[str, Decimal]] = {
         "cunu": Decimal("0.1"),
         "living-bronze": Decimal("0.05"),
         "soulstone": Decimal("0.03"),
+        "wardsilver": Decimal("0.02"),
+        "shapeiron": Decimal("0.03"),
+        "sungold": Decimal("0.01"),
+        "dustglass": Decimal("0.05"),
+        "preservers-salt": Decimal("0.05"),
     },
     "industrial": {
         "sap": Decimal("0.1"),
@@ -134,6 +195,11 @@ _DEMAND: Dict[str, Dict[str, Decimal]] = {
         "soulstone": Decimal("0.08"),
         "dreamfire": Decimal("0.08"),
         "grave-lead": Decimal("0.05"),
+        "wardsilver": Decimal("0.03"),
+        "shapeiron": Decimal("0.06"),
+        "sungold": Decimal("0.02"),
+        "dustglass": Decimal("0.1"),
+        "preservers-salt": Decimal("0.05"),
     },
 }
 

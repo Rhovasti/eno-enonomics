@@ -2,7 +2,7 @@
 
 import json
 from pathlib import Path
-from typing import List, Dict, Any, Sequence, Union
+from typing import Any, Callable, Dict, List, Sequence, Union
 import geojson_pydantic as geojson
 from pyproj import Transformer
 from pydantic import ValidationError
@@ -15,6 +15,10 @@ logger = logging.getLogger(__name__)
 
 # Periodic elements every mining city can hold (aru and sira need a precious signal).
 CORE_ELEMENTS = ("feron", "cunu", "charon", "plon", "suhra", "sirael")
+# Elements the coverage pass guarantees: mined ones go to mining cities, Natra
+# (salt) to coastal ones.
+MINED_ELEMENTS = CORE_ELEMENTS + ("aru", "sira")
+COASTAL_ELEMENTS = ("natra",)
 
 
 class GeoJSONLoader:
@@ -379,6 +383,8 @@ class GeoJSONLoader:
             or endowments.get("trade_access", Decimal("0")) > 0
         ):
             endowments["pitch_depth"] = Decimal("0.5")
+            # Natra (salt): evaporated from the sea at the same coastal sites.
+            endowments["natra_deposit"] = Decimal("0.5")
 
         # Phos: raw energy gathered at industrial sites.
         if self._infer_tech_level(props) == TechLevel.INDUSTRIAL:
@@ -411,14 +417,15 @@ class GeoJSONLoader:
 
 
 def ensure_element_coverage(operators: List[Operator]) -> None:
-    """Give every core element at least one deposit a city can actually mine.
+    """Give every element at least one deposit a city can actually work.
 
     Deposits are drawn per city at random (by stable hash), and element mining is
     medieval-tier, so a dataset with few medieval mining cities can miss an element
-    entirely (and every recipe that needs it). For each core element no medieval+
-    mining city holds, add a deposit to one: fewest deposits first, then highest
-    mining signal, then operator id. Tribal and non-mining cities are never used,
-    and datasets that already cover every element are unchanged.
+    entirely (and every recipe that needs it). For each element no suitable
+    medieval+ city holds, add a deposit to one: fewest deposits first, then
+    strongest signal, then operator id. Mined elements go to mining cities and
+    Natra to coastal ones; tribal cities are never used, and datasets that already
+    cover every element are unchanged.
 
     Args:
         operators: Loaded operators; endowments are extended in place
@@ -428,23 +435,34 @@ def ensure_element_coverage(operators: List[Operator]) -> None:
     def mining_signal(op: Operator) -> Decimal:
         return max(op.endowments.get("mining_potential", zero), op.endowments.get("iron_ore", zero))
 
-    candidates = [
-        op for op in operators if TechLevel(op.tech) >= TechLevel.MEDIEVAL and mining_signal(op) > 0
-    ]
-    for element in CORE_ELEMENTS:
-        key = f"{element}_deposit"
-        if not candidates or any(key in op.endowments for op in candidates):
-            continue
-        chosen = min(
-            candidates,
-            key=lambda op: (
-                sum(k.endswith("_deposit") for k in op.endowments),
-                -mining_signal(op),
-                op.operator_id,
-            ),
-        )
-        chosen.endowments[key] = Decimal("0.6")
-        logger.info(f"Element coverage: added {key} to {chosen.operator_id}")
+    def coastal_signal(op: Operator) -> Decimal:
+        return max(op.endowments.get("fishing", zero), op.endowments.get("trade_access", zero))
+
+    for elements, signal in ((MINED_ELEMENTS, mining_signal), (COASTAL_ELEMENTS, coastal_signal)):
+        candidates = [
+            op for op in operators if TechLevel(op.tech) >= TechLevel.MEDIEVAL and signal(op) > 0
+        ]
+        for element in elements:
+            _cover_element(element, candidates, signal)
+
+
+def _cover_element(
+    element: str, candidates: List[Operator], signal: Callable[[Operator], Decimal]
+) -> None:
+    """Add ``element``'s deposit to the best candidate unless one already holds it."""
+    key = f"{element}_deposit"
+    if not candidates or any(key in op.endowments for op in candidates):
+        return
+    chosen = min(
+        candidates,
+        key=lambda op: (
+            sum(k.endswith("_deposit") for k in op.endowments),
+            -signal(op),
+            op.operator_id,
+        ),
+    )
+    chosen.endowments[key] = Decimal("0.6")
+    logger.info(f"Element coverage: added {key} to {chosen.operator_id}")
 
 
 def _stable_hash(text: str) -> int:
@@ -467,4 +485,10 @@ def _stock_driver(stock: Any) -> Decimal:
 
 
 # Export main class
-__all__ = ["CORE_ELEMENTS", "GeoJSONLoader", "ensure_element_coverage"]
+__all__ = [
+    "CORE_ELEMENTS",
+    "MINED_ELEMENTS",
+    "COASTAL_ELEMENTS",
+    "GeoJSONLoader",
+    "ensure_element_coverage",
+]
