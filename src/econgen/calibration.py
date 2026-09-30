@@ -17,12 +17,13 @@ def calibrate_capacities(
     supply_demand_ratio: Decimal = Decimal("1.0"),
 ) -> List[Capacity]:
     """
-    Scale capacities so each rule's world output equals world demand times a ratio.
+    Scale capacities so world output of each resource equals world demand times a ratio.
 
     Raw capacities only fix the relative productivity of operators (population,
-    endowments, tech, infrastructure). This sets the absolute scale per rule, so that
-    local differences turn into surpluses and deficits that trade can balance.
-    Each rule is scaled by its primary (first) output. Rules whose primary output has
+    endowments, tech, infrastructure). This sets the absolute scale per resource, so
+    that local differences turn into surpluses and deficits that trade can balance.
+    Each rule counts toward its primary (first) output; all rules sharing a primary
+    output get the same factor, so their relative shares are preserved. Resources with
     no demand anywhere are left unscaled.
 
     Args:
@@ -39,24 +40,22 @@ def calibrate_capacities(
     for capacity in capacities:
         resource_id, ratio = _primary_output(rules_engine, capacity.rule_id)
         produced = capacity.max_rate * capacity.efficiency * ratio
-        raw_output[capacity.rule_id] = (
-            raw_output.get(capacity.rule_id, Decimal("0")) + produced
-        )
+        raw_output[resource_id] = raw_output.get(resource_id, Decimal("0")) + produced
 
     factors: Dict[str, Decimal] = {}
-    for rule_id, produced in raw_output.items():
-        resource_id, _ = _primary_output(rules_engine, rule_id)
+    for resource_id, produced in raw_output.items():
         target = world_demand.get(resource_id, Decimal("0")) * supply_demand_ratio
-        factors[rule_id] = (
+        factors[resource_id] = (
             target / produced if target > 0 and produced > 0 else Decimal("1")
         )
-        logger.debug(
-            f"Calibration factor for {rule_id} ({resource_id}): {factors[rule_id]}"
-        )
+        logger.debug(f"Calibration factor for {resource_id}: {factors[resource_id]}")
 
     return [
         capacity.model_copy(
-            update={"max_rate": capacity.max_rate * factors[capacity.rule_id]}
+            update={
+                "max_rate": capacity.max_rate
+                * factors[_primary_output(rules_engine, capacity.rule_id)[0]]
+            }
         )
         for capacity in capacities
     ]

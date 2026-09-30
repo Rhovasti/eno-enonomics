@@ -9,7 +9,7 @@ from ..calibration import (
     calibrate_capacities,
     calibrate_with_input_demand,
 )
-from ..models import Capacity
+from ..models import Capacity, ProductionRule, TechLevel
 from ..rules import RulesEngine, create_default_rules
 
 
@@ -123,3 +123,29 @@ def test_calibration_propagates_through_production_chain(
     # 2 machinery need 6 steel, which need 24 iron ore
     assert total["a"]["steel"] == Decimal("6")
     assert total["a"]["iron-ore"] == Decimal("24")
+
+
+def test_rules_sharing_an_output_are_scaled_together() -> None:
+    """Two rules producing the same resource together meet demand once, not twice."""
+    rules = [
+        ProductionRule(
+            rule_id=rule_id,
+            name=rule_id,
+            tech_min=TechLevel.TRIBAL,
+            inputs={},
+            outputs={"food": Decimal("1")},
+        )
+        for rule_id in ("small-farm", "big-farm")
+    ]
+    engine = RulesEngine(rules)
+    capacities = [
+        Capacity(operator_id="a", rule_id="small-farm", max_rate=Decimal("1")),
+        Capacity(operator_id="b", rule_id="big-farm", max_rate=Decimal("3")),
+    ]
+
+    calibrated = calibrate_capacities(
+        capacities, engine, {"a": {"food": Decimal("100")}}
+    )
+
+    assert sum(c.max_rate for c in calibrated) == Decimal("100")
+    assert calibrated[1].max_rate == calibrated[0].max_rate * 3
