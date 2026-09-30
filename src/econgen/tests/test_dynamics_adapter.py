@@ -1,7 +1,6 @@
 """Unit tests for the dynamics adapter (no Minsky dependency)."""
 
 from decimal import Decimal
-from typing import Dict
 
 from ..dynamics import DynamicsConfig, build_dynamics_input
 from ..dynamics.adapter import _build_trade_edges
@@ -22,8 +21,8 @@ def _operator(operator_id: str, population: int = 1000) -> Operator:
 
 def test_adapter_proportional_rates_and_baseline() -> None:
     operators = [_operator("a", population=1000), _operator("b", population=500)]
-    supply = {"a": {"food": Decimal("5")}, "b": {}}
-    demand = {"a": {"food": Decimal("2000")}, "b": {"food": Decimal("1000")}}
+    supply = {"a": {"food": Decimal(5)}, "b": {}}
+    demand = {"a": {"food": Decimal(2000)}, "b": {"food": Decimal(1000)}}
 
     dynamics = build_dynamics_input(
         operators,
@@ -51,8 +50,8 @@ def test_adapter_proportional_rates_and_baseline() -> None:
 
 def test_adapter_resource_filter_restricts_scope() -> None:
     operators = [_operator("a")]
-    supply = {"a": {"food": Decimal("5"), "iron": Decimal("2")}}
-    demand = {"a": {"food": Decimal("1000")}}
+    supply = {"a": {"food": Decimal(5), "iron": Decimal(2)}}
+    demand = {"a": {"food": Decimal(1000)}}
 
     dynamics = build_dynamics_input(operators, supply, demand, DynamicsConfig(resources=["food"]))
     assert {s.resource for s in dynamics.stocks} == {"food"}
@@ -60,8 +59,8 @@ def test_adapter_resource_filter_restricts_scope() -> None:
 
 def test_adapter_skips_resources_with_no_supply_and_no_demand() -> None:
     operators = [_operator("a", population=0)]
-    supply = {"a": {"food": Decimal("0")}}
-    demand: Dict[str, Dict[str, Decimal]] = {"a": {}}
+    supply = {"a": {"food": Decimal(0)}}
+    demand: dict[str, dict[str, Decimal]] = {"a": {}}
 
     dynamics = build_dynamics_input(operators, supply, demand, DynamicsConfig())
     assert dynamics.stocks == []
@@ -77,7 +76,7 @@ class _FullyConnected:
         return [c for c in self.cities if c != operator_id]
 
     def calculate_distance(self, op1_id: str, op2_id: str) -> Decimal:
-        return Decimal("50")
+        return Decimal(50)
 
 
 def test_trade_partner_cap_applies_per_resource() -> None:
@@ -115,8 +114,8 @@ def test_price_reference_stays_positive_with_zero_baseline() -> None:
     at 0 the mean reference was 0, giving 0/0.
     """
     operators = [_operator("a"), _operator("b")]
-    supply: Dict[str, Dict[str, Decimal]] = {"a": {}, "b": {}}
-    demand = {"a": {"sap": Decimal("100")}, "b": {"sap": Decimal("50")}}
+    supply: dict[str, dict[str, Decimal]] = {"a": {}, "b": {}}
+    demand = {"a": {"sap": Decimal(100)}, "b": {"sap": Decimal(50)}}
 
     dynamics = build_dynamics_input(
         operators, supply, demand, DynamicsConfig(consumer_baseline_stock=0.0)

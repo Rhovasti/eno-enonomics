@@ -2,7 +2,6 @@
 
 import os
 from pathlib import Path
-from typing import List
 
 import pytest
 
@@ -49,13 +48,13 @@ def corpus_dir() -> Path:
 
 
 @pytest.fixture(scope="session")
-def corpus_specs(corpus_dir: Path) -> List[CitystateSpec]:
+def corpus_specs(corpus_dir: Path) -> list[CitystateSpec]:
     """All specs from the real citystate corpus (skips when it is unavailable)."""
     return load_citystates(corpus_dir)
 
 
 @pytest.fixture(scope="session", params=["bundled", "corpus"])
-def all_specs(request: pytest.FixtureRequest) -> List[CitystateSpec]:
+def all_specs(request: pytest.FixtureRequest) -> list[CitystateSpec]:
     """Specs for invariant tests: the bundled fixtures, plus the real corpus if present."""
     if request.param == "bundled":
         return load_citystates(BUNDLED_CITYSTATES_DIR)

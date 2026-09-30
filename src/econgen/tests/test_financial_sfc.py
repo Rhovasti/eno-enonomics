@@ -1,7 +1,5 @@
 """Tests for the alchemical sector in the financial layer (no Minsky dependency)."""
 
-from typing import Dict
-
 from ..citystates.parser import CitystateSpec
 from ..financial.analysis import compute_financial_analysis
 from ..financial.narrative import SECTORS, _godley_transactions, render_financial_profile
@@ -24,7 +22,7 @@ def _spec() -> CitystateSpec:
 
 def _economy() -> tuple:
     supply = {"wood": 100.0, "cunu": 10.0, "sap": 5.0, "living-bronze": 2.0}
-    demand: Dict[str, float] = {"wood": 80.0}
+    demand: dict[str, float] = {"wood": 80.0}
     prices = {"wood": 1.0, "cunu": 5.0, "sap": 4.0, "living-bronze": 50.0}
     return supply, demand, prices
 

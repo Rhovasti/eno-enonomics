@@ -1,11 +1,12 @@
 """Production capacity calculation and management."""
 
-from typing import Any, List, Dict
+import logging
 from decimal import Decimal
-from .models import Operator, ProductionRule, Capacity, TechLevel
+from typing import Any
+
+from .models import Capacity, Operator, ProductionRule, TechLevel
 from .rules import RulesEngine
 from .util import clamp
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -20,10 +21,10 @@ class CapacityCalculator:
             rules_engine: Production rules engine
         """
         self.rules_engine = rules_engine
-        self._capacity_cache: Dict[str, List[Capacity]] = {}
+        self._capacity_cache: dict[str, list[Capacity]] = {}
         logger.info("Initialized capacity calculator")
 
-    def calculate_all_capacities(self, operators: List[Operator]) -> List[Capacity]:
+    def calculate_all_capacities(self, operators: list[Operator]) -> list[Capacity]:
         """Calculate production capacities for all operators.
 
         Args:
@@ -42,7 +43,7 @@ class CapacityCalculator:
         logger.info(f"Calculated {len(all_capacities)} total capacity assignments")
         return all_capacities
 
-    def calculate_operator_capacities(self, operator: Operator) -> List[Capacity]:
+    def calculate_operator_capacities(self, operator: Operator) -> list[Capacity]:
         """Calculate all production capacities for a single operator.
 
         Args:
@@ -66,7 +67,7 @@ class CapacityCalculator:
                 capacity = self._calculate_single_capacity(operator, rule)
                 if capacity.max_rate > 0:  # Only include positive capacities
                     capacities.append(capacity)
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001 - skip the rule, keep the others
                 logger.warning(
                     f"Failed to calculate capacity for {operator.operator_id} + {rule.rule_id}: {e}"
                 )
@@ -136,7 +137,7 @@ class CapacityCalculator:
 
         # Reason: output must scale linearly with workforce so that supply is comparable
         # to per-capita demand; the absolute scale is set later by calibration.
-        workforce = Decimal(operator.population) / Decimal("1000")
+        workforce = Decimal(operator.population) / Decimal(1000)
         if rule.labor_required > 0:
             return workforce / rule.labor_required
         return workforce
@@ -154,7 +155,7 @@ class CapacityCalculator:
         if not rule.capacity_driver:
             return Decimal("1.0")
 
-        endowment_value = operator.endowments.get(rule.capacity_driver, Decimal("0"))
+        endowment_value = operator.endowments.get(rule.capacity_driver, Decimal(0))
 
         if endowment_value <= 0:
             return Decimal("0.1")  # Very low capacity without required endowment
@@ -166,7 +167,7 @@ class CapacityCalculator:
         if endowment_value > Decimal("0.5"):
             scaling_factor *= Decimal("1.0") - (endowment_value - Decimal("0.5")) / Decimal("2.0")
 
-        return Decimal("1.0") + clamp(scaling_factor, Decimal("0"), Decimal("3.0"))
+        return Decimal("1.0") + clamp(scaling_factor, Decimal(0), Decimal("3.0"))
 
     def _calculate_tech_capacity(self, operator: Operator, rule: ProductionRule) -> Decimal:
         """Calculate technology-based capacity scaling.
@@ -293,10 +294,10 @@ class CapacityCalculator:
 
             # Optimal range is 5,000 to 50,000 population
             if pop_density < 5000:
-                efficiency *= (pop_density / Decimal("5000")) * Decimal("0.3") + Decimal("0.7")
+                efficiency *= (pop_density / Decimal(5000)) * Decimal("0.3") + Decimal("0.7")
             elif pop_density > 50000:
                 # Diminishing returns from overcrowding
-                excess = (pop_density - Decimal("50000")) / Decimal("50000")
+                excess = (pop_density - Decimal(50000)) / Decimal(50000)
                 efficiency *= max(Decimal("0.8"), Decimal("1.0") - excess * Decimal("0.1"))
 
         # Infrastructure efficiency
@@ -330,7 +331,7 @@ class CapacityCalculator:
         # Always allow minimal production; no upper cap since calibration sets the scale
         return max(capacity, Decimal("0.01"))
 
-    def get_capacity_summary(self, capacities: List[Capacity]) -> Dict[str, Any]:
+    def get_capacity_summary(self, capacities: list[Capacity]) -> dict[str, Any]:
         """Get summary statistics about capacities.
 
         Args:
@@ -347,7 +348,7 @@ class CapacityCalculator:
         avg_efficiency = sum(c.efficiency for c in capacities) / total_capacities
 
         # Group by operator
-        by_operator: Dict[str, List[Capacity]] = {}
+        by_operator: dict[str, list[Capacity]] = {}
         for capacity in capacities:
             if capacity.operator_id not in by_operator:
                 by_operator[capacity.operator_id] = []

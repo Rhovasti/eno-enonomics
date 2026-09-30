@@ -1,7 +1,5 @@
 """Tests for the input-aware world market prices (no Minsky dependency)."""
 
-from typing import Dict
-
 from ..citystates.economy import make_economy
 from ..citystates.market import ALCHEMICAL_MARGIN, _apply_input_floors, compute_market_prices
 from ..citystates.parser import CitystateSpec
@@ -84,7 +82,7 @@ def test_compute_market_prices_inputs_cover_recipe_cost() -> None:
         _spec("Alebuo", 10000, -45.0, ["mountain"]),
     ]
 
-    prices: Dict[str, float] = compute_market_prices(specs, taxonomy, rules_engine, demand_calc)
+    prices: dict[str, float] = compute_market_prices(specs, taxonomy, rules_engine, demand_calc)
 
     # Both living-bronze inputs are priced here, so its floor must hold.
     assert "cunu" in prices and "sap" in prices

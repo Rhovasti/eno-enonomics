@@ -1,9 +1,9 @@
 """Tests for GeoJSON loading functionality."""
 
-import pytest
-from pathlib import Path
 from decimal import Decimal
-from typing import Dict
+from pathlib import Path
+
+import pytest
 
 from ..io_geojson import MINED_ELEMENTS, GeoJSONLoader, ensure_element_coverage
 from ..models import Operator, TechLevel
@@ -197,9 +197,9 @@ def test_fantastical_rime_ash_split_by_longitude():
     """Dark side (lon < 0) collects Rime; sun side (lon >= 0) gets Ash pilgrimages."""
     loader = GeoJSONLoader(strict=True)
 
-    dark: Dict[str, Decimal] = {}
+    dark: dict[str, Decimal] = {}
     loader._infer_fantastical_endowments({"Population": 5000}, dark, "4", -50.0)
-    sun: Dict[str, Decimal] = {}
+    sun: dict[str, Decimal] = {}
     loader._infer_fantastical_endowments({"Population": 5000}, sun, "5", 50.0)
 
     assert dark["rime_collection"] == Decimal("0.4")

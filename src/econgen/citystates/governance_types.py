@@ -5,7 +5,6 @@ assignments, state-field patterns and founding-era type sets.
 """
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Set
 
 
 @dataclass
@@ -13,19 +12,19 @@ class GovType:
     name: str
     category: str
     eno_note: str
-    temporal_states: Set[str] = field(default_factory=set)
-    valleys: Set[str] = field(default_factory=set)
-    tags: Set[str] = field(default_factory=set)
-    infrastructure: Set[str] = field(default_factory=set)
-    avoid_infra: Set[str] = field(default_factory=set)
+    temporal_states: set[str] = field(default_factory=set)
+    valleys: set[str] = field(default_factory=set)
+    tags: set[str] = field(default_factory=set)
+    infrastructure: set[str] = field(default_factory=set)
+    avoid_infra: set[str] = field(default_factory=set)
     pop_max: int = 999999
     pop_min: int = 0
     economic: str = ""  # "crisis" / "prosperous" / "trade_surplus" / "large_gdp" / ""
-    state_field: Set[str] = field(default_factory=set)  # preferred state field values
+    state_field: set[str] = field(default_factory=set)  # preferred state field values
 
 
 # === Curated governance catalog (~30 types) ===
-CATALOG: List[GovType] = [
+CATALOG: list[GovType] = [
     GovType(
         "Acephalous Society",
         "Kinship & Non-State",
@@ -431,7 +430,7 @@ CATALOG: List[GovType] = [
 
 
 # Hard-coded lore assignments (name → type name).
-LORE_ASSIGNMENTS: Dict[str, str] = {
+LORE_ASSIGNMENTS: dict[str, str] = {
     "Citadel of Utaia": "Plutocracy",
     "Citadel of the Pass": "Stratocracy",
     "Citadel of Almo": "Secret Society Governance",
@@ -453,7 +452,7 @@ STATE_PATTERNS = {
 
 
 # Root → preferred initial governance types (for founding-era assignment).
-ROOT_TO_INITIAL: Dict[str, List[str]] = {
+ROOT_TO_INITIAL: dict[str, list[str]] = {
     "Fortified Settlement": ["Chiefdom", "Warrior Aristocracy", "Absolute Monarchy"],
     "Trade Outpost": ["Big-man Society", "Merchant City Republic", "Acephalous Society"],
     "Fishing Village": ["Acephalous Society", "Village Republic", "Council of Elders"],

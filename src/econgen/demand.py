@@ -1,11 +1,12 @@
 """Demand calculation and consumption modeling."""
 
-from typing import Any, List, Dict
-from decimal import Decimal
-from .fantastical import with_fantastical_demand
-from .models import Operator, DemandProfile, TechLevel
-from .taxonomy import ResourceTaxonomy
 import logging
+from decimal import Decimal
+from typing import Any
+
+from .fantastical import with_fantastical_demand
+from .models import DemandProfile, Operator, TechLevel
+from .taxonomy import ResourceTaxonomy
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +14,7 @@ logger = logging.getLogger(__name__)
 class DemandCalculator:
     """Calculate resource demand based on population and technology level."""
 
-    def __init__(self, taxonomy: ResourceTaxonomy, demand_profiles: List[DemandProfile]):
+    def __init__(self, taxonomy: ResourceTaxonomy, demand_profiles: list[DemandProfile]):
         """Initialize demand calculator.
 
         Args:
@@ -37,7 +38,7 @@ class DemandCalculator:
         if missing_resources:
             logger.warning(f"Demand profiles reference unknown resources: {missing_resources}")
 
-    def calculate_operator_demand(self, operator: Operator) -> Dict[str, Decimal]:
+    def calculate_operator_demand(self, operator: Operator) -> dict[str, Decimal]:
         """Calculate total demand for a single operator.
 
         Args:
@@ -69,8 +70,8 @@ class DemandCalculator:
         return {k: v for k, v in modified_demand.items() if v > 0}
 
     def _apply_demand_modifiers(
-        self, base_demand: Dict[str, Decimal], operator: Operator
-    ) -> Dict[str, Decimal]:
+        self, base_demand: dict[str, Decimal], operator: Operator
+    ) -> dict[str, Decimal]:
         """Apply various modifiers to base demand.
 
         Args:
@@ -97,8 +98,8 @@ class DemandCalculator:
         return modified
 
     def _apply_infrastructure_modifiers(
-        self, demand: Dict[str, Decimal], operator: Operator
-    ) -> Dict[str, Decimal]:
+        self, demand: dict[str, Decimal], operator: Operator
+    ) -> dict[str, Decimal]:
         """Apply infrastructure-based demand modifiers.
 
         Args:
@@ -143,8 +144,8 @@ class DemandCalculator:
         return modified
 
     def _apply_cultural_modifiers(
-        self, demand: Dict[str, Decimal], operator: Operator
-    ) -> Dict[str, Decimal]:
+        self, demand: dict[str, Decimal], operator: Operator
+    ) -> dict[str, Decimal]:
         """Apply culture-based demand modifiers.
 
         Args:
@@ -203,8 +204,8 @@ class DemandCalculator:
         return modified
 
     def _apply_wealth_modifiers(
-        self, demand: Dict[str, Decimal], operator: Operator
-    ) -> Dict[str, Decimal]:
+        self, demand: dict[str, Decimal], operator: Operator
+    ) -> dict[str, Decimal]:
         """Apply wealth-based demand modifiers.
 
         Args:
@@ -258,8 +259,8 @@ class DemandCalculator:
         return modified
 
     def _apply_geographic_modifiers(
-        self, demand: Dict[str, Decimal], operator: Operator
-    ) -> Dict[str, Decimal]:
+        self, demand: dict[str, Decimal], operator: Operator
+    ) -> dict[str, Decimal]:
         """Apply geographic and climate-based modifiers.
 
         Args:
@@ -272,12 +273,11 @@ class DemandCalculator:
         modified = demand.copy()
 
         # Port cities have different food preferences
-        if operator.port:
-            if "fish" in modified and "food" in modified:
-                # Substitute some general food demand with fish
-                fish_increase = modified["food"] * Decimal("0.3")
-                modified["fish"] += fish_increase
-                modified["food"] *= Decimal("0.8")
+        if operator.port and "fish" in modified and "food" in modified:
+            # Substitute some general food demand with fish
+            fish_increase = modified["food"] * Decimal("0.3")
+            modified["fish"] += fish_increase
+            modified["food"] *= Decimal("0.8")
 
         # Mountain/elevated cities (inferred from mining endowments)
         if "mining_potential" in operator.endowments:
@@ -296,7 +296,7 @@ class DemandCalculator:
 
         return modified
 
-    def calculate_all_demand(self, operators: List[Operator]) -> Dict[str, Dict[str, Decimal]]:
+    def calculate_all_demand(self, operators: list[Operator]) -> dict[str, dict[str, Decimal]]:
         """Calculate demand for all operators.
 
         Args:
@@ -320,7 +320,7 @@ class DemandCalculator:
 
         return all_demand
 
-    def get_demand_summary(self, demand_dict: Dict[str, Dict[str, Decimal]]) -> Dict[str, Any]:
+    def get_demand_summary(self, demand_dict: dict[str, dict[str, Decimal]]) -> dict[str, Any]:
         """Get summary statistics about demand calculations.
 
         Args:
@@ -333,11 +333,11 @@ class DemandCalculator:
             return {"total_demand_entries": 0}
 
         # Aggregate demand by resource
-        resource_totals: Dict[str, Decimal] = {}
+        resource_totals: dict[str, Decimal] = {}
         for operator_demand in demand_dict.values():
             for resource_id, quantity in operator_demand.items():
                 resource_totals[resource_id] = (
-                    resource_totals.get(resource_id, Decimal("0")) + quantity
+                    resource_totals.get(resource_id, Decimal(0)) + quantity
                 )
 
         total_entries = sum(len(d) for d in demand_dict.values())
@@ -359,13 +359,13 @@ class DemandCalculator:
         }
 
 
-def create_default_demand_profiles() -> List[DemandProfile]:
+def create_default_demand_profiles() -> list[DemandProfile]:
     """Create default demand profiles for testing and examples.
 
     Returns:
         List of DemandProfile instances for each tech level
     """
-    profiles: List[DemandProfile] = [
+    profiles: list[DemandProfile] = [
         DemandProfile(
             tech=TechLevel.TRIBAL,
             per_capita={

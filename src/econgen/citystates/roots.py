@@ -7,7 +7,6 @@ settlement was at its founding.
 """
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Set
 
 from .parser import CitystateSpec
 
@@ -16,14 +15,14 @@ from .parser import CitystateSpec
 class RootType:
     name: str
     description: str
-    infrastructure: Set[str] = field(default_factory=set)
-    tags: Set[str] = field(default_factory=set)
-    temporal_states: Set[str] = field(default_factory=set)
-    state_field: Set[str] = field(default_factory=set)
+    infrastructure: set[str] = field(default_factory=set)
+    tags: set[str] = field(default_factory=set)
+    temporal_states: set[str] = field(default_factory=set)
+    state_field: set[str] = field(default_factory=set)
     economic: str = ""  # "mining" / "fishing" / "craft" / ""
 
 
-ROOTS: List[RootType] = [
+ROOTS: list[RootType] = [
     RootType(
         "Fortified Settlement",
         "Strategic defense outpost",
@@ -144,7 +143,7 @@ def assign_root(spec: CitystateSpec) -> str:
     return best_root
 
 
-def assign_roots(specs: List[CitystateSpec]) -> Dict[str, str]:
+def assign_roots(specs: list[CitystateSpec]) -> dict[str, str]:
     """Assign Roots to all citystates. Returns {name: root_type}."""
     return {spec.name: assign_root(spec) for spec in specs}
 

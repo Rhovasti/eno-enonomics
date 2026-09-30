@@ -6,8 +6,6 @@ and temporal_state-derived behavioral parameters. Alchemical production is carve
 out as an Alchemists' Guild sector (value added, wages, dividends).
 """
 
-from typing import Dict
-
 from pydantic import BaseModel
 
 from ..citystates.parser import CitystateSpec
@@ -30,12 +28,12 @@ class MaterialSFC(BaseModel):
     savings: float
     household_wealth: float
     producer_surplus: float
-    income_by_tier: Dict[str, float]
+    income_by_tier: dict[str, float]
     per_capita_income: float
     per_capita_wealth: float
     # Alchemists' Guild slice (a diagnostic carve-out of GDP, not an addition).
     alchemical_value_added: float = 0.0
-    alchemical_split: Dict[str, float] = {}
+    alchemical_split: dict[str, float] = {}
     guild_wages: float = 0.0
     guild_consumption: float = 0.0
     guild_surplus: float = 0.0
@@ -47,9 +45,9 @@ def _params_for(state: str) -> dict:
 
 def compute_material_sfc(
     spec: CitystateSpec,
-    supply: Dict,
-    demand: Dict,
-    market_prices: Dict[str, float],
+    supply: dict,
+    demand: dict,
+    market_prices: dict[str, float],
     tech: str = "medieval",
 ) -> MaterialSFC:
     """Compute the material financial snapshot from the real economy."""
@@ -99,7 +97,7 @@ def compute_material_sfc(
     multipliers = [t[1] for t in LABOR_TIERS]
     total_weighted = sum(f * m for f, m in zip(tier_dist, multipliers)) or 1.0
     base_unit = wages / total_weighted if wages > 0 else 0.0
-    income_by_tier: Dict[str, float] = {}
+    income_by_tier: dict[str, float] = {}
     for i, (name, mult) in enumerate(LABOR_TIERS):
         income_by_tier[name] = base_unit * mult * tier_dist[i]
 

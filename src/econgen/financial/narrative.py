@@ -1,7 +1,6 @@
 """Render FinancialAnalysis into markdown profiles + Godley transactions matrix."""
 
 from collections import Counter
-from typing import Dict, List, Tuple
 
 from .analysis import FinancialAnalysis, UtaiaPortfolio
 from .parameters import OFFENSE_TIERS
@@ -14,23 +13,29 @@ def render_financial_profile(analysis: FinancialAnalysis) -> str:
     lines = [
         f"# Financial Profile: {analysis.name}",
         "",
-        f"- **State**: {analysis.temporal_state} · **Valley**: {analysis.valley} · "
-        f"**Pop**: {analysis.population:,} · **Tech**: {analysis.tech}",
+        (
+            f"- **State**: {analysis.temporal_state} · **Valley**: {analysis.valley} · "
+            f"**Pop**: {analysis.population:,} · **Tech**: {analysis.tech}"
+        ),
         f"- **Financial Health**: {analysis.financial_health.title()} (score: {analysis.health_score:.0f}/100)",
         "",
         "## Material Economy (value units)",
         "",
         f"- **GDP**: {m.gdp:,.0f} | **Per capita income**: {m.per_capita_income:.1f}",
-        f"- **Wages**: {m.wages:,.0f} ({m.wages / max(m.gdp, 1) * 100:.0f}% of GDP) | "
-        f"**Producer surplus**: {m.producer_surplus:,.0f}",
+        (
+            f"- **Wages**: {m.wages:,.0f} ({m.wages / max(m.gdp, 1) * 100:.0f}% of GDP) | "
+            f"**Producer surplus**: {m.producer_surplus:,.0f}"
+        ),
         f"- **Consumption**: {m.consumption:,.0f} | **Savings**: {m.savings:,.0f}",
         f"- **Household wealth**: {m.household_wealth:,.0f} ({m.per_capita_wealth:.1f}/cap)",
         f"- **Trade balance**: {m.trade_balance:+,.0f} ({'deficit' if m.trade_balance > 0 else 'surplus'})",
-        f"- **Alchemists' Guild value added**: {m.alchemical_value_added:,.0f} "
-        f"({m.alchemical_value_added / max(m.gdp, 1) * 100:.1f}% of GDP — "
-        f"components {m.alchemical_split['component']:,.0f}, "
-        f"elements {m.alchemical_split['element']:,.0f}, "
-        f"stuffs {m.alchemical_split['stuff']:,.0f})",
+        (
+            f"- **Alchemists' Guild value added**: {m.alchemical_value_added:,.0f} "
+            f"({m.alchemical_value_added / max(m.gdp, 1) * 100:.1f}% of GDP — "
+            f"components {m.alchemical_split['component']:,.0f}, "
+            f"elements {m.alchemical_split['element']:,.0f}, "
+            f"stuffs {m.alchemical_split['stuff']:,.0f})"
+        ),
         "",
         "### Income by Labor Tier",
         "",
@@ -73,16 +78,18 @@ def render_financial_profile(analysis: FinancialAnalysis) -> str:
     lines.extend(
         [
             "",
-            f"_{analysis.name} is a **{analysis.financial_health}** economy (score "
-            f"{analysis.health_score:.0f}/100) with {k.credit_standing} karmic debt. "
-            f"{'Utaia extracts ' + format(k.utai_extraction, ',.0f') + '/cycle.' if k.utai_extraction > 0 else ''}_",
+            (
+                f"_{analysis.name} is a **{analysis.financial_health}** economy (score "
+                f"{analysis.health_score:.0f}/100) with {k.credit_standing} karmic debt. "
+                f"{'Utaia extracts ' + format(k.utai_extraction, ',.0f') + '/cycle.' if k.utai_extraction > 0 else ''}_"
+            ),
             "",
         ]
     )
     return "\n".join(lines)
 
 
-def _godley_transactions(analysis: FinancialAnalysis) -> List[Tuple[str, Dict[str, float]]]:
+def _godley_transactions(analysis: FinancialAnalysis) -> list[tuple[str, dict[str, float]]]:
     """The Godley-style transactions rows: (label, {sector: signed flow}).
 
     Sectors: Households, Producers, Alchemists' Guild, Utaia, Rest-of-World.
@@ -116,7 +123,7 @@ def _godley_transactions(analysis: FinancialAnalysis) -> List[Tuple[str, Dict[st
 SECTORS = ["Households", "Producers", "Guild", "Utaia", "Rest-of-World"]
 
 
-def _godley_matrix(analysis: FinancialAnalysis) -> List[str]:
+def _godley_matrix(analysis: FinancialAnalysis) -> list[str]:
     """Render a Godley-style transactions matrix (each row sums to zero)."""
     rows = _godley_transactions(analysis)
     lines = [
@@ -131,7 +138,7 @@ def _godley_matrix(analysis: FinancialAnalysis) -> List[str]:
         rendered = " | ".join(f"{v:,.0f}" if v is not None else "" for v in values)
         lines.append(f"| {label} | {rendered} | 0 |")
 
-    balances: Dict[str, float] = {sector: 0.0 for sector in SECTORS}
+    balances: dict[str, float] = {sector: 0.0 for sector in SECTORS}
     for _, cells in rows:
         for sector, value in cells.items():
             balances[sector] += value
@@ -140,14 +147,16 @@ def _godley_matrix(analysis: FinancialAnalysis) -> List[str]:
     lines.extend(
         [
             "",
-            "_Each transaction row sums to zero; the Guild column balances exactly "
-            "(value added − guild wages − dividends). Positive = inflow._",
+            (
+                "_Each transaction row sums to zero; the Guild column balances exactly "
+                "(value added − guild wages − dividends). Positive = inflow._"
+            ),
         ]
     )
     return lines
 
 
-def render_utai_profile(portfolio: UtaiaPortfolio, analyses: List[FinancialAnalysis]) -> str:
+def render_utai_profile(portfolio: UtaiaPortfolio, analyses: list[FinancialAnalysis]) -> str:
     """Render Utaia's aggregated financial dominion."""
     lines = [
         "# Financial Profile: Citadel of Utaia (Dominion of Worth)",

@@ -7,4 +7,4 @@ simulator, market price-taker trade, profile generation, and long-run drivers.
 from .endowments import infer_endowments
 from .parser import CitystateSpec, load_citystates, parse_citystate
 
-__all__ = ["CitystateSpec", "parse_citystate", "load_citystates", "infer_endowments"]
+__all__ = ["CitystateSpec", "infer_endowments", "load_citystates", "parse_citystate"]

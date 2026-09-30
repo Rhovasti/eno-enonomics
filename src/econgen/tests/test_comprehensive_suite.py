@@ -5,13 +5,13 @@ Provides additional coverage and integration testing
 
 from decimal import Decimal
 
-from ..models import Operator, TechLevel, SimulationConfig
-from ..taxonomy import create_default_taxonomy
 from ..capacity import CapacityCalculator, RulesEngine
 from ..demand import DemandCalculator, create_default_demand_profiles
+from ..models import Operator, SimulationConfig, TechLevel
 from ..pricing import PriceCalculator
-from ..trade import TradeNetwork
 from ..rules import create_default_rules
+from ..taxonomy import create_default_taxonomy
+from ..trade import TradeNetwork
 from ..util import (
     calculate_great_circle_distance,
     normalize_resource_id,

@@ -1,11 +1,13 @@
 """Production rules engine for economic simulation."""
 
-import networkx as nx
-from typing import Any, List, Dict, Set
-from decimal import Decimal
-from .fantastical import fantastical_rules
-from .models import ProductionRule, Operator, TechLevel, Capacity
 import logging
+from decimal import Decimal
+from typing import Any
+
+import networkx as nx
+
+from .fantastical import fantastical_rules
+from .models import Capacity, Operator, ProductionRule, TechLevel
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +15,7 @@ logger = logging.getLogger(__name__)
 class RulesEngine:
     """Manage production rules and capacity calculations."""
 
-    def __init__(self, rules: List[ProductionRule]):
+    def __init__(self, rules: list[ProductionRule]):
         """Initialize rules engine.
 
         Args:
@@ -33,7 +35,7 @@ class RulesEngine:
         Raises:
             ValueError: If circular dependencies are detected
         """
-        G: "nx.DiGraph[str]" = nx.DiGraph()
+        G: nx.DiGraph[str] = nx.DiGraph()
 
         # Build dependency graph: input -> output
         for rule in self.rules.values():
@@ -52,7 +54,7 @@ class RulesEngine:
 
     def _validate_resources(self) -> None:
         """Log summary of resources referenced in rules."""
-        all_resources: Set[str] = set()
+        all_resources: set[str] = set()
 
         for rule in self.rules.values():
             all_resources.update(rule.inputs.keys())
@@ -77,7 +79,7 @@ class RulesEngine:
             raise KeyError(f"Production rule '{rule_id}' not found")
         return self.rules[rule_id]
 
-    def get_eligible_rules(self, operator: Operator) -> List[ProductionRule]:
+    def get_eligible_rules(self, operator: Operator) -> list[ProductionRule]:
         """Get production rules available to operator based on tech level and endowments.
 
         Args:
@@ -128,7 +130,7 @@ class RulesEngine:
         # Scale by population (labor availability)
         if operator.population > 0:
             # Base labor factor: population per 10k gives multiplier
-            labor_factor = Decimal(str(operator.population)) / Decimal("10000")
+            labor_factor = Decimal(str(operator.population)) / Decimal(10000)
             # Apply diminishing returns
             labor_factor = labor_factor.sqrt()
             # Cap at reasonable maximum
@@ -160,7 +162,7 @@ class RulesEngine:
             efficiency *= Decimal("1.1")  # Capital city efficiency bonus
 
         # Clamp to reasonable bounds
-        base_capacity = max(Decimal("0.01"), min(base_capacity, Decimal("1000")))
+        base_capacity = max(Decimal("0.01"), min(base_capacity, Decimal(1000)))
         efficiency = max(Decimal("0.1"), min(efficiency, Decimal("2.0")))
 
         return Capacity(
@@ -170,7 +172,7 @@ class RulesEngine:
             efficiency=efficiency,
         )
 
-    def get_production_chain(self, target_resource: str) -> List[ProductionRule]:
+    def get_production_chain(self, target_resource: str) -> list[ProductionRule]:
         """Get ordered production chain to produce target resource.
 
         Args:
@@ -186,14 +188,13 @@ class RulesEngine:
             return []
 
         # Build dependency graph for chain analysis
-        G: "nx.DiGraph[str]" = nx.DiGraph()
+        G: nx.DiGraph[str] = nx.DiGraph()
         for rule in self.rules.values():
             G.add_node(rule.rule_id)
             for output_resource in rule.outputs:
                 for other_rule in self.rules.values():
-                    if rule.rule_id != other_rule.rule_id:
-                        if output_resource in other_rule.inputs:
-                            G.add_edge(rule.rule_id, other_rule.rule_id)
+                    if rule.rule_id != other_rule.rule_id and output_resource in other_rule.inputs:
+                        G.add_edge(rule.rule_id, other_rule.rule_id)
 
         # Get topological ordering for the most productive target rule
         main_rule = max(target_rules, key=lambda r: sum(r.outputs.values()))
@@ -207,7 +208,7 @@ class RulesEngine:
             # If graph has issues, just return the target rule
             return [main_rule]
 
-    def get_rules_by_tech(self, tech_level: TechLevel) -> List[ProductionRule]:
+    def get_rules_by_tech(self, tech_level: TechLevel) -> list[ProductionRule]:
         """Get all rules available at specified technology level.
 
         Args:
@@ -222,7 +223,7 @@ class RulesEngine:
             if TechLevel(rule.tech_min) <= TechLevel(tech_level)
         ]
 
-    def get_rules_summary(self) -> Dict[str, Any]:
+    def get_rules_summary(self) -> dict[str, Any]:
         """Get summary statistics about production rules.
 
         Returns:
@@ -247,7 +248,7 @@ class RulesEngine:
         }
 
 
-def create_default_rules() -> List[ProductionRule]:
+def create_default_rules() -> list[ProductionRule]:
     """Create default production rules for testing and examples.
 
     Returns:

@@ -4,16 +4,12 @@ import json
 import time
 from collections import Counter
 from pathlib import Path
-from typing import Optional
 
 import typer
 from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
 
-from .cli_common import app, console
 from .citystates import load_citystates
-from .paths import DEFAULT_CITYSTATES_DIR as DEFAULT_CITYSTATES_PATH
-from .paths import ENV_CITYSTATES_DIR
 from .citystates.economy import city_potential_supply_demand, city_supply_demand, make_economy
 from .citystates.market import compute_market_prices
 from .citystates.profiles import (
@@ -21,6 +17,9 @@ from .citystates.profiles import (
     compute_citystate_profile,
     render_profile,
 )
+from .cli_common import app, console
+from .paths import DEFAULT_CITYSTATES_DIR as DEFAULT_CITYSTATES_PATH
+from .paths import ENV_CITYSTATES_DIR
 
 DEFAULT_CITYSTATES_DIR = Path(DEFAULT_CITYSTATES_PATH)
 
@@ -54,7 +53,7 @@ def citystate_sim(
     output_dir: Path = typer.Option(
         Path("out/citystates"), "--output", "-o", help="Output directory for profiles"
     ),
-    limit: Optional[int] = typer.Option(
+    limit: int | None = typer.Option(
         None, "--limit", help="Only profile the first N citystates (for testing)"
     ),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Verbose output"),
@@ -120,7 +119,7 @@ def citystate_dynamic(
         "-o",
         help="Output directory for dynamic histories",
     ),
-    limit: Optional[int] = typer.Option(
+    limit: int | None = typer.Option(
         None, "--limit", help="Only simulate the first N citystates (for testing)"
     ),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Verbose output"),
@@ -202,7 +201,7 @@ def citystate_chronicle(
     )
     try:
         specs = {s.name: s for s in load_citystates(citystates_dir)}
-        taxonomy, rules, _ = make_economy()
+        _taxonomy, rules, _ = make_economy()
         extractive: set = set()
         for rule in rules.rules.values():
             cd = rule.capacity_driver
@@ -240,7 +239,7 @@ def citystate_financial(
         "-o",
         help="Output directory for financial analyses",
     ),
-    limit: Optional[int] = typer.Option(
+    limit: int | None = typer.Option(
         None, "--limit", help="Only analyze the first N citystates (for testing)"
     ),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Verbose output"),
@@ -336,7 +335,7 @@ def citystate_governance(
         "-o",
         help="Output directory for governance assignments",
     ),
-    limit: Optional[int] = typer.Option(
+    limit: int | None = typer.Option(
         None, "--limit", help="Only assign the first N citystates (for testing)"
     ),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Verbose output"),

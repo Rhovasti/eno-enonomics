@@ -1,5 +1,6 @@
 """Tests for the scarcity price curve."""
 
+import itertools
 from decimal import Decimal
 
 import pytest
@@ -8,21 +9,19 @@ from ..models import SimulationConfig
 from ..pricing import MAX_SUPPLY_RATIO, MIN_SUPPLY_RATIO, PriceCalculator
 from ..taxonomy import create_default_taxonomy
 
-BALANCED_REGION = Decimal("1")
+BALANCED_REGION = Decimal(1)
 
 
 def _multiplier(ratio: str, elasticity: str = "1.5") -> Decimal:
     """Local scarcity multiplier for a supply/demand ratio, with a balanced region."""
     config = SimulationConfig(price_elasticity=Decimal(elasticity))
     calc = PriceCalculator(create_default_taxonomy(), config)
-    return calc._apply_scarcity_adjustment(
-        Decimal("1"), Decimal(ratio), Decimal("1"), BALANCED_REGION
-    )
+    return calc._apply_scarcity_adjustment(Decimal(1), Decimal(ratio), Decimal(1), BALANCED_REGION)
 
 
 def test_balanced_market_keeps_base_price() -> None:
     """Supply equal to demand leaves the base price unchanged."""
-    assert _multiplier("1") == Decimal("1")
+    assert _multiplier("1") == Decimal(1)
 
 
 def test_price_falls_monotonically_as_supply_rises() -> None:
@@ -30,7 +29,7 @@ def test_price_falls_monotonically_as_supply_rises() -> None:
     ratios = [f"{r / 100:.2f}" for r in range(1, 300, 3)]
     prices = [_multiplier(r) for r in ratios]
 
-    assert all(later <= earlier for earlier, later in zip(prices, prices[1:]))
+    assert all(later <= earlier for earlier, later in itertools.pairwise(prices))
 
 
 def test_curve_is_continuous_at_former_thresholds() -> None:
@@ -67,8 +66,6 @@ def test_supply_without_local_demand_is_cheapest() -> None:
     config = SimulationConfig()
     calc = PriceCalculator(create_default_taxonomy(), config)
 
-    price = calc._apply_scarcity_adjustment(
-        Decimal("1"), Decimal("5"), Decimal("0"), BALANCED_REGION
-    )
+    price = calc._apply_scarcity_adjustment(Decimal(1), Decimal(5), Decimal(0), BALANCED_REGION)
 
     assert price == _multiplier(str(MAX_SUPPLY_RATIO))

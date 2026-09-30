@@ -6,8 +6,6 @@ Enonomics' static economic snapshot into a ``DynamicsInput``; the builder turns
 a ``DynamicsInput`` into a live Minsky model.
 """
 
-from typing import Dict, List, Optional
-
 from pydantic import BaseModel, ConfigDict, Field
 
 from ..paths import minsky_root
@@ -23,11 +21,11 @@ class DynamicsConfig(BaseModel):
         description="Path to the built minsky tree (default: $ENO_MINSKY_ROOT or /root/minsky).",
     )
     n_steps: int = Field(default=50, ge=1, description="Number of integration steps to run.")
-    seed: Optional[int] = Field(default=None, description="RNG seed for repeatable runs.")
-    resources: Optional[List[str]] = Field(
+    seed: int | None = Field(default=None, description="RNG seed for repeatable runs.")
+    resources: list[str] | None = Field(
         default=None, description="Restrict simulation to these resource ids (None = all)."
     )
-    cities: Optional[List[str]] = Field(
+    cities: list[str] | None = Field(
         default=None, description="Restrict simulation to these operator ids (None = all)."
     )
     initial_stock_multiplier: float = Field(
@@ -88,7 +86,7 @@ class StockSpec(BaseModel):
         gt=0,
         description="Reference stock (per-resource mean) for the scarcity price: ref/(ref+stock).",
     )
-    input_rates: Dict[str, float] = Field(
+    input_rates: dict[str, float] = Field(
         default_factory=dict,
         description="input resource_id -> units drained from that city's input "
         "stock per unit produced (from production-rule recipes).",
@@ -111,32 +109,32 @@ class TradeEdge(BaseModel):
 class DynamicsInput(BaseModel):
     """The full specification handed to the Minsky model builder."""
 
-    stocks: List[StockSpec] = Field(default_factory=list)
-    trade_edges: List[TradeEdge] = Field(default_factory=list)
+    stocks: list[StockSpec] = Field(default_factory=list)
+    trade_edges: list[TradeEdge] = Field(default_factory=list)
     n_steps: int = Field(default=50, ge=1)
-    seed: Optional[int] = None
+    seed: int | None = None
 
 
 class SimulationResult(BaseModel):
     """Time-series output of a simulation run."""
 
-    time: List[float]
-    series: Dict[str, List[float]] = Field(
+    time: list[float]
+    series: dict[str, list[float]] = Field(
         default_factory=dict,
         description="Friendly name ('city/resource') -> stock values, one per step.",
     )
-    prices: Dict[str, List[float]] = Field(
+    prices: dict[str, list[float]] = Field(
         default_factory=dict,
         description="Friendly name ('city/resource') -> price values, one per step.",
     )
     n_steps: int
-    model_path: Optional[str] = None
+    model_path: str | None = None
 
 
 __all__ = [
     "DynamicsConfig",
-    "StockSpec",
-    "TradeEdge",
     "DynamicsInput",
     "SimulationResult",
+    "StockSpec",
+    "TradeEdge",
 ]

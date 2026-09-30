@@ -7,7 +7,7 @@ requires the extension — only code that actually builds a model does.
 
 import sys
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 from .. import paths
 
@@ -24,7 +24,7 @@ class MinskyClient:
     does not hide the singleton — the builder reads/writes it directly.
     """
 
-    def __init__(self, minsky_root: Optional[str] = None) -> None:
+    def __init__(self, minsky_root: str | None = None) -> None:
         # Reason: resolve at construction so ENO_MINSKY_ROOT set at runtime applies.
         self.root = minsky_root if minsky_root is not None else paths.minsky_root()
         self._minsky: Any = None

@@ -1,17 +1,18 @@
 """Price discovery and market dynamics."""
 
-from typing import Any, Dict, List
+import logging
 from decimal import Decimal
+from typing import Any
+
 from .models import Operator, SimulationConfig, TechLevel
 from .taxonomy import ResourceTaxonomy
 from .util import clamp
-import logging
 
 logger = logging.getLogger(__name__)
 
 # Bounds on local supply/demand ratio: 5% self-sufficiency to 20x oversupply
 MIN_SUPPLY_RATIO = Decimal("0.05")
-MAX_SUPPLY_RATIO = Decimal("20")
+MAX_SUPPLY_RATIO = Decimal(20)
 
 
 class PriceCalculator:
@@ -30,10 +31,10 @@ class PriceCalculator:
 
     def calculate_prices(
         self,
-        operators: List[Operator],
-        supply: Dict[str, Dict[str, Decimal]],  # operator_id -> resource_id -> quantity
-        demand: Dict[str, Dict[str, Decimal]],  # operator_id -> resource_id -> quantity
-    ) -> Dict[str, Dict[str, Decimal]]:  # operator_id -> resource_id -> price
+        operators: list[Operator],
+        supply: dict[str, dict[str, Decimal]],  # operator_id -> resource_id -> quantity
+        demand: dict[str, dict[str, Decimal]],  # operator_id -> resource_id -> quantity
+    ) -> dict[str, dict[str, Decimal]]:  # operator_id -> resource_id -> price
         """Calculate market prices for all operators and resources.
 
         Args:
@@ -66,8 +67,8 @@ class PriceCalculator:
         return prices
 
     def _calculate_regional_ratios(
-        self, supply: Dict[str, Dict[str, Decimal]], demand: Dict[str, Dict[str, Decimal]]
-    ) -> Dict[str, Decimal]:
+        self, supply: dict[str, dict[str, Decimal]], demand: dict[str, dict[str, Decimal]]
+    ) -> dict[str, Decimal]:
         """Calculate regional supply/demand ratios for each resource.
 
         Args:
@@ -78,19 +79,19 @@ class PriceCalculator:
             Dictionary mapping resource_id to supply/demand ratio
         """
         # Aggregate regional totals
-        regional_supply: Dict[str, Decimal] = {}
-        regional_demand: Dict[str, Decimal] = {}
+        regional_supply: dict[str, Decimal] = {}
+        regional_demand: dict[str, Decimal] = {}
 
         for operator_supply in supply.values():
             for resource_id, quantity in operator_supply.items():
                 regional_supply[resource_id] = (
-                    regional_supply.get(resource_id, Decimal("0")) + quantity
+                    regional_supply.get(resource_id, Decimal(0)) + quantity
                 )
 
         for operator_demand in demand.values():
             for resource_id, quantity in operator_demand.items():
                 regional_demand[resource_id] = (
-                    regional_demand.get(resource_id, Decimal("0")) + quantity
+                    regional_demand.get(resource_id, Decimal(0)) + quantity
                 )
 
         # Calculate ratios
@@ -98,8 +99,8 @@ class PriceCalculator:
         all_resources = set(regional_supply.keys()) | set(regional_demand.keys())
 
         for resource_id in all_resources:
-            supply_qty = regional_supply.get(resource_id, Decimal("0"))
-            demand_qty = regional_demand.get(resource_id, Decimal("0"))
+            supply_qty = regional_supply.get(resource_id, Decimal(0))
+            demand_qty = regional_demand.get(resource_id, Decimal(0))
 
             # Calculate ratio (>1 = surplus, <1 = shortage)
             if demand_qty > 0:
@@ -114,10 +115,10 @@ class PriceCalculator:
     def _calculate_operator_prices(
         self,
         operator: Operator,
-        operator_supply: Dict[str, Decimal],
-        operator_demand: Dict[str, Decimal],
-        regional_ratios: Dict[str, Decimal],
-    ) -> Dict[str, Decimal]:
+        operator_supply: dict[str, Decimal],
+        operator_demand: dict[str, Decimal],
+        regional_ratios: dict[str, Decimal],
+    ) -> dict[str, Decimal]:
         """Calculate prices for a single operator.
 
         Args:
@@ -141,8 +142,8 @@ class PriceCalculator:
                 continue  # Skip unknown resources
 
             # Calculate local supply/demand ratio
-            local_supply = operator_supply.get(resource_id, Decimal("0"))
-            local_demand = operator_demand.get(resource_id, Decimal("0"))
+            local_supply = operator_supply.get(resource_id, Decimal(0))
+            local_demand = operator_demand.get(resource_id, Decimal(0))
 
             # Start with base price
             price = base_price
@@ -153,7 +154,7 @@ class PriceCalculator:
                     price,
                     local_supply,
                     local_demand,
-                    regional_ratios.get(resource_id, Decimal("1")),
+                    regional_ratios.get(resource_id, Decimal(1)),
                 )
 
             # Apply operator-specific modifiers
@@ -193,11 +194,11 @@ class PriceCalculator:
         if local_demand > 0:
             local_ratio = local_supply / local_demand
         else:
-            local_ratio = MAX_SUPPLY_RATIO if local_supply > 0 else Decimal("1")
+            local_ratio = MAX_SUPPLY_RATIO if local_supply > 0 else Decimal(1)
         local_ratio = clamp(local_ratio, MIN_SUPPLY_RATIO, MAX_SUPPLY_RATIO)
 
-        exponent = Decimal("1") / self.config.price_elasticity
-        scarcity_multiplier = (Decimal("1") / local_ratio) ** exponent
+        exponent = Decimal(1) / self.config.price_elasticity
+        scarcity_multiplier = (Decimal(1) / local_ratio) ** exponent
 
         # Regional influence (weaker effect)
         if regional_ratio < Decimal("0.7"):
@@ -266,7 +267,7 @@ class PriceCalculator:
 
         return modified_price
 
-    def get_price_statistics(self, prices: Dict[str, Dict[str, Decimal]]) -> Dict[str, Any]:
+    def get_price_statistics(self, prices: dict[str, dict[str, Decimal]]) -> dict[str, Any]:
         """Calculate price statistics across all operators.
 
         Args:
@@ -279,7 +280,7 @@ class PriceCalculator:
             return {"total_price_entries": 0}
 
         # Collect all prices by resource
-        resource_prices: Dict[str, List[Decimal]] = {}
+        resource_prices: dict[str, list[Decimal]] = {}
         total_entries = 0
 
         for operator_prices in prices.values():
@@ -310,8 +311,8 @@ class PriceCalculator:
         }
 
     def _calculate_price_volatility(
-        self, resource_prices: Dict[str, List[Decimal]]
-    ) -> Dict[str, float]:
+        self, resource_prices: dict[str, list[Decimal]]
+    ) -> dict[str, float]:
         """Calculate price volatility (coefficient of variation) for each resource.
 
         Args:

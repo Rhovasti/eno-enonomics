@@ -1,10 +1,11 @@
 """Core Pydantic models for the economic worldbuilding generator."""
 
-from pydantic import BaseModel, Field, field_validator, ConfigDict
-from typing import Dict, List, Tuple, Optional, Literal
 from decimal import Decimal
-from uuid import UUID, uuid4
 from enum import Enum
+from typing import Literal
+from uuid import UUID, uuid4
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class TechLevel(str, Enum):
@@ -44,7 +45,7 @@ class TechLevel(str, Enum):
 # Rank of each tech level (matches TechLevel's comparison order). Plain-dict
 # form for callers that hold raw ``str`` values (enum fields degrade to str
 # via ``use_enum_values=True``) and need an ordinal without re-wrapping.
-TECH_ORDER: Dict[str, int] = {
+TECH_ORDER: dict[str, int] = {
     TechLevel.TRIBAL.value: 0,
     TechLevel.MEDIEVAL.value: 1,
     TechLevel.INDUSTRIAL.value: 2,
@@ -80,11 +81,11 @@ class ProductionRule(BaseModel):
 
     rule_id: str = Field(..., pattern=r"^[a-z0-9-]+$")
     name: str
-    inputs: Dict[str, Decimal]  # resource_id -> quantity
-    outputs: Dict[str, Decimal]
+    inputs: dict[str, Decimal]  # resource_id -> quantity
+    outputs: dict[str, Decimal]
     tech_min: TechLevel
-    byproducts: Dict[str, Decimal] = Field(default_factory=dict)
-    capacity_driver: Optional[str] = None  # endowment that scales capacity
+    byproducts: dict[str, Decimal] = Field(default_factory=dict)
+    capacity_driver: str | None = None  # endowment that scales capacity
     labor_required: Decimal = Field(default=Decimal("1.0"))
 
     @field_validator("outputs")
@@ -118,10 +119,10 @@ class Operator(BaseModel):
     name: str
     kind: Literal["city", "organization", "building", "district", "person"]
     tech: TechLevel
-    coord: Tuple[float, float]  # (lat, lon) in WGS84
+    coord: tuple[float, float]  # (lat, lon) in WGS84
     population: int = 0
-    tags: List[str] = Field(default_factory=list)
-    endowments: Dict[str, Decimal] = Field(default_factory=dict)
+    tags: list[str] = Field(default_factory=list)
+    endowments: dict[str, Decimal] = Field(default_factory=dict)
 
     # Derived fields
     capital: bool = False
@@ -159,7 +160,7 @@ class DemandProfile(BaseModel):
     model_config = ConfigDict(use_enum_values=True)
 
     tech: TechLevel
-    per_capita: Dict[str, Decimal]  # resource_id -> quantity
+    per_capita: dict[str, Decimal]  # resource_id -> quantity
 
 
 class TradeLink(BaseModel):
@@ -189,7 +190,7 @@ class SimulationConfig(BaseModel):
 
     # Trade parameters
     max_trade_neighbors: int = Field(default=8, ge=1, le=50)
-    max_trade_radius_km: Decimal = Field(default=Decimal("800"), gt=0)
+    max_trade_radius_km: Decimal = Field(default=Decimal(800), gt=0)
     min_trade_quantity: Decimal = Field(default=Decimal("0.5"), gt=0)
     transport_cost_per_km: Decimal = Field(default=Decimal("0.02"), ge=0)
 
@@ -202,20 +203,20 @@ class SimulationConfig(BaseModel):
 
     # Simulation parameters
     time_steps: int = Field(default=1, ge=1)
-    seed: Optional[int] = None
+    seed: int | None = None
     strict_validation: bool = True
     parallel_workers: int = Field(default=1, ge=-1)  # -1 for all CPUs
 
 
 # Export all models
 __all__ = [
-    "TechLevel",
     "TECH_ORDER",
-    "Resource",
-    "ProductionRule",
-    "Operator",
     "Capacity",
     "DemandProfile",
-    "TradeLink",
+    "Operator",
+    "ProductionRule",
+    "Resource",
     "SimulationConfig",
+    "TechLevel",
+    "TradeLink",
 ]

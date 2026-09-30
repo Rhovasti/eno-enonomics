@@ -2,7 +2,6 @@
 
 import logging
 from decimal import Decimal
-from typing import Dict, List, Tuple
 
 from .models import Capacity
 from .rules import RulesEngine
@@ -11,11 +10,11 @@ logger = logging.getLogger(__name__)
 
 
 def calibrate_capacities(
-    capacities: List[Capacity],
+    capacities: list[Capacity],
     rules_engine: RulesEngine,
-    demand: Dict[str, Dict[str, Decimal]],
+    demand: dict[str, dict[str, Decimal]],
     supply_demand_ratio: Decimal = Decimal("1.0"),
-) -> List[Capacity]:
+) -> list[Capacity]:
     """
     Scale capacities so world output of each resource equals world demand times a ratio.
 
@@ -36,16 +35,16 @@ def calibrate_capacities(
         New list of capacities with calibrated max_rate values
     """
     world_demand = _world_totals(demand)
-    raw_output: Dict[str, Decimal] = {}
+    raw_output: dict[str, Decimal] = {}
     for capacity in capacities:
         resource_id, ratio = _primary_output(rules_engine, capacity.rule_id)
         produced = capacity.max_rate * capacity.efficiency * ratio
-        raw_output[resource_id] = raw_output.get(resource_id, Decimal("0")) + produced
+        raw_output[resource_id] = raw_output.get(resource_id, Decimal(0)) + produced
 
-    factors: Dict[str, Decimal] = {}
+    factors: dict[str, Decimal] = {}
     for resource_id, produced in raw_output.items():
-        target = world_demand.get(resource_id, Decimal("0")) * supply_demand_ratio
-        factors[resource_id] = target / produced if target > 0 and produced > 0 else Decimal("1")
+        target = world_demand.get(resource_id, Decimal(0)) * supply_demand_ratio
+        factors[resource_id] = target / produced if target > 0 and produced > 0 else Decimal(1)
         logger.debug(f"Calibration factor for {resource_id}: {factors[resource_id]}")
 
     return [
@@ -60,11 +59,11 @@ def calibrate_capacities(
 
 
 def calibrate_with_input_demand(
-    capacities: List[Capacity],
+    capacities: list[Capacity],
     rules_engine: RulesEngine,
-    final_demand: Dict[str, Dict[str, Decimal]],
+    final_demand: dict[str, dict[str, Decimal]],
     supply_demand_ratio: Decimal = Decimal("1.0"),
-) -> Tuple[List[Capacity], Dict[str, Dict[str, Decimal]]]:
+) -> tuple[list[Capacity], dict[str, dict[str, Decimal]]]:
     """
     Calibrate capacities against final demand plus the inputs production consumes.
 
@@ -95,8 +94,8 @@ def calibrate_with_input_demand(
 
 
 def calculate_input_demand(
-    capacities: List[Capacity], rules_engine: RulesEngine
-) -> Dict[str, Dict[str, Decimal]]:
+    capacities: list[Capacity], rules_engine: RulesEngine
+) -> dict[str, dict[str, Decimal]]:
     """
     Calculate the inputs each operator consumes to run its production at capacity.
 
@@ -107,27 +106,27 @@ def calculate_input_demand(
     Returns:
         Input demand by operator and resource
     """
-    input_demand: Dict[str, Dict[str, Decimal]] = {}
+    input_demand: dict[str, dict[str, Decimal]] = {}
     for capacity in capacities:
         rule = rules_engine.get_rule(capacity.rule_id)
         production = capacity.max_rate * capacity.efficiency
         operator_demand = input_demand.setdefault(capacity.operator_id, {})
         for resource_id, quantity in rule.inputs.items():
             operator_demand[resource_id] = (
-                operator_demand.get(resource_id, Decimal("0")) + production * quantity
+                operator_demand.get(resource_id, Decimal(0)) + production * quantity
             )
     return {op: resources for op, resources in input_demand.items() if resources}
 
 
 def _merge_add(
-    first: Dict[str, Dict[str, Decimal]], second: Dict[str, Dict[str, Decimal]]
-) -> Dict[str, Dict[str, Decimal]]:
+    first: dict[str, dict[str, Decimal]], second: dict[str, dict[str, Decimal]]
+) -> dict[str, dict[str, Decimal]]:
     """Add two nested operator -> resource -> quantity maps into a new map."""
     merged = {op: dict(resources) for op, resources in first.items()}
     for operator_id, resources in second.items():
         target = merged.setdefault(operator_id, {})
         for resource_id, quantity in resources.items():
-            target[resource_id] = target.get(resource_id, Decimal("0")) + quantity
+            target[resource_id] = target.get(resource_id, Decimal(0)) + quantity
     return merged
 
 
@@ -138,10 +137,10 @@ def _primary_output(rules_engine: RulesEngine, rule_id: str) -> tuple[str, Decim
     return resource_id, ratio
 
 
-def _world_totals(quantities: Dict[str, Dict[str, Decimal]]) -> Dict[str, Decimal]:
+def _world_totals(quantities: dict[str, dict[str, Decimal]]) -> dict[str, Decimal]:
     """Sum per-operator quantities into world totals per resource."""
-    totals: Dict[str, Decimal] = {}
+    totals: dict[str, Decimal] = {}
     for operator_quantities in quantities.values():
         for resource_id, quantity in operator_quantities.items():
-            totals[resource_id] = totals.get(resource_id, Decimal("0")) + quantity
+            totals[resource_id] = totals.get(resource_id, Decimal(0)) + quantity
     return totals

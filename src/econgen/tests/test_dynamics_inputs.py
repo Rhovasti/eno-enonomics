@@ -2,7 +2,6 @@
 
 from decimal import Decimal
 from pathlib import Path
-from typing import Dict
 
 from ..citystates.economy import make_economy
 from ..cli_common import _compute_supply_and_demand
@@ -50,11 +49,11 @@ def test_adapter_couples_inputs_within_same_city_only() -> None:
     """A crafted stock drains inputs only when the input stock exists in that city."""
     _, rules_engine, _ = make_economy()
     operators = [_operator("a"), _operator("b")]
-    supply: Dict[str, Dict[str, Decimal]] = {
-        "a": {"living-bronze": Decimal("10"), "cunu": Decimal("20"), "sap": Decimal("5")},
-        "b": {"living-bronze": Decimal("10")},  # crafts without local inputs
+    supply: dict[str, dict[str, Decimal]] = {
+        "a": {"living-bronze": Decimal(10), "cunu": Decimal(20), "sap": Decimal(5)},
+        "b": {"living-bronze": Decimal(10)},  # crafts without local inputs
     }
-    demand: Dict[str, Dict[str, Decimal]] = {"a": {}, "b": {"sap": Decimal("1")}}
+    demand: dict[str, dict[str, Decimal]] = {"a": {}, "b": {"sap": Decimal(1)}}
 
     dynamics = build_dynamics_input(
         operators, supply, demand, DynamicsConfig(), rules_engine=rules_engine
@@ -69,8 +68,8 @@ def test_adapter_couples_inputs_within_same_city_only() -> None:
 
 def test_adapter_without_rules_engine_leaves_inputs_empty() -> None:
     operators = [_operator("a")]
-    supply = {"a": {"living-bronze": Decimal("10"), "cunu": Decimal("20")}}
-    demand: Dict[str, Dict[str, Decimal]] = {"a": {}}
+    supply = {"a": {"living-bronze": Decimal(10), "cunu": Decimal(20)}}
+    demand: dict[str, dict[str, Decimal]] = {"a": {}}
 
     dynamics = build_dynamics_input(operators, supply, demand, DynamicsConfig())
 
@@ -96,6 +95,6 @@ def test_dynamics_pipeline_passes_final_demand_only() -> None:
 
     # Supply is still calibrated to cover the inputs that production consumes:
     # iron ore supply covers steel-making's input on top of final demand.
-    ore_supply = sum(ops.get("iron-ore", Decimal("0")) for ops in supply.values())
-    ore_final = sum(ops.get("iron-ore", Decimal("0")) for ops in final.values())
+    ore_supply = sum(ops.get("iron-ore", Decimal(0)) for ops in supply.values())
+    ore_final = sum(ops.get("iron-ore", Decimal(0)) for ops in final.values())
     assert ore_supply > ore_final

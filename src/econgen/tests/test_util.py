@@ -1,24 +1,26 @@
 """Tests for utility functions."""
 
-import pytest
 from decimal import Decimal
 
+import pytest
+
 from ..util import (
-    set_seed,
     calculate_great_circle_distance,
-    normalize_resource_id,
     clamp,
-    safe_divide,
-    format_number,
     deduplicate_list_preserve_order,
-    validate_positive_decimal,
+    format_number,
     get_deterministic_sample,
+    normalize_resource_id,
+    safe_divide,
+    set_seed,
+    validate_positive_decimal,
 )
 
 
 def test_set_seed():
     """Test random seed setting."""
     import random
+
     import numpy as np
 
     # Test with seed
@@ -68,16 +70,16 @@ def test_normalize_resource_id():
 
 def test_clamp():
     """Test value clamping."""
-    assert clamp(Decimal("5"), Decimal("1"), Decimal("10")) == Decimal("5")
-    assert clamp(Decimal("0"), Decimal("1"), Decimal("10")) == Decimal("1")
-    assert clamp(Decimal("15"), Decimal("1"), Decimal("10")) == Decimal("10")
+    assert clamp(Decimal(5), Decimal(1), Decimal(10)) == Decimal(5)
+    assert clamp(Decimal(0), Decimal(1), Decimal(10)) == Decimal(1)
+    assert clamp(Decimal(15), Decimal(1), Decimal(10)) == Decimal(10)
 
 
 def test_safe_divide():
     """Test safe division with default values."""
-    assert safe_divide(Decimal("10"), Decimal("2")) == Decimal("5")
-    assert safe_divide(Decimal("10"), Decimal("0")) == Decimal("0")  # Default
-    assert safe_divide(Decimal("10"), Decimal("0"), Decimal("99")) == Decimal("99")
+    assert safe_divide(Decimal(10), Decimal(2)) == Decimal(5)
+    assert safe_divide(Decimal(10), Decimal(0)) == Decimal(0)  # Default
+    assert safe_divide(Decimal(10), Decimal(0), Decimal(99)) == Decimal(99)
 
 
 def test_format_number():
@@ -110,7 +112,7 @@ def test_validate_positive_decimal():
 
     # Invalid zero
     with pytest.raises(ValueError, match="must be positive"):
-        validate_positive_decimal(Decimal("0"))
+        validate_positive_decimal(Decimal(0))
 
     # Invalid negative
     with pytest.raises(ValueError, match="must be positive"):
@@ -118,7 +120,7 @@ def test_validate_positive_decimal():
 
     # Custom field name in error
     with pytest.raises(ValueError, match="price must be positive"):
-        validate_positive_decimal(Decimal("0"), "price")
+        validate_positive_decimal(Decimal(0), "price")
 
 
 def test_get_deterministic_sample():

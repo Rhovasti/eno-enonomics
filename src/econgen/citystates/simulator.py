@@ -20,7 +20,7 @@ Per resource::
 """
 
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -69,13 +69,13 @@ class CitystateHistory(BaseModel):
     name: str
     founded_cycle: int
     final_cycle: int = FINAL_CYCLE
-    time: List[float]
-    population: List[float]
-    tech: List[float]
-    stocks: Dict[str, List[float]]
-    trade: Dict[str, List[float]]
-    resources: List[str]
-    model_path: Optional[str] = None
+    time: list[float]
+    population: list[float]
+    tech: list[float]
+    stocks: dict[str, list[float]]
+    trade: dict[str, list[float]]
+    resources: list[str]
+    model_path: str | None = None
 
 
 def _tech_rank(spec: CitystateSpec) -> int:
@@ -83,7 +83,7 @@ def _tech_rank(spec: CitystateSpec) -> int:
     return TECH_ORDER[tech_for(spec)]
 
 
-def _is_depletable(capacity_driver: Optional[str]) -> bool:
+def _is_depletable(capacity_driver: str | None) -> bool:
     return capacity_driver == "mining_potential" or (
         capacity_driver is not None and capacity_driver.endswith("_deposit")
     )
@@ -95,20 +95,20 @@ class PerCityBuilder(MinskyModelBuilder):
     def build_dynamic(
         self,
         spec: CitystateSpec,
-        supply: Dict,
-        demand: Dict,
+        supply: dict,
+        demand: dict,
         taxonomy: ResourceTaxonomy,
         rules_engine: RulesEngine,
         config: CitystateSimConfig,
-        unlock_rank: Optional[Dict[str, int]] = None,
-    ) -> List[str]:
+        unlock_rank: dict[str, int] | None = None,
+    ) -> list[str]:
         self.m.clearAllMaps(True)
         self.series.clear()
-        self.resource_info: Dict[str, Dict[str, Any]] = {}
-        self._res_stock: Dict[str, Any] = {}
-        self._res_intop: Dict[str, Any] = {}
-        self._res_pp: Dict[str, Any] = {}
-        self._res_cp: Dict[str, Any] = {}
+        self.resource_info: dict[str, dict[str, Any]] = {}
+        self._res_stock: dict[str, Any] = {}
+        self._res_intop: dict[str, Any] = {}
+        self._res_pp: dict[str, Any] = {}
+        self._res_cp: dict[str, Any] = {}
 
         pop0 = max(spec.population, 1)
         growth_flow = spec.growth_rate * config.growth_scale * pop0
@@ -128,8 +128,8 @@ class PerCityBuilder(MinskyModelBuilder):
         input_reqs = recipe_input_rates(rules_engine)
 
         # Pass 1: create every stock (wiring a resource needs all input stocks).
-        resources: List[str] = []
-        plans: List[Tuple[str, int, float, float, float, int, bool, float, Dict[str, float]]] = []
+        resources: list[str] = []
+        plans: list[tuple[str, int, float, float, float, int, bool, float, dict[str, float]]] = []
         for index, resource in enumerate(sorted(set(supply) | set(demand))):
             production_total = float(supply.get(resource, 0))
             consumption_total = float(demand.get(resource, 0))
@@ -174,9 +174,9 @@ class PerCityBuilder(MinskyModelBuilder):
         self.m.constructEquations()
         return resources
 
-    def _tier_by_resource(self, rules_engine: RulesEngine) -> Dict[str, int]:
+    def _tier_by_resource(self, rules_engine: RulesEngine) -> dict[str, int]:
         """Min tech rank among rules producing each resource."""
-        result: Dict[str, int] = {}
+        result: dict[str, int] = {}
         for rule in rules_engine.rules.values():
             rank = TECH_ORDER[str(rule.tech_min)]
             for resource in rule.outputs:
@@ -184,9 +184,9 @@ class PerCityBuilder(MinskyModelBuilder):
                     result[resource] = rank
         return result
 
-    def _extractive_by_resource(self, rules_engine: RulesEngine) -> Dict[str, bool]:
+    def _extractive_by_resource(self, rules_engine: RulesEngine) -> dict[str, bool]:
         """A resource is extractive if any producing rule mines a finite deposit."""
-        result: Dict[str, bool] = {}
+        result: dict[str, bool] = {}
         for rule in rules_engine.rules.values():
             if _is_depletable(rule.capacity_driver):
                 for resource in rule.outputs:
@@ -214,7 +214,7 @@ class PerCityBuilder(MinskyModelBuilder):
         tier_rank: int,
         extractive: bool,
         e0: float,
-        inputs: Dict[str, float],
+        inputs: dict[str, float],
     ) -> None:
         """Pass 2: production chain (tech + input gates + depletion), consumption, net."""
         bx, by = self._cell(index)
@@ -284,14 +284,14 @@ class PerCityBuilder(MinskyModelBuilder):
         self._wire(net, 0, integrator, 1)
 
     def _wire_input_coupling(
-        self, index: int, resource: str, production: Any, inputs: Dict[str, float]
-    ) -> Tuple[Any, List[Any]]:
+        self, index: int, resource: str, production: Any, inputs: dict[str, float]
+    ) -> tuple[Any, list[Any]]:
         """Chain ``S_in/(S_in + 0.1*ref_in)`` gates onto ``production``.
 
         Returns the gated production flow plus the drain flows that the input
         stocks' net equations must subtract.
         """
-        drains: List[Any] = []
+        drains: list[Any] = []
         accumulator = production
         if not inputs:
             return accumulator, drains
@@ -327,12 +327,12 @@ class PerCityBuilder(MinskyModelBuilder):
 def simulate_city(
     client: MinskyClient,
     spec: CitystateSpec,
-    supply: Dict,
-    demand: Dict,
+    supply: dict,
+    demand: dict,
     taxonomy: ResourceTaxonomy,
     rules_engine: RulesEngine,
     config: CitystateSimConfig,
-    unlock_rank: Optional[Dict[str, int]] = None,
+    unlock_rank: dict[str, int] | None = None,
 ) -> CitystateHistory:
     """Build + integrate one city's model from founding to 998; return its history.
 
@@ -353,7 +353,7 @@ def simulate_city(
     minsky.reset()
     try:
         minsky.stepMax(config.max_step)
-    except Exception:
+    except Exception:  # noqa: BLE001, S110 - best effort; Minsky keeps its default step size
         pass
 
     def _record() -> None:
@@ -384,12 +384,12 @@ def simulate_city(
             trade[r].append(config.trade_conductance * (consumption - stock_val))
             production_map[r].append(production)
 
-    time: List[float] = []
-    population: List[float] = []
-    tech: List[float] = []
-    stocks: Dict[str, List[float]] = {r: [] for r in resources}
-    trade: Dict[str, List[float]] = {r: [] for r in resources}
-    production_map: Dict[str, List[float]] = {r: [] for r in resources}
+    time: list[float] = []
+    population: list[float] = []
+    tech: list[float] = []
+    stocks: dict[str, list[float]] = {r: [] for r in resources}
+    trade: dict[str, list[float]] = {r: [] for r in resources}
+    production_map: dict[str, list[float]] = {r: [] for r in resources}
 
     _record()  # initial state at t=0
     step = 0
@@ -418,9 +418,9 @@ def save_history(history: CitystateHistory, output_dir: Path) -> None:
 
 
 __all__ = [
-    "CitystateSimConfig",
     "CitystateHistory",
+    "CitystateSimConfig",
     "PerCityBuilder",
-    "simulate_city",
     "save_history",
+    "simulate_city",
 ]

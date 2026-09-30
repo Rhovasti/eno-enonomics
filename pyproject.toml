@@ -33,6 +33,11 @@ line-length = 100
 # Ruff 0.16 formats Python code blocks in Markdown; keep the docs out of scope.
 extend-exclude = ["*.md"]
 
-[tool.ruff.lint]
-# The rule set that was ruff's default before 0.16 widened it.
-select = ["E4", "E7", "E9", "F"]
+[tool.ruff.lint.flake8-bugbear]
+# Typer declares CLI options as default values; these calls run once, at definition time.
+extend-immutable-calls = ["typer.Option", "typer.Argument"]
+
+[tool.ruff.lint.per-file-ignores]
+# CLI commands catch every error at the top level to print it (and exit non-zero, or for
+# `validate`, move on to the next file).
+"src/econgen/cli*.py" = ["BLE001"]

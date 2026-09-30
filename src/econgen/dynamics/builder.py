@@ -25,7 +25,7 @@ operation ports); values set via ``variableValues[key].init(str)`` and applied a
 ``constructEquations`` + ``reset``.
 """
 
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 from .state import DynamicsInput, StockSpec, TradeEdge
 
@@ -55,15 +55,15 @@ class MinskyModelBuilder:
 
     def __init__(self, minsky: Any) -> None:
         self.m = minsky
-        self.series: Dict[str, str] = {}  # "city/resource" -> valueId ":sN"
-        self._cell_origin: Dict[int, Tuple[float, float]] = {}
-        self._stock_handle: Dict[Tuple[str, str], Any] = {}
-        self._integrator: Dict[Tuple[str, str], Any] = {}
-        self._production: Dict[Tuple[str, str], Any] = {}
-        self._consumption: Dict[Tuple[str, str], Any] = {}
-        self._price: Dict[Tuple[str, str], Any] = {}  # scarcity price op per stock
-        self._spec_by_key: Dict[Tuple[str, str], StockSpec] = {}
-        self._drains: Dict[Tuple[str, str], List[Any]] = {}  # input stock <- drain flows
+        self.series: dict[str, str] = {}  # "city/resource" -> valueId ":sN"
+        self._cell_origin: dict[int, tuple[float, float]] = {}
+        self._stock_handle: dict[tuple[str, str], Any] = {}
+        self._integrator: dict[tuple[str, str], Any] = {}
+        self._production: dict[tuple[str, str], Any] = {}
+        self._consumption: dict[tuple[str, str], Any] = {}
+        self._price: dict[tuple[str, str], Any] = {}  # scarcity price op per stock
+        self._spec_by_key: dict[tuple[str, str], StockSpec] = {}
+        self._drains: dict[tuple[str, str], list[Any]] = {}  # input stock <- drain flows
 
     def build(self, dynamics_input: DynamicsInput) -> None:
         """Create all items/wires, set values, and build the equation DAG."""
@@ -77,7 +77,7 @@ class MinskyModelBuilder:
         for index, spec in enumerate(dynamics_input.stocks):
             self._create_stock(index, spec)
 
-        edge_flows: Dict[Tuple[str, str, str], Any] = {}
+        edge_flows: dict[tuple[str, str, str], Any] = {}
         for index, edge in enumerate(dynamics_input.trade_edges):
             edge_flows[self._edge_key(edge)] = self._create_edge_flow(index, edge)
 
@@ -204,8 +204,8 @@ class MinskyModelBuilder:
         self,
         index: int,
         spec: StockSpec,
-        edges: List[TradeEdge],
-        edge_flows: Dict[Tuple[str, str, str], Any],
+        edges: list[TradeEdge],
+        edge_flows: dict[tuple[str, str, str], Any],
     ) -> None:
         """Fold production - consumption - drains +/- trade flows into the integrator."""
         key = (spec.city, spec.resource)
@@ -234,11 +234,11 @@ class MinskyModelBuilder:
     # -- low-level helpers ------------------------------------------------
 
     @staticmethod
-    def _edge_key(edge: TradeEdge) -> Tuple[str, str, str]:
+    def _edge_key(edge: TradeEdge) -> tuple[str, str, str]:
         return (edge.source, edge.dest, edge.resource)
 
     @staticmethod
-    def _cell(index: int) -> Tuple[float, float]:
+    def _cell(index: int) -> tuple[float, float]:
         col = index % _COLS
         row = index // _COLS
         return col * _CELL_W, row * _CELL_H
@@ -249,7 +249,7 @@ class MinskyModelBuilder:
         self.m.variableValues[f":{name}"].init(_num(value))
         return self._last_item()
 
-    def _integral(self, name: str, x: float, y: float, initial: float) -> Tuple[Any, Any]:
+    def _integral(self, name: str, x: float, y: float, initial: float) -> tuple[Any, Any]:
         self.m.canvas.addVariable(name, "flow")
         self.m.canvas.mouseUp(x, y)
         self.m.canvas.getItemAt(x, y)
@@ -275,7 +275,7 @@ class MinskyModelBuilder:
         self.m.canvas.mouseDown(sx, sy)
         self.m.canvas.mouseUp(dx, dy)
 
-    def _port(self, item: Any, port: int) -> Tuple[float, float]:
+    def _port(self, item: Any, port: int) -> tuple[float, float]:
         if "Operation:" in (self._attr(item, "classType") or ""):
             self.m.canvas.getItemAt(item.m_x(), item.m_y())
             item = self.m.canvas.item
@@ -285,5 +285,5 @@ class MinskyModelBuilder:
     def _attr(item: Any, attr: str) -> Any:
         try:
             return getattr(item, attr)()
-        except Exception:
+        except Exception:  # noqa: BLE001 - probing an optional pyminsky accessor
             return None

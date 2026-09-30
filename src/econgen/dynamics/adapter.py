@@ -13,7 +13,7 @@ greedy trade *quantity* solver entirely.
 
 from collections import defaultdict
 from decimal import Decimal
-from typing import Any, Dict, List, Optional, Protocol, Tuple
+from typing import Any, Protocol
 
 from ..models import Operator
 from .state import DynamicsConfig, DynamicsInput, StockSpec, TradeEdge
@@ -24,7 +24,7 @@ TRADE_DISTANCE_SCALE_KM = 100.0
 class _TradeNetwork(Protocol):
     """Structural type for the trade-network collaborator (avoids importing trade.py)."""
 
-    def find_trade_partners(self, operator_id: str) -> List[str]: ...
+    def find_trade_partners(self, operator_id: str) -> list[str]: ...
     def calculate_distance(self, op1_id: str, op2_id: str) -> Decimal: ...
 
 
@@ -38,10 +38,10 @@ class _RulesEngine(Protocol):
     """Structural type for the rules engine (only needs the rule table)."""
 
     @property
-    def rules(self) -> Dict[str, Any]: ...
+    def rules(self) -> dict[str, Any]: ...
 
 
-def recipe_input_rates(rules_engine: _RulesEngine) -> Dict[str, Dict[str, float]]:
+def recipe_input_rates(rules_engine: _RulesEngine) -> dict[str, dict[str, float]]:
     """Units of each input consumed per unit produced, per output resource.
 
     Derived from the production rules (first rule in sorted rule_id order with
@@ -52,7 +52,7 @@ def recipe_input_rates(rules_engine: _RulesEngine) -> Dict[str, Dict[str, float]
     Returns:
         ``{output_resource: {input_resource: units per unit produced}}``
     """
-    result: Dict[str, Dict[str, float]] = {}
+    result: dict[str, dict[str, float]] = {}
     for rule_id in sorted(rules_engine.rules):
         rule = rules_engine.rules[rule_id]
         if not rule.inputs:
@@ -69,13 +69,13 @@ def recipe_input_rates(rules_engine: _RulesEngine) -> Dict[str, Dict[str, float]
 
 
 def build_dynamics_input(
-    operators: List[Operator],
-    supply: Dict[str, Dict[str, Decimal]],
-    demand: Dict[str, Dict[str, Decimal]],
+    operators: list[Operator],
+    supply: dict[str, dict[str, Decimal]],
+    demand: dict[str, dict[str, Decimal]],
     config: DynamicsConfig,
-    trade_network: Optional[_TradeNetwork] = None,
-    taxonomy: Optional[_Taxonomy] = None,
-    rules_engine: Optional[_RulesEngine] = None,
+    trade_network: _TradeNetwork | None = None,
+    taxonomy: _Taxonomy | None = None,
+    rules_engine: _RulesEngine | None = None,
 ) -> DynamicsInput:
     """Map operators + supply/demand into a DynamicsInput of stocks (+ trade).
 
@@ -95,8 +95,8 @@ def build_dynamics_input(
     city_filter = set(config.cities) if config.cities else None
     resource_filter = set(config.resources) if config.resources else None
 
-    stocks: List[StockSpec] = []
-    initials_by_resource: Dict[str, List[float]] = defaultdict(list)
+    stocks: list[StockSpec] = []
+    initials_by_resource: dict[str, list[float]] = defaultdict(list)
     for op in operators:
         if city_filter is not None and op.operator_id not in city_filter:
             continue
@@ -107,9 +107,9 @@ def build_dynamics_input(
             resource_ids &= resource_filter
 
         for resource_id in sorted(resource_ids):
-            production = float(op_supply.get(resource_id, Decimal("0")))
+            production = float(op_supply.get(resource_id, Decimal(0)))
             consumption = _per_capita_rate(
-                float(op_demand.get(resource_id, Decimal("0"))), op.population
+                float(op_demand.get(resource_id, Decimal(0))), op.population
             )
             if production <= 0 and consumption <= 0:
                 continue
@@ -143,7 +143,7 @@ def build_dynamics_input(
     if rules_engine is not None:
         requirements = recipe_input_rates(rules_engine)
         stock_keys = {(stock.city, stock.resource) for stock in stocks}
-        coupled: List[StockSpec] = []
+        coupled: list[StockSpec] = []
         for stock in stocks:
             rates = requirements.get(stock.resource)
             if not rates:
@@ -157,7 +157,7 @@ def build_dynamics_input(
             coupled.append(stock.model_copy(update={"input_rates": inputs}))
         stocks = coupled
 
-    trade_edges: List[TradeEdge] = []
+    trade_edges: list[TradeEdge] = []
     if config.include_trade and trade_network is not None:
         trade_edges = _build_trade_edges(stocks, trade_network, config)
 
@@ -176,7 +176,7 @@ def _per_capita_rate(demand_qty: float, population: int) -> float:
     return demand_qty / population
 
 
-def _mean_or_one(values: List[float]) -> float:
+def _mean_or_one(values: list[float]) -> float:
     """Mean of the values, or 1.0 when there are none or the mean is not positive."""
     mean = sum(values) / len(values) if values else 0.0
     return mean if mean > 0 else 1.0
@@ -190,18 +190,18 @@ def _initial_stock(production: float, config: DynamicsConfig) -> float:
 
 
 def _build_trade_edges(
-    stocks: List[StockSpec], trade_network: _TradeNetwork, config: DynamicsConfig
-) -> List[TradeEdge]:
+    stocks: list[StockSpec], trade_network: _TradeNetwork, config: DynamicsConfig
+) -> list[TradeEdge]:
     """Build diffusion trade edges between neighbouring cities per resource."""
-    cities_by_resource: Dict[str, set] = defaultdict(set)
+    cities_by_resource: dict[str, set] = defaultdict(set)
     for stock in stocks:
         cities_by_resource[stock.resource].add(stock.city)
 
-    edges: List[TradeEdge] = []
+    edges: list[TradeEdge] = []
     seen = set()
     # Reason: the cap is per city *per resource* (see DynamicsConfig), so count
     # partners by (city, resource); a shared count let early resources use it up.
-    partner_count: Dict[Tuple[str, str], int] = defaultdict(int)
+    partner_count: dict[tuple[str, str], int] = defaultdict(int)
     cap = config.max_trade_partners
     for resource in sorted(cities_by_resource):
         for city in sorted(cities_by_resource[resource]):
