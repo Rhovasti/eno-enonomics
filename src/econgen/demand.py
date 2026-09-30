@@ -2,6 +2,7 @@
 
 from typing import Any, List, Dict
 from decimal import Decimal
+from .fantastical import with_fantastical_demand
 from .models import Operator, DemandProfile, TechLevel
 from .taxonomy import ResourceTaxonomy
 import logging
@@ -364,7 +365,7 @@ def create_default_demand_profiles() -> List[DemandProfile]:
     Returns:
         List of DemandProfile instances for each tech level
     """
-    return [
+    profiles: List[DemandProfile] = [
         DemandProfile(
             tech=TechLevel.TRIBAL,
             per_capita={
@@ -404,6 +405,8 @@ def create_default_demand_profiles() -> List[DemandProfile]:
             },
         ),
     ]
+
+    return with_fantastical_demand(profiles)
 
 
 # Export main classes and functions

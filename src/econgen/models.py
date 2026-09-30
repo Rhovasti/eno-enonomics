@@ -41,6 +41,16 @@ class TechLevel(str, Enum):
         return not self >= other
 
 
+# Rank of each tech level (matches TechLevel's comparison order). Plain-dict
+# form for callers that hold raw ``str`` values (enum fields degrade to str
+# via ``use_enum_values=True``) and need an ordinal without re-wrapping.
+TECH_ORDER: Dict[str, int] = {
+    TechLevel.TRIBAL.value: 0,
+    TechLevel.MEDIEVAL.value: 1,
+    TechLevel.INDUSTRIAL.value: 2,
+}
+
+
 class Resource(BaseModel):
     """Resource definition with tech requirements."""
 
@@ -200,6 +210,7 @@ class SimulationConfig(BaseModel):
 # Export all models
 __all__ = [
     "TechLevel",
+    "TECH_ORDER",
     "Resource",
     "ProductionRule",
     "Operator",

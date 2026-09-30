@@ -156,6 +156,166 @@ resources:
     transportable: true
     perishable: false
 
+  # Fantastical resources (Eno Periodical System) — see fantastical.py
+  - resource_id: dust
+    name: Dust
+    tier: 0
+    tech_min: tribal
+    base_price: 0.5
+    transportable: true
+    perishable: false
+
+  - resource_id: sap
+    name: Sap
+    tier: 0
+    tech_min: tribal
+    base_price: 4.0
+    transportable: true
+    perishable: false
+
+  - resource_id: phos
+    name: Phos
+    tier: 0
+    tech_min: medieval
+    base_price: 15.0
+    transportable: true
+    perishable: false
+
+  - resource_id: pitch
+    name: Pitch
+    tier: 0
+    tech_min: medieval
+    base_price: 18.0
+    transportable: true
+    perishable: false
+
+  - resource_id: ash
+    name: Ash
+    tier: 0
+    tech_min: medieval
+    base_price: 12.0
+    transportable: true
+    perishable: false
+
+  - resource_id: rime
+    name: Rime
+    tier: 0
+    tech_min: medieval
+    base_price: 20.0
+    transportable: true
+    perishable: false
+
+  - resource_id: mucus
+    name: Mucus
+    tier: 0
+    tech_min: medieval
+    base_price: 25.0
+    transportable: true
+    perishable: false
+
+  - resource_id: mold
+    name: Mold
+    tier: 0
+    tech_min: medieval
+    base_price: 30.0
+    transportable: true
+    perishable: false
+
+  - resource_id: sirael
+    name: Sirael (Silica)
+    tier: 0
+    tech_min: medieval
+    base_price: 3.0
+    transportable: true
+    perishable: false
+
+  - resource_id: plon
+    name: Plon (Lead)
+    tier: 0
+    tech_min: medieval
+    base_price: 3.0
+    transportable: true
+    perishable: false
+
+  - resource_id: suhra
+    name: Suhra (Sulfur)
+    tier: 0
+    tech_min: medieval
+    base_price: 4.0
+    transportable: true
+    perishable: false
+
+  - resource_id: cunu
+    name: Cunu (Copper)
+    tier: 0
+    tech_min: medieval
+    base_price: 4.0
+    transportable: true
+    perishable: false
+
+  - resource_id: feron
+    name: Feron (Iron)
+    tier: 0
+    tech_min: medieval
+    base_price: 5.0
+    transportable: true
+    perishable: false
+
+  - resource_id: charon
+    name: Charon (Carbon)
+    tier: 0
+    tech_min: medieval
+    base_price: 6.0
+    transportable: true
+    perishable: false
+
+  - resource_id: sira
+    name: Sira (Silver)
+    tier: 0
+    tech_min: medieval
+    base_price: 25.0
+    transportable: true
+    perishable: false
+
+  - resource_id: aru
+    name: Aru (Gold)
+    tier: 0
+    tech_min: medieval
+    base_price: 40.0
+    transportable: true
+    perishable: false
+
+  - resource_id: grave-lead
+    name: Grave Lead
+    tier: 2
+    tech_min: medieval
+    base_price: 35.0
+    transportable: true
+    perishable: false
+
+  - resource_id: dreamfire
+    name: Dreamfire
+    tier: 2
+    tech_min: medieval
+    base_price: 50.0
+    transportable: true
+    perishable: false
+
+  - resource_id: living-bronze
+    name: Living Bronze
+    tier: 2
+    tech_min: medieval
+    base_price: 45.0
+    transportable: true
+    perishable: false
+
+  - resource_id: soulstone
+    name: Soulstone
+    tier: 2
+    tech_min: medieval
+    base_price: 60.0
+    transportable: true
+    perishable: false
 # Production rules
 rules:
   # Primary production (resource extraction)
@@ -325,6 +485,194 @@ rules:
     capacity_driver: craftsmanship
     labor_required: 6.0
 
+  # Fantastical gathering, mining and alchemical recipes — see fantastical.py
+  - rule_id: dust-collection
+    name: Dust Collection
+    tech_min: tribal
+    inputs: {}
+    outputs:
+      dust: 1.0
+    capacity_driver: null
+    labor_required: 1.0
+
+  - rule_id: sap-tapping
+    name: Sap Tapping
+    tech_min: tribal
+    inputs: {}
+    outputs:
+      sap: 2.0
+    capacity_driver: sap_harvest
+    labor_required: 2.0
+
+  - rule_id: phos-venting
+    name: Phos Venting
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      phos: 1.0
+    capacity_driver: phos_vent
+    labor_required: 3.5
+
+  - rule_id: pitch-dredging
+    name: Pitch Dredging
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      pitch: 1.0
+    capacity_driver: pitch_depth
+    labor_required: 4.0
+
+  - rule_id: ash-pilgrimage
+    name: Ash Pilgrimage
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      ash: 1.0
+    capacity_driver: ash_pilgrimage
+    labor_required: 4.0
+
+  - rule_id: rime-collection
+    name: Rime Collection
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      rime: 1.0
+    capacity_driver: rime_collection
+    labor_required: 4.0
+
+  - rule_id: mucus-harvest
+    name: Mucus Harvest
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      mucus: 0.5
+    capacity_driver: mucus_gland
+    labor_required: 5.0
+
+  - rule_id: mold-excavation
+    name: Mold Excavation
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      mold: 0.5
+    capacity_driver: mold_deposit
+    labor_required: 5.0
+
+  - rule_id: sirael-mining
+    name: Sirael Mining
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      sirael: 1.5
+    capacity_driver: sirael_deposit
+    labor_required: 3.0
+
+  - rule_id: plon-mining
+    name: Plon Mining
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      plon: 1.5
+    capacity_driver: plon_deposit
+    labor_required: 3.0
+
+  - rule_id: suhra-mining
+    name: Suhra Mining
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      suhra: 1.5
+    capacity_driver: suhra_deposit
+    labor_required: 3.0
+
+  - rule_id: cunu-mining
+    name: Cunu Mining
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      cunu: 1.5
+    capacity_driver: cunu_deposit
+    labor_required: 3.0
+
+  - rule_id: feron-mining
+    name: Feron Mining
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      feron: 1.5
+    capacity_driver: feron_deposit
+    labor_required: 3.0
+
+  - rule_id: charon-mining
+    name: Charon Mining
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      charon: 1.5
+    capacity_driver: charon_deposit
+    labor_required: 3.0
+
+  - rule_id: sira-mining
+    name: Sira Mining
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      sira: 1.5
+    capacity_driver: sira_deposit
+    labor_required: 3.0
+
+  - rule_id: aru-mining
+    name: Aru Mining
+    tech_min: medieval
+    inputs: {}
+    outputs:
+      aru: 1.5
+    capacity_driver: aru_deposit
+    labor_required: 3.0
+
+  - rule_id: living-bronze-forging
+    name: Living Bronze Forging
+    tech_min: medieval
+    inputs:
+      cunu: 1.0
+      sap: 1.0
+    outputs:
+      living-bronze: 1.0
+    capacity_driver: cunu_deposit
+    labor_required: 5.0
+
+  - rule_id: soulstone-cutting
+    name: Soulstone Cutting
+    tech_min: medieval
+    inputs:
+      charon: 1.0
+      mold: 1.0
+    outputs:
+      soulstone: 1.0
+    capacity_driver: charon_deposit
+    labor_required: 6.0
+
+  - rule_id: dreamfire-brewing
+    name: Dreamfire Brewing
+    tech_min: medieval
+    inputs:
+      suhra: 1.0
+      phos: 1.0
+    outputs:
+      dreamfire: 1.0
+    capacity_driver: suhra_deposit
+    labor_required: 5.5
+
+  - rule_id: grave-lead-casting
+    name: Grave Lead Casting
+    tech_min: medieval
+    inputs:
+      plon: 1.0
+      ash: 1.0
+    outputs:
+      grave-lead: 1.0
+    capacity_driver: plon_deposit
+    labor_required: 5.0
 # Demand profiles by technology level
 demand_profiles:
   - tech: tribal
@@ -334,6 +682,7 @@ demand_profiles:
       stone: 0.5
       tools: 0.2
       fish: 0.8
+      sap: 0.05
 
   - tech: medieval
     per_capita:
@@ -345,6 +694,11 @@ demand_profiles:
       textiles: 0.6
       fish: 0.5
       jewelry: 0.1
+      sap: 0.1
+      feron: 0.2
+      cunu: 0.1
+      living-bronze: 0.05
+      soulstone: 0.03
 
   - tech: industrial
     per_capita:
@@ -358,3 +712,10 @@ demand_profiles:
       machinery: 0.3
       fish: 0.4
       jewelry: 0.2
+      sap: 0.1
+      feron: 0.4
+      sirael: 0.2
+      living-bronze: 0.1
+      soulstone: 0.08
+      dreamfire: 0.08
+      grave-lead: 0.05

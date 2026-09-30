@@ -199,8 +199,10 @@ class TestEdgeCases:
 
         capacities = capacity_calc.calculate_all_capacities([operator])
 
-        # Every default rule needs a capacity-driver endowment, so nothing is produced
-        assert capacities == []
+        # Every default rule needs a capacity-driver endowment except the
+        # universal Dust Collection rule (no driver), so only Dust is produced
+        assert len(capacities) == 1
+        assert capacities[0].rule_id == "dust-collection"
 
     def test_extreme_coordinates(self):
         """Test operators with extreme coordinate values"""

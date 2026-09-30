@@ -2,6 +2,7 @@
 
 from typing import Any, List, Dict, Optional
 from decimal import Decimal
+from .fantastical import fantastical_resources
 from .models import Resource, TechLevel
 import logging
 
@@ -313,6 +314,8 @@ def create_default_taxonomy() -> ResourceTaxonomy:
             perishable=False,
         ),
     ]
+
+    default_resources += fantastical_resources()
 
     return ResourceTaxonomy(default_resources)
 
