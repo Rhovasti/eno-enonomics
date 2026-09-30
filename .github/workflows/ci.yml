@@ -42,3 +42,48 @@ jobs:
 
       - name: Test
         run: uv run pytest
+
+  minsky:
+    # Runs the dynamics tests against a real Minsky engine. The openSUSE Build Service
+    # package ships the pyminsky extension, so nothing has to be compiled here.
+    name: Minsky dynamics tests
+    # Pinned to 24.04 so it matches the xUbuntu_24.04 package repository below.
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          enable-cache: true
+
+      - name: Install Minsky
+        # downloadcontent.opensuse.org is the origin server: download.opensuse.org
+        # redirects package downloads to mirrors, which can lag behind the index
+        # ("File has unexpected size ... Mirror sync in progress?").
+        run: |
+          repo=https://downloadcontent.opensuse.org/repositories/home:/hpcoder1/xUbuntu_24.04
+          curl -fsSL "$repo/Release.key" | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/hpcoder1.gpg > /dev/null
+          echo "deb $repo/ /" | sudo tee /etc/apt/sources.list.d/hpcoder1.list
+          sudo apt-get update
+          sudo apt-get install -y -o Acquire::Retries=3 minsky
+
+      - name: Locate pyminsky
+        run: |
+          so=$(dpkg -L minsky minsky-restservice | grep -E '/pyminsky[^/]*\.so$' | head -1 || true)
+          if [ -z "$so" ]; then
+            echo "pyminsky not found in the minsky packages; their files are:"
+            dpkg -L minsky minsky-restservice
+            exit 1
+          fi
+          echo "Found $so"
+          echo "ENO_MINSKY_ROOT=$(dirname "$so")" >> "$GITHUB_ENV"
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Dynamics tests
+        env:
+          # Fail instead of skipping if pyminsky cannot be imported.
+          ENO_REQUIRE_MINSKY: "1"
+        run: uv run pytest src/econgen/tests/test_dynamics_builder.py src/econgen/tests/test_dynamics_runner.py
