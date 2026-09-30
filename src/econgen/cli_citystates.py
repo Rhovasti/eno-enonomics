@@ -12,7 +12,7 @@ from rich.progress import Progress, SpinnerColumn, TextColumn
 
 from .cli_common import app, console
 from .citystates import load_citystates
-from .citystates.economy import city_supply_demand, make_economy
+from .citystates.economy import city_potential_supply_demand, city_supply_demand, make_economy
 from .citystates.market import compute_market_prices
 from .citystates.profiles import (
     ProfileConfig,
@@ -143,8 +143,12 @@ def citystate_dynamic(
         ) as progress:
             task = progress.add_task(f"Simulating {len(specs)} citystates...", total=len(specs))
             for spec in specs:
-                supply, demand = city_supply_demand(spec, taxonomy, rules, demand_calc)
-                history = simulate_city(client, spec, supply, demand, taxonomy, rules, config)
+                supply, demand, unlock_rank = city_potential_supply_demand(
+                    spec, taxonomy, rules, demand_calc
+                )
+                history = simulate_city(
+                    client, spec, supply, demand, taxonomy, rules, config, unlock_rank
+                )
                 save_history(history, output_dir)
                 progress.advance(task)
 

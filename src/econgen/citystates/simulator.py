@@ -30,6 +30,7 @@ from ..dynamics.client import MinskyClient
 from ..models import TECH_ORDER
 from ..rules import RulesEngine
 from ..taxonomy import ResourceTaxonomy
+from .economy import tech_for
 from .parser import CitystateSpec
 
 FINAL_CYCLE = 998
@@ -78,18 +79,8 @@ class CitystateHistory(BaseModel):
 
 
 def _tech_rank(spec: CitystateSpec) -> int:
-    tags_l = {t.lower() for t in spec.tags}
-    tech = (
-        "industrial"
-        if "industrial" in tags_l
-        else (
-            "tribal"
-            if spec.temporal_state
-            in ("Drifters", "Wildlands", "Winds", "Dwellers", "Night", "Symbiotic Decline")
-            else "medieval"
-        )
-    )
-    return TECH_ORDER[tech]
+    """Founding tech rank, from the same rule used for the city's supply and demand."""
+    return TECH_ORDER[tech_for(spec)]
 
 
 def _is_depletable(capacity_driver: Optional[str]) -> bool:
@@ -109,6 +100,7 @@ class PerCityBuilder(MinskyModelBuilder):
         taxonomy: ResourceTaxonomy,
         rules_engine: RulesEngine,
         config: CitystateSimConfig,
+        unlock_rank: Optional[Dict[str, int]] = None,
     ) -> List[str]:
         self.m.clearAllMaps(True)
         self.series.clear()
@@ -146,7 +138,8 @@ class PerCityBuilder(MinskyModelBuilder):
             prod_pc = production_total / pop0
             cons_pc = consumption_total / pop0
             initial = production_total * 10.0 if production_total > 0 else 50.0
-            tier_rank = tier_by_resource.get(resource, 0)
+            # Resources the city only reaches at a higher tier switch on at that rank.
+            tier_rank = (unlock_rank or {}).get(resource, tier_by_resource.get(resource, 0))
             extractive = production_total > 0 and extractive_by_resource.get(resource, False)
             e0 = production_total * config.depletion_horizon if extractive else 0.0
             inputs = {
@@ -339,13 +332,20 @@ def simulate_city(
     taxonomy: ResourceTaxonomy,
     rules_engine: RulesEngine,
     config: CitystateSimConfig,
+    unlock_rank: Optional[Dict[str, int]] = None,
 ) -> CitystateHistory:
-    """Build + integrate one city's model from founding to 998; return its history."""
+    """Build + integrate one city's model from founding to 998; return its history.
+
+    ``unlock_rank`` (from ``city_potential_supply_demand``) gives the tech rank at
+    which each not-yet-producible resource switches on as the city's tech rises.
+    """
     minsky = client.connect()
     client.new_model()
 
     builder = PerCityBuilder(minsky)
-    resources = builder.build_dynamic(spec, supply, demand, taxonomy, rules_engine, config)
+    resources = builder.build_dynamic(
+        spec, supply, demand, taxonomy, rules_engine, config, unlock_rank
+    )
 
     run_cycles = FINAL_CYCLE - spec.founded_cycle
     minsky.running(True)

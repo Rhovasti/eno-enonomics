@@ -13,7 +13,7 @@ greedy trade *quantity* solver entirely.
 
 from collections import defaultdict
 from decimal import Decimal
-from typing import Any, Dict, List, Optional, Protocol
+from typing import Any, Dict, List, Optional, Protocol, Tuple
 
 from ..models import Operator
 from .state import DynamicsConfig, DynamicsInput, StockSpec, TradeEdge
@@ -128,9 +128,10 @@ def build_dynamics_input(
             )
 
     # Scarcity price references the per-resource mean initial stock ("market parity").
+    # Reason: fall back to 1.0 when the mean is 0 (e.g. a zero consumer baseline and
+    # no producer), since the runner's ref / (ref + stock) would otherwise be 0/0.
     reference_by_resource = {
-        resource: (sum(values) / len(values) if values else 1.0)
-        for resource, values in initials_by_resource.items()
+        resource: _mean_or_one(values) for resource, values in initials_by_resource.items()
     }
     stocks = [
         stock.model_copy(update={"price_reference": reference_by_resource[stock.resource]})
@@ -175,6 +176,12 @@ def _per_capita_rate(demand_qty: float, population: int) -> float:
     return demand_qty / population
 
 
+def _mean_or_one(values: List[float]) -> float:
+    """Mean of the values, or 1.0 when there are none or the mean is not positive."""
+    mean = sum(values) / len(values) if values else 0.0
+    return mean if mean > 0 else 1.0
+
+
 def _initial_stock(production: float, config: DynamicsConfig) -> float:
     """Producers start with a multiple of one step's output; consumers a baseline."""
     if production > 0:
@@ -192,17 +199,20 @@ def _build_trade_edges(
 
     edges: List[TradeEdge] = []
     seen = set()
-    partner_count: Dict[str, int] = defaultdict(int)
+    # Reason: the cap is per city *per resource* (see DynamicsConfig), so count
+    # partners by (city, resource); a shared count let early resources use it up.
+    partner_count: Dict[Tuple[str, str], int] = defaultdict(int)
+    cap = config.max_trade_partners
     for resource in sorted(cities_by_resource):
         for city in sorted(cities_by_resource[resource]):
-            if partner_count[city] >= config.max_trade_partners:
+            if partner_count[(city, resource)] >= cap:
                 continue
             for neighbour in trade_network.find_trade_partners(city):
                 if neighbour not in cities_by_resource[resource]:
                     continue
-                if partner_count[city] >= config.max_trade_partners:
+                if partner_count[(city, resource)] >= cap:
                     break
-                if partner_count[neighbour] >= config.max_trade_partners:
+                if partner_count[(neighbour, resource)] >= cap:
                     continue
                 source, dest = (city, neighbour) if city < neighbour else (neighbour, city)
                 if (source, dest, resource) in seen:
@@ -213,6 +223,6 @@ def _build_trade_edges(
                 edges.append(
                     TradeEdge(source=source, dest=dest, resource=resource, conductance=conductance)
                 )
-                partner_count[source] += 1
-                partner_count[dest] += 1
+                partner_count[(source, resource)] += 1
+                partner_count[(dest, resource)] += 1
     return edges

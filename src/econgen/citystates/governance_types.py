@@ -436,6 +436,9 @@ LORE_ASSIGNMENTS: Dict[str, str] = {
     "Citadel of the Pass": "Stratocracy",
     "Citadel of Almo": "Secret Society Governance",
     "Guild": "Merchant City Republic",
+    # Synthetic dam settlement; its "Hydraulic Dominion" state would otherwise
+    # match the "dominion" -> Plutocracy state pattern.
+    "Valvestrum": "Oriental Despotism",
 }
 
 # State-field pattern → governance type.
