@@ -66,20 +66,16 @@ Cities and settlements with:
 
 ## Known Issues
 
-### 1. Inputs With No Producer (Minor)
-**Status:** OPEN - design decision pending
-
-Production inputs now count as demand, but `seed` (farming), `fiber` (weaving) and
-`precious-metals`/`gems` (jewelry) have no producing rule. They appear as unmet demand and
-production is not limited by them.
-
-### 2. No Steel Production on kaupungit (Minor)
+### 1. No Steel Production on kaupungit (Minor)
 **Status:** OPEN
 
 No operator in `Data/kaupungit.geojson` qualifies for steel-making (industrial tech plus an
 `industrial_capacity` endowment), so machinery's steel input is never supplied there.
 
 ### Resolved
+- **Inputs with no producer:** new rules `seed-cultivation` and `fiber-farming` (tribal,
+  agriculture) and `precious-metal-mining` and `gem-mining` (medieval, mining potential)
+  supply every rule input (enforced by `test_every_rule_input_has_a_producer`).
 - **Production inputs:** the inputs each operator's production consumes are added to its
   demand, so net surplus = output - own consumption - inputs used, and missing inputs
   become import needs. Calibration sizes each rule for final plus input demand.

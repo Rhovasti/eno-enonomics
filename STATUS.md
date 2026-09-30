@@ -14,9 +14,9 @@ dropped trade to 0, and production has since been recalibrated against demand (s
 
 | Check | Result |
 |---|---|
-| `uv run pytest` | 81 passed |
-| CLI `run` on `data/performance_test.geojson` | 319 trade links, 1 importing at the price cap |
-| CLI `run` on `Data/kaupungit.geojson` | 58 links (fish 21, textiles 8, jewelry 7, tools 7, stone 5, food 4, wood 4, iron-ore 2), none at the cap |
+| `uv run pytest` | 82 passed |
+| CLI `run` on `data/performance_test.geojson` | 497 trade links |
+| CLI `run` on `Data/kaupungit.geojson` | 63 links (fish 21, textiles 8, jewelry 7, tools 7, stone 5, food 4, wood 4, iron-ore 2, precious-metals 2, gems 2, fiber 1) |
 | Default run vs. `--config config/econ.yaml` | Identical data outputs |
 | `uv run ruff check .` / `ruff format --check .` | Failing (unused imports; unformatted files) |
 | `uv run mypy src/` | Failing (~50 errors) |
@@ -52,8 +52,14 @@ dropped trade to 0, and production has since been recalibrated against demand (s
 - `performance_test`: 304 -> 319 links; coal starts trading (23 links), iron ore 17 -> 41,
   steel 1 -> 3, while stone (37 -> 20) and tools (53 -> 36) are now used locally by
   toolmakers and machinery producers. `kaupungit`: 54 -> 58 links (tools 3 -> 7).
-- `seed`, `fiber`, `precious-metals` and `gems` have no producing rule, so they show up as
-  unmet demand; production is not limited by them.
+- New extraction rules supply the inputs that had no producer: `seed-cultivation` and
+  `fiber-farming` (tribal, agriculture), `precious-metal-mining` and `gem-mining`
+  (medieval, mining potential). World supply matches demand for all four; other goods'
+  trade is unchanged.
+- Seed never trades: it is driven by the same endowment as farming, so farmers grow their
+  own. Fiber is grown in 135 `kaupungit` cities but woven in 35, and precious metals/gems
+  are mined in only 5 cities for 47 jewelers; distance limits these to 1-2 links each
+  there (`performance_test`: fiber 94, precious metals 41, gems 43 links).
 
 ### Weapons and armor removed from demand
 - Dropped `weapons` from the medieval and industrial demand profiles (code and YAML) and
