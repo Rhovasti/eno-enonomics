@@ -138,9 +138,10 @@ def _compute_supply_and_demand(
     capacities = capacity_calc.calculate_all_capacities(operators)
     demand = demand_calc.calculate_all_demand(operators)
 
-    # Calibrate so world supply matches final demand plus production inputs;
-    # demand from here on includes the inputs each operator consumes
-    capacities, demand = calibrate_with_input_demand(
+    # Calibrate so world supply matches final demand plus production inputs.
+    # Reason: return only the final demand; the dynamics builder drains recipe
+    # inputs itself, so the calibrated total (final + inputs) would count them twice.
+    capacities, _ = calibrate_with_input_demand(
         capacities, rules_engine, demand, sim_config.supply_demand_ratio
     )
 

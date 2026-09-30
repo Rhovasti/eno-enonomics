@@ -1,9 +1,12 @@
 """Tests for recipe input coupling in the dynamics layer (no Minsky dependency)."""
 
 from decimal import Decimal
+from pathlib import Path
 from typing import Dict
 
 from ..citystates.economy import make_economy
+from ..cli_common import _compute_supply_and_demand
+from ..demand import DemandCalculator, create_default_demand_profiles
 from ..dynamics import DynamicsConfig, build_dynamics_input
 from ..dynamics.adapter import recipe_input_rates
 from ..models import Operator, TechLevel
@@ -72,3 +75,27 @@ def test_adapter_without_rules_engine_leaves_inputs_empty() -> None:
     dynamics = build_dynamics_input(operators, supply, demand, DynamicsConfig())
 
     assert all(stock.input_rates == {} for stock in dynamics.stocks)
+
+
+def test_dynamics_pipeline_passes_final_demand_only() -> None:
+    """The dynamics layer drains recipe inputs itself, so it must get final demand.
+
+    Calibration still sizes supply for final plus input demand, but the demand
+    handed to the Minsky builder must exclude the inputs; otherwise every input
+    stock is drained twice (once as consumption, once by the recipe flows).
+    """
+    fixture = Path(__file__).parent / "fixtures" / "tiny_world.geojson"
+    operators, supply, demand, _, _, taxonomy, _ = _compute_supply_and_demand(
+        [fixture], None, None, True
+    )
+
+    final = DemandCalculator(taxonomy, create_default_demand_profiles()).calculate_all_demand(
+        operators
+    )
+    assert demand == final
+
+    # Supply is still calibrated to cover the inputs that production consumes:
+    # iron ore supply covers steel-making's input on top of final demand.
+    ore_supply = sum(ops.get("iron-ore", Decimal("0")) for ops in supply.values())
+    ore_final = sum(ops.get("iron-ore", Decimal("0")) for ops in final.values())
+    assert ore_supply > ore_final
