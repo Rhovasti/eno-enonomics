@@ -15,3 +15,18 @@ Data/*.json
 out/
 .coverage
 htmlcov/
+
+# Tracked input datasets and fixtures (exceptions to the rules above)
+!Data/kaupungit.geojson
+!Data/city_organizations.json
+!Data/filled_cities_data.json
+!data/performance_test.geojson
+!src/econgen/tests/fixtures/*.geojson
+!accurate_cities.geojson
+!worldbuilder_cities.geojson
+!test_cities.geojson
+
+# Editor/OS/tool artifacts
+*:Zone.Identifier
+.serena/cache/
+.pytest_cache/
