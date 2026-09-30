@@ -21,6 +21,17 @@ uv run python -m src.econgen.cli validate --input Data/kaupungit.geojson
 
 # Generate configuration template
 uv run python -m src.econgen.cli config-template --output my_config.yaml
+
+# Dynamic Minsky simulation of a snapshot (requires a local minsky build)
+uv run python -m src.econgen.cli simulate --input Data/kaupungit.geojson \
+    --resource living-bronze --trade --steps 40
+
+# Citystate layers (reads Eno-Worldbuilder2 citystate .md profiles)
+uv run python -m src.econgen.cli citystate-sim --limit 5
+uv run python -m src.econgen.cli citystate-dynamic --limit 5
+uv run python -m src.econgen.cli citystate-chronicle
+uv run python -m src.econgen.cli citystate-financial --limit 5
+uv run python -m src.econgen.cli citystate-governance --limit 5
 ```
 
 ## System Architecture Overview
@@ -41,6 +52,43 @@ GeoJSON Input → Operators → Production → Demand → Calibration → Pricin
 6. **Price Calculation** (`pricing.py`) - Determines market prices based on supply/demand
 7. **Trade Network** (`trade.py`) - Finds profitable trade routes using spatial indexing
 8. **Report Generation** (`report.py`) - Creates comprehensive analysis reports
+9. **Calibration** (`calibration.py`) - Scales world supply to world demand (inputs counted)
+10. **Alchemical Economy** (`fantastical.py`) - The Periodical System of Eno catalog
+11. **Dynamics** (`dynamics/`) - Minsky stock/flow simulation of a static snapshot
+12. **Citystates** (`citystates/`) - Per-citystate economies from worldbuilder profiles
+13. **Financial** (`financial/`) - Godley SFC accounts + karmic-debt/Utaia layer
+
+## The Alchemical Economy (Periodical System of Eno)
+
+The fantastical layer (`fantastical.py`, lore in `w Periodical system of Eno.md`) adds
+20 resources in three tiers, merged into the default taxonomy, rules, demand and
+`config/econ.yaml`:
+
+- **8 alchemical components** — Dust, Sap, Phos, Pitch, Ash, Rime, Mucus, Mold —
+  soul/matter primitives gathered from mythic geography (Sap where vegetation;
+  Rime on the dark side of Eno vs Ash pilgrimages on the sun side, split by
+  longitude; Pitch at coastal depths; Phos at industrial sites; Mucus/Mold rare).
+- **8 periodic elements** — Cunu (copper), Feron (iron), Aru (gold), Sira (silver),
+  Charon (carbon), Sirael (silica), Plon (lead), Suhra (sulfur) — mined from
+  1-2 deterministic element deposits per mining city.
+- **4 alchemical stuffs** — Living Bronze, Soulstone, Dreamfire, Grave Lead —
+  crafted from an element + a component, so their economies are coupled to both.
+
+The layer runs through the whole stack:
+
+- **Static trade**: gathering/mining/recipe rules are capacity-driver gated like
+  any other production; endowments are inferred from geography in both the
+  GeoJSON route (`io_geojson.py`) and the citystate route (`citystates/endowments.py`).
+- **Dynamics**: crafted production *drains its inputs* (recipes consume the
+  component/element stocks of the same city) with a smooth availability gate
+  `S/(S + 0.1·ref)`, in both the multi-city builder and the per-citystate
+  long-run simulator (growth + tech progression + depletion).
+- **Markets**: world prices carry an input-cost floor — a stuff is worth at
+  least `(1 + margin) × Σ input_price × qty`, so component scarcity propagates
+  into everything crafted from it.
+- **Finance**: alchemical value added is carved out of GDP as an Alchemists'
+  Guild sector (components/elements/stuffs split, guild wages and dividends)
+  with its own column in the Godley transactions matrix.
 
 ## Data Models
 

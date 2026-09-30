@@ -3,6 +3,7 @@
 import networkx as nx
 from typing import Any, List, Dict, Set
 from decimal import Decimal
+from .fantastical import fantastical_rules
 from .models import ProductionRule, Operator, TechLevel, Capacity
 import logging
 
@@ -416,7 +417,7 @@ def create_default_rules() -> List[ProductionRule]:
             capacity_driver="craftsmanship",
             labor_required=Decimal("6.0"),
         ),
-    ]
+    ] + fantastical_rules()
 
 
 # Export main classes and functions

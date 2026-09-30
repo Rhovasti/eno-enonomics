@@ -3,6 +3,7 @@
 import pytest
 from pathlib import Path
 from decimal import Decimal
+from typing import Dict
 
 from ..io_geojson import GeoJSONLoader
 from ..models import TechLevel
@@ -190,3 +191,18 @@ def test_industrial_capacity_respects_explicit_tech():
     endowments = loader._extract_endowments({"Population": 5000, "tech": "industrial"})
 
     assert endowments["industrial_capacity"] == Decimal("0.7")
+
+
+def test_fantastical_rime_ash_split_by_longitude():
+    """Dark side (lon < 0) collects Rime; sun side (lon >= 0) gets Ash pilgrimages."""
+    loader = GeoJSONLoader(strict=True)
+
+    dark: Dict[str, Decimal] = {}
+    loader._infer_fantastical_endowments({"Population": 5000}, dark, "4", -50.0)
+    sun: Dict[str, Decimal] = {}
+    loader._infer_fantastical_endowments({"Population": 5000}, sun, "5", 50.0)
+
+    assert dark["rime_collection"] == Decimal("0.4")
+    assert "ash_pilgrimage" not in dark
+    assert sun["ash_pilgrimage"] == Decimal("0.4")
+    assert "rime_collection" not in sun

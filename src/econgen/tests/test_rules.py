@@ -26,6 +26,8 @@ TRIBAL_RULES = {
     "quarrying",
     "seed-cultivation",
     "fiber-farming",
+    # Universal (endowment-free) fantastical gathering rule
+    "dust-collection",
 }
 MEDIEVAL_RULES = TRIBAL_RULES | {
     "weaving",
@@ -78,7 +80,10 @@ def test_get_rules_by_tech_includes_lower_tiers() -> None:
     engine = RulesEngine(create_default_rules())
 
     assert len(engine.get_rules_by_tech(TechLevel.INDUSTRIAL)) == len(create_default_rules())
-    assert {r.rule_id for r in engine.get_rules_by_tech(TechLevel.TRIBAL)} == TRIBAL_RULES
+    # Tech-only view (no endowment filter): the tribal-tier fantastical rules
+    # count here even though sap-tapping is endowment-gated for eligibility.
+    tribal_tech_rules = TRIBAL_RULES | {"sap-tapping"}
+    assert {r.rule_id for r in engine.get_rules_by_tech(TechLevel.TRIBAL)} == tribal_tech_rules
 
 
 def test_every_rule_input_has_a_producer() -> None:

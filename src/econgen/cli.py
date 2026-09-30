@@ -2,41 +2,36 @@
 
 import typer
 from pathlib import Path
-from decimal import Decimal
-from typing import Dict, List, Optional
+from typing import List, Optional
 import json
 import yaml
-from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.table import Table
 from rich.panel import Panel
 import time
 
 from .io_geojson import GeoJSONLoader
-from .models import SimulationConfig, ProductionRule, Resource, DemandProfile
-from .taxonomy import ResourceTaxonomy, create_default_taxonomy
-from .rules import RulesEngine, create_default_rules
+from .taxonomy import ResourceTaxonomy
+from .rules import RulesEngine
 from .calibration import calibrate_with_input_demand
 from .capacity import CapacityCalculator
-from .demand import DemandCalculator, create_default_demand_profiles
+from .demand import DemandCalculator
 from .trade import TradeNetwork
 from .pricing import PriceCalculator
 from .report import ReportGenerator
 from .util import set_seed
-import logging
 
-# Initialize Typer app and Rich console
-app = typer.Typer(
-    help="Economic Worldbuilding Generator - Deterministic economic simulation for GeoJSON data",
-    add_completion=False,
+# Shared app/console/configuration helpers (single Typer app for all modules)
+from .cli_common import (
+    _calculate_supply_from_capacities,
+    _load_configuration,
+    app,
+    console,
 )
-console = Console()
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
-logger = logging.getLogger(__name__)
+# Register the extended command modules on the shared app. Imported at the
+# bottom of the module graph so `run` stays the first command in `--help`.
+from . import cli_citystates, cli_dynamics  # noqa: F401,E402
 
 
 @app.command()
@@ -73,6 +68,8 @@ def run(
 
     # Set up logging
     if verbose:
+        import logging
+
         logging.getLogger().setLevel(logging.DEBUG)
 
     # Display header
@@ -236,6 +233,13 @@ def config_template(
             "seed": None,
             "strict_validation": True,
         },
+        "dynamics": {
+            # Optional Minsky stock/flow layer (see `simulate` command)
+            "minsky_root": "/root/minsky",
+            "n_steps": 50,
+            "include_trade": False,
+            "resources": None,
+        },
         "resources": [
             {
                 "resource_id": "wood",
@@ -276,67 +280,6 @@ def config_template(
         yaml.safe_dump(template, f, indent=2, default_flow_style=False)
 
     console.print(f"✅ Template written to: [bold]{output_file}[/bold]")
-
-
-def _load_configuration(config_path: Optional[Path]):
-    """Load configuration or use defaults."""
-    if config_path and config_path.exists():
-        with open(config_path) as f:
-            config_data = yaml.safe_load(f)
-
-        # Parse configuration sections
-        config = SimulationConfig(**config_data.get("simulation", {}))
-
-        resources = [Resource(**r) for r in config_data.get("resources", [])]
-        if not resources:
-            resources = list(create_default_taxonomy().resources.values())
-
-        rules = [ProductionRule(**r) for r in config_data.get("rules", [])]
-        if not rules:
-            rules = create_default_rules()
-
-        demand_profiles = [DemandProfile(**d) for d in config_data.get("demand_profiles", [])]
-        if not demand_profiles:
-            demand_profiles = create_default_demand_profiles()
-
-    else:
-        # Use defaults
-        console.print("⚠️  No config file provided, using defaults")
-        config = SimulationConfig()
-        resources = list(create_default_taxonomy().resources.values())
-        rules = create_default_rules()
-        demand_profiles = create_default_demand_profiles()
-
-    return config, resources, rules, demand_profiles
-
-
-def _calculate_supply_from_capacities(capacities: List, operators: List, rules_engine) -> dict:
-    """Calculate supply quantities from production capacities."""
-    supply: Dict[str, Dict[str, Decimal]] = {}
-
-    for capacity in capacities:
-        if capacity.operator_id not in supply:
-            supply[capacity.operator_id] = {}
-
-        # Get the actual rule to access its outputs
-        rule = rules_engine.get_rule(capacity.rule_id)
-        if not rule:
-            continue
-
-        # Calculate base production
-        production = capacity.max_rate * capacity.efficiency
-
-        # Iterate through actual rule outputs (proper resource IDs)
-        for resource_id, output_ratio in rule.outputs.items():
-            # Scale production by output ratio
-            resource_production = production * output_ratio
-
-            if resource_id in supply[capacity.operator_id]:
-                supply[capacity.operator_id][resource_id] += resource_production
-            else:
-                supply[capacity.operator_id][resource_id] = resource_production
-
-    return supply
 
 
 def _write_outputs(output_dir: Path, operators, capacities, demand, supply, prices, trade_links):

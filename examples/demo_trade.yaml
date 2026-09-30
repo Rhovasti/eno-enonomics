@@ -1,0 +1,21 @@
+# Multi-resource trade demo config (full map).
+# Only simulation + dynamics sections; resources/rules/demand default to the
+# fantastical-enabled create_default_* set. `dynamics.resources` filters which
+# resources are simulated (a basic, two elements, and an alchemical stuff).
+simulation:
+  max_trade_neighbors: 8
+  max_trade_radius_km: 800
+  transport_cost_per_km: 0.02
+
+dynamics:
+  minsky_root: /root/minsky
+  n_steps: 60
+  seed: 0
+  include_trade: true
+  trade_conductance: 2.0     # recalibrated for price-driven trade (was 0.5)
+  max_trade_partners: 3
+  resources:
+    - food
+    - cunu
+    - feron
+    - living-bronze
