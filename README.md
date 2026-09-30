@@ -324,7 +324,8 @@ uv run ruff check .
 ```
 
 CI (`.github/workflows/ci.yml`) runs `uv sync --locked`, `ruff check`, `ruff format --check`,
-`mypy src/` and `pytest` on every push and pull request.
+`mypy src/` and `pytest` on every push and pull request. A second `minsky` job installs Minsky
+(which ships `pyminsky`) and runs the dynamics tests, which skip in the main job.
 
 ## License
 

@@ -53,20 +53,23 @@ Citystate parser/endowment invariants run in CI against six bundled synthetic pr
 real corpus as well; tests pinned to specific real cities still need the corpus.
 
 Minsky-dependent tests skip without a local pyminsky build; citystate-corpus tests skip
-without the Worldbuilder2 profiles folder. CI runs ruff check, ruff format, mypy and pytest.
+without the Worldbuilder2 profiles folder. CI runs ruff check, ruff format, mypy and pytest,
+plus a separate `minsky` job that installs Minsky from the maintainer's openSUSE Build Service
+package and runs the 8 dynamics tests with `ENO_REQUIRE_MINSKY=1`, so they fail rather than
+skip if pyminsky cannot be imported.
 
 ### Health check (2026-09-30)
 
 | Check | Result |
 |---|---|
-| `uv run pytest` | 139 passed, 19 skipped (8 need pyminsky; 11 need the real citystate corpus) |
+| `uv run pytest` | 139 passed, 19 skipped (8 need pyminsky, run by the CI `minsky` job; 11 need the real citystate corpus) |
 | CLI `run` on `data/performance_test.geojson` | 1,006 trade links, 531 of them alchemical |
 | CLI `run` on `Data/kaupungit.geojson` | 83 links; every alchemical good produced, 17 alchemical links (few, distant producers) |
 | Default run vs. `--config config/econ.yaml` | Identical data outputs |
 | `uv run ruff check .` | Passing |
 | `uv run ruff format --check .` | Passing (line length 100, set in `pyproject.toml`) |
 | `uv run mypy src/` | Passing (type stubs for networkx and scipy added as dev deps) |
-| CI | GitHub Actions (`.github/workflows/ci.yml`): ruff check, ruff format, mypy, pytest |
+| CI | GitHub Actions (`.github/workflows/ci.yml`): ruff check, ruff format, mypy, pytest; `minsky` job runs the dynamics tests (8 passed) |
 
 ### Changes in this update
 - `pytest.ini` header corrected (`[tool:pytest]` -> `[pytest]`) so its settings apply.
