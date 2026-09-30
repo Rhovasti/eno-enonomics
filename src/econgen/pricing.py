@@ -128,7 +128,8 @@ class PriceCalculator:
         prices = {}
         
         # Get all resources this operator deals with
-        all_resources = set(operator_supply.keys()) | set(operator_demand.keys())
+        # Reason: sorted so output order does not depend on per-process string hashing
+        all_resources = sorted(set(operator_supply.keys()) | set(operator_demand.keys()))
         
         for resource_id in all_resources:
             base_price = self.taxonomy.get_base_price(resource_id)

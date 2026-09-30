@@ -194,7 +194,8 @@ class TradeNetwork:
                 # Find common resources (source has surplus, dest has demand)
                 source_resources = set(supply[source_id].keys())
                 dest_resources = set(demand[dest_id].keys())
-                common_resources = source_resources & dest_resources
+                # Reason: sorted so tie-breaking between equal-profit trades is reproducible
+                common_resources = sorted(source_resources & dest_resources)
                 
                 for resource_id in common_resources:
                     # Check if both have positive quantities
