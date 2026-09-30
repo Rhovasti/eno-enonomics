@@ -174,6 +174,9 @@ class SimulationConfig(BaseModel):
     max_trade_radius_km: Decimal = Field(default=Decimal("800"), gt=0)
     min_trade_quantity: Decimal = Field(default=Decimal("0.5"), gt=0)
     transport_cost_per_km: Decimal = Field(default=Decimal("0.02"), ge=0)
+
+    # Calibration: world supply of each produced resource = world demand x this ratio
+    supply_demand_ratio: Decimal = Field(default=Decimal("1.0"), gt=0)
     
     # Pricing parameters
     scarcity_multiplier: bool = True

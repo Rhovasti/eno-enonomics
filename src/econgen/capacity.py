@@ -132,20 +132,12 @@ class CapacityCalculator:
         if operator.population <= 0:
             return Decimal("0.1")  # Minimal capacity without population
         
-        # Base labor pool per 10,000 population
-        labor_pool = Decimal(str(operator.population)) / Decimal("10000")
-        
-        # Apply diminishing returns using square root
-        if labor_pool > 1:
-            labor_pool = labor_pool.sqrt()
-        
-        # Scale by labor requirement (higher requirement = lower effective capacity)
+        # Reason: output must scale linearly with workforce so that supply is comparable
+        # to per-capita demand; the absolute scale is set later by calibration.
+        workforce = Decimal(operator.population) / Decimal("1000")
         if rule.labor_required > 0:
-            labor_efficiency = Decimal("1.0") / (rule.labor_required.sqrt() / Decimal("2"))
-            labor_pool *= labor_efficiency
-        
-        # Apply reasonable bounds
-        return clamp(labor_pool, Decimal("0.05"), Decimal("10.0"))
+            return workforce / rule.labor_required
+        return workforce
     
     def _calculate_endowment_capacity(self, operator: Operator, rule: ProductionRule) -> Decimal:
         """Calculate endowment-based capacity scaling.
@@ -343,11 +335,8 @@ class CapacityCalculator:
         if operator.shanty_town:
             capacity *= Decimal("0.7")
         
-        # Apply absolute bounds
-        min_capacity = Decimal("0.01")  # Always allow minimal production
-        max_capacity = Decimal("1000.0")  # Reasonable upper bound
-        
-        return clamp(capacity, min_capacity, max_capacity)
+        # Always allow minimal production; no upper cap since calibration sets the scale
+        return max(capacity, Decimal("0.01"))
     
     def get_capacity_summary(self, capacities: List[Capacity]) -> Dict[str, any]:
         """Get summary statistics about capacities.

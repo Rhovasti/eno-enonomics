@@ -15,6 +15,7 @@ from .io_geojson import GeoJSONLoader
 from .models import SimulationConfig, ProductionRule, Resource, DemandProfile
 from .taxonomy import ResourceTaxonomy, create_default_taxonomy
 from .rules import RulesEngine, create_default_rules
+from .calibration import calibrate_capacities
 from .capacity import CapacityCalculator
 from .demand import DemandCalculator, create_default_demand_profiles
 from .trade import TradeNetwork
@@ -138,6 +139,11 @@ def run(
             progress.update(task, description=f"✅ Calculated demand for {len(demand)} operators")
             progress.remove_task(task)
             
+            # Calibrate capacities so world supply matches world demand
+            capacities = calibrate_capacities(
+                capacities, rules_engine, demand, config.supply_demand_ratio
+            )
+
             # Calculate supply (from capacities)
             task = progress.add_task("Calculating resource supply...", total=None)
             supply = _calculate_supply_from_capacities(capacities, operators, rules_engine)
@@ -228,6 +234,7 @@ def config_template(
             "max_trade_radius_km": 800,
             "min_trade_quantity": 0.5,
             "transport_cost_per_km": 0.02,
+            "supply_demand_ratio": 1.0,
             "scarcity_multiplier": True,
             "price_elasticity": 1.5,
             "seed": None,

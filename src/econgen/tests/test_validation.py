@@ -13,6 +13,7 @@ from ..trade import TradeNetwork
 from ..capacity import CapacityCalculator
 from ..demand import DemandCalculator, create_default_demand_profiles
 from ..pricing import PriceCalculator
+from ..calibration import calibrate_capacities
 
 
 class TestCriticalValidation:
@@ -71,14 +72,6 @@ class TestCriticalValidation:
         else:
             print("✅ Weapons commodity correctly excluded from system")
     
-    @pytest.mark.xfail(
-        strict=True,
-        reason=(
-            "Known model calibration gap: with correct tech gating, production capacity "
-            "(~1 unit per rule) is orders of magnitude below per-capita demand, so no "
-            "operator has an exportable surplus. Remove this marker once recalibrated."
-        ),
-    )
     def test_trade_route_establishment(self):
         """Test that trade routes are being established between entities."""
         # Load test data
@@ -104,6 +97,9 @@ class TestCriticalValidation:
         
         # Calculate production capacities and supply using the fixed system
         capacities = capacity_calc.calculate_all_capacities(operators)
+        capacities = calibrate_capacities(
+            capacities, rules_engine, demand, config.supply_demand_ratio
+        )
         from ..cli import _calculate_supply_from_capacities
         supply = _calculate_supply_from_capacities(capacities, operators, rules_engine)
         

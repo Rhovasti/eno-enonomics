@@ -7,6 +7,9 @@ simulation:
   max_trade_radius_km: 800
   min_trade_quantity: 0.5
   transport_cost_per_km: 0.02
+
+  # Calibration: world supply of each produced resource = world demand x this ratio
+  supply_demand_ratio: 1.0
   
   # Market dynamics
   scarcity_multiplier: true

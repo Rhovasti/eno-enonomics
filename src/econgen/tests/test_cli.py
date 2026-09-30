@@ -30,3 +30,6 @@ def test_run_writes_all_outputs(tmp_path: Path) -> None:
 
     operators = (tmp_path / "operators.jsonl").read_text().splitlines()
     assert len(operators) == 3
+
+    trade_links = (tmp_path / "trade_links.jsonl").read_text().splitlines()
+    assert len(trade_links) > 0, "Calibrated pipeline should produce trade links"
