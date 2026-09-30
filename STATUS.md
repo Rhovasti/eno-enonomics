@@ -14,7 +14,7 @@ dropped trade to 0, and production has since been recalibrated against demand (s
 
 | Check | Result |
 |---|---|
-| `uv run pytest` | 82 passed |
+| `uv run pytest` | 84 passed |
 | CLI `run` on `data/performance_test.geojson` | 497 trade links |
 | CLI `run` on `Data/kaupungit.geojson` | 63 links (fish 21, textiles 8, jewelry 7, tools 7, stone 5, food 4, wood 4, iron-ore 2, precious-metals 2, gems 2, fiber 1) |
 | Default run vs. `--config config/econ.yaml` | Identical data outputs |
@@ -43,6 +43,15 @@ dropped trade to 0, and production has since been recalibrated against demand (s
   own supply. Previously a city could export food it needed itself.
 - Loader: baseline agriculture/craftsmanship endowments no longer overwrite higher
   culture-based values (e.g. Noon agriculture 0.8 was reset to 0.5).
+
+### Steel on kaupungit
+- `_extract_endowments` set `industrial_capacity` from a raw `tech` property, which
+  `Data/kaupungit.geojson` does not have, so no city could run steel-making. It now uses the
+  inferred tech level (explicit `tech` still wins); `performance_test` is unaffected.
+- `kaupungit`: 5 steel-making cities; world steel supply 0 -> ~543k (matches demand), and
+  calibration raised iron ore to ~3.1M and coal to ~1.1M to cover steel inputs.
+- Trade stays at 63 links: the industrial cities are 878+ km apart, and mines are mostly
+  elsewhere, so their iron ore and coal needs remain largely unmet.
 
 ### Production inputs
 - Inputs consumed by production are added to each operator's demand
