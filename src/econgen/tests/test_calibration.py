@@ -20,9 +20,7 @@ def rules_engine() -> RulesEngine:
 
 
 def _farming(operator_id: str, max_rate: str) -> Capacity:
-    return Capacity(
-        operator_id=operator_id, rule_id="farming", max_rate=Decimal(max_rate)
-    )
+    return Capacity(operator_id=operator_id, rule_id="farming", max_rate=Decimal(max_rate))
 
 
 def test_world_output_matches_world_demand(rules_engine: RulesEngine) -> None:
@@ -60,18 +58,14 @@ def test_rule_without_demand_is_unscaled(rules_engine: RulesEngine) -> None:
     """Rules whose output nobody demands keep their raw capacity."""
     capacities = [_farming("a", "2")]
 
-    calibrated = calibrate_capacities(
-        capacities, rules_engine, {"a": {"tools": Decimal("5")}}
-    )
+    calibrated = calibrate_capacities(capacities, rules_engine, {"a": {"tools": Decimal("5")}})
 
     assert calibrated[0].max_rate == Decimal("2")
 
 
 def test_input_demand_scales_with_production(rules_engine: RulesEngine) -> None:
     """Toolmaking consumes 2 wood and 1 stone per unit produced."""
-    capacities = [
-        Capacity(operator_id="smith", rule_id="toolmaking", max_rate=Decimal("5"))
-    ]
+    capacities = [Capacity(operator_id="smith", rule_id="toolmaking", max_rate=Decimal("5"))]
 
     input_demand = calculate_input_demand(capacities, rules_engine)
 
@@ -80,9 +74,7 @@ def test_input_demand_scales_with_production(rules_engine: RulesEngine) -> None:
 
 def test_rules_without_inputs_add_no_demand(rules_engine: RulesEngine) -> None:
     """Extraction rules such as forestry consume nothing."""
-    capacities = [
-        Capacity(operator_id="camp", rule_id="forestry", max_rate=Decimal("5"))
-    ]
+    capacities = [Capacity(operator_id="camp", rule_id="forestry", max_rate=Decimal("5"))]
 
     assert calculate_input_demand(capacities, rules_engine) == {}
 
@@ -98,9 +90,7 @@ def test_calibration_covers_input_demand(rules_engine: RulesEngine) -> None:
         "camp": {"wood": Decimal("5")},
     }
 
-    calibrated, total = calibrate_with_input_demand(
-        capacities, rules_engine, final_demand
-    )
+    calibrated, total = calibrate_with_input_demand(capacities, rules_engine, final_demand)
 
     # 10 tools need 20 wood as input, on top of 5 wood of final demand
     assert total["smith"]["wood"] == Decimal("20")
@@ -143,9 +133,7 @@ def test_rules_sharing_an_output_are_scaled_together() -> None:
         Capacity(operator_id="b", rule_id="big-farm", max_rate=Decimal("3")),
     ]
 
-    calibrated = calibrate_capacities(
-        capacities, engine, {"a": {"food": Decimal("100")}}
-    )
+    calibrated = calibrate_capacities(capacities, engine, {"a": {"food": Decimal("100")}})
 
     assert sum(c.max_rate for c in calibrated) == Decimal("100")
     assert calibrated[1].max_rate == calibrated[0].max_rate * 3

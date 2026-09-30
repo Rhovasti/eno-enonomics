@@ -28,14 +28,13 @@ import logging
 # Initialize Typer app and Rich console
 app = typer.Typer(
     help="Economic Worldbuilding Generator - Deterministic economic simulation for GeoJSON data",
-    add_completion=False
+    add_completion=False,
 )
 console = Console()
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -43,80 +42,77 @@ logger = logging.getLogger(__name__)
 @app.command()
 def run(
     input_paths: List[Path] = typer.Option(
-        ..., "--input", "-i",
+        ...,
+        "--input",
+        "-i",
         help="GeoJSON input files containing city/operator data",
         exists=True,
         file_okay=True,
-        dir_okay=False
+        dir_okay=False,
     ),
     config_path: Optional[Path] = typer.Option(
-        None, "--config", "-c",
+        None,
+        "--config",
+        "-c",
         help="Configuration YAML file (uses defaults if not provided)",
-        exists=True
+        exists=True,
     ),
     output_dir: Path = typer.Option(
-        Path("out/econ"), "--output", "-o",
-        help="Output directory for results"
+        Path("out/econ"), "--output", "-o", help="Output directory for results"
     ),
     seed: Optional[int] = typer.Option(
-        None, "--seed", "-s",
-        help="Random seed for deterministic results"
+        None, "--seed", "-s", help="Random seed for deterministic results"
     ),
     strict: bool = typer.Option(
-        True, "--strict/--no-strict",
-        help="Strict validation mode (fail on errors vs warnings)"
+        True, "--strict/--no-strict", help="Strict validation mode (fail on errors vs warnings)"
     ),
-    verbose: bool = typer.Option(
-        False, "--verbose", "-v",
-        help="Enable verbose output"
-    )
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose output"),
 ):
     """Run complete economic simulation pipeline."""
     start_time = time.time()
-    
+
     # Set up logging
     if verbose:
         logging.getLogger().setLevel(logging.DEBUG)
-    
+
     # Display header
-    console.print(Panel.fit(
-        "[bold blue]Economic Worldbuilding Generator[/bold blue]\n"
-        "[dim]Deterministic economic simulation for GeoJSON data[/dim]",
-        border_style="blue"
-    ))
-    
+    console.print(
+        Panel.fit(
+            "[bold blue]Economic Worldbuilding Generator[/bold blue]\n"
+            "[dim]Deterministic economic simulation for GeoJSON data[/dim]",
+            border_style="blue",
+        )
+    )
+
     try:
         # Set random seed for determinism
         if seed is not None:
             set_seed(seed)
             console.print(f"🎲 Random seed set to: [bold]{seed}[/bold]")
-        
+
         # Load configuration
         config, resources, rules, demand_profiles = _load_configuration(config_path)
         console.print(f"⚙️  Loaded configuration: {len(resources)} resources, {len(rules)} rules")
-        
+
         # Create output directory
         output_dir.mkdir(parents=True, exist_ok=True)
         console.print(f"📁 Output directory: [bold]{output_dir}[/bold]")
-        
+
         # Initialize progress tracking
         with Progress(
-            SpinnerColumn(),
-            TextColumn("[progress.description]{task.description}"),
-            console=console
+            SpinnerColumn(), TextColumn("[progress.description]{task.description}"), console=console
         ) as progress:
-            
             # Load operators from GeoJSON
             task = progress.add_task("Loading GeoJSON data...", total=None)
             loader = GeoJSONLoader(strict=strict)
             operators = loader.load_operators(input_paths)
             progress.update(task, description=f"✅ Loaded {len(operators)} operators")
             progress.remove_task(task)
-            
+
             if not operators:
                 console.print("❌ [red]No operators loaded. Check input files.[/red]")
                 raise typer.Exit(1)
-            
+
             # Initialize core components
             task = progress.add_task("Initializing simulation components...", total=None)
             taxonomy = ResourceTaxonomy(resources)
@@ -127,19 +123,19 @@ def run(
             price_calc = PriceCalculator(taxonomy, config)
             progress.update(task, description="✅ Components initialized")
             progress.remove_task(task)
-            
+
             # Calculate production capacities
             task = progress.add_task("Calculating production capacities...", total=None)
             capacities = capacity_calc.calculate_all_capacities(operators)
             progress.update(task, description=f"✅ Calculated {len(capacities)} capacities")
             progress.remove_task(task)
-            
+
             # Calculate demand
             task = progress.add_task("Calculating resource demand...", total=None)
             demand = demand_calc.calculate_all_demand(operators)
             progress.update(task, description=f"✅ Calculated demand for {len(demand)} operators")
             progress.remove_task(task)
-            
+
             # Calibrate so world supply matches final demand plus production inputs;
             # demand from here on includes the inputs each operator consumes
             capacities, demand = calibrate_with_input_demand(
@@ -151,37 +147,37 @@ def run(
             supply = _calculate_supply_from_capacities(capacities, operators, rules_engine)
             progress.update(task, description=f"✅ Calculated supply for {len(supply)} operators")
             progress.remove_task(task)
-            
+
             # Calculate prices
             task = progress.add_task("Calculating market prices...", total=None)
             prices = price_calc.calculate_prices(operators, supply, demand)
             progress.update(task, description=f"✅ Calculated prices for {len(prices)} operators")
             progress.remove_task(task)
-            
+
             # Solve trade flows
             task = progress.add_task("Solving trade network...", total=None)
             trade_links = trade_network.solve_trade_flows(supply, demand, prices)
             progress.update(task, description=f"✅ Generated {len(trade_links)} trade links")
             progress.remove_task(task)
-        
+
         # Write outputs
         console.print("\n📝 Writing output files...")
         _write_outputs(output_dir, operators, capacities, demand, supply, prices, trade_links)
-        
+
         # Generate report
         console.print("📊 Generating analysis report...")
         report_gen = ReportGenerator(operators, trade_links, capacities, prices, supply, demand)
         report = report_gen.generate_full_report()
         report_file = output_dir / "economic_analysis.md"
         report_file.write_text(report, encoding="utf-8")
-        
+
         # Display summary
         elapsed_time = time.time() - start_time
         _display_summary(operators, trade_links, capacities, elapsed_time)
-        
+
         console.print("\n✅ [bold green]Simulation completed successfully![/bold green]")
         console.print(f"📁 Results written to: [bold]{output_dir}[/bold]")
-        
+
     except Exception as e:
         console.print(f"❌ [red]Simulation failed: {e}[/red]")
         if verbose:
@@ -191,44 +187,42 @@ def run(
 
 @app.command()
 def validate(
-    input_paths: List[Path] = typer.Option(
-        ..., "--input", "-i",
-        help="GeoJSON files to validate"
-    ),
-    verbose: bool = typer.Option(
-        False, "--verbose", "-v",
-        help="Enable verbose validation output"
-    )
+    input_paths: List[Path] = typer.Option(..., "--input", "-i", help="GeoJSON files to validate"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose validation output"),
 ):
     """Validate GeoJSON input files without running full simulation."""
     console.print("[blue]🔍 Validating GeoJSON files...[/blue]")
-    
+
     loader = GeoJSONLoader(strict=True)
-    
+
     for path in input_paths:
         try:
             operators = loader.load_operators([path])
             console.print(f"✅ {path.name}: [green]{len(operators)} valid operators[/green]")
-            
+
             if verbose and operators:
                 # Show some sample data
                 sample = operators[0]
-                console.print(f"   Sample: {sample.name} ({str(sample.tech)}, pop: {sample.population})")
-                
+                console.print(
+                    f"   Sample: {sample.name} ({str(sample.tech)}, pop: {sample.population})"
+                )
+
         except Exception as e:
             console.print(f"❌ {path.name}: [red]{e}[/red]")
 
 
-@app.command()  
+@app.command()
 def config_template(
     output_file: Path = typer.Option(
-        Path("config_template.yaml"), "--output", "-o",
-        help="Output file for configuration template"
-    )
+        Path("config_template.yaml"),
+        "--output",
+        "-o",
+        help="Output file for configuration template",
+    ),
 ):
     """Generate a configuration template file."""
     console.print("📝 Generating configuration template...")
-    
+
     # Create template configuration
     template = {
         "simulation": {
@@ -254,13 +248,13 @@ def config_template(
             },
             {
                 "resource_id": "iron-ore",
-                "name": "Iron Ore", 
+                "name": "Iron Ore",
                 "tier": 0,
                 "tech_min": "medieval",
                 "base_price": 3.0,
                 "transportable": True,
                 "perishable": False,
-            }
+            },
         ],
         "rules": [
             {
@@ -274,16 +268,13 @@ def config_template(
             }
         ],
         "demand_profiles": [
-            {
-                "tech": "tribal",
-                "per_capita": {"wood": 0.5, "tools": 0.1, "food": 2.0}
-            }
-        ]
+            {"tech": "tribal", "per_capita": {"wood": 0.5, "tools": 0.1, "food": 2.0}}
+        ],
     }
-    
+
     with open(output_file, "w") as f:
         yaml.safe_dump(template, f, indent=2, default_flow_style=False)
-    
+
     console.print(f"✅ Template written to: [bold]{output_file}[/bold]")
 
 
@@ -292,22 +283,22 @@ def _load_configuration(config_path: Optional[Path]):
     if config_path and config_path.exists():
         with open(config_path) as f:
             config_data = yaml.safe_load(f)
-        
+
         # Parse configuration sections
         config = SimulationConfig(**config_data.get("simulation", {}))
-        
+
         resources = [Resource(**r) for r in config_data.get("resources", [])]
         if not resources:
             resources = list(create_default_taxonomy().resources.values())
-        
+
         rules = [ProductionRule(**r) for r in config_data.get("rules", [])]
         if not rules:
             rules = create_default_rules()
-        
+
         demand_profiles = [DemandProfile(**d) for d in config_data.get("demand_profiles", [])]
         if not demand_profiles:
             demand_profiles = create_default_demand_profiles()
-        
+
     else:
         # Use defaults
         console.print("⚠️  No config file provided, using defaults")
@@ -315,36 +306,36 @@ def _load_configuration(config_path: Optional[Path]):
         resources = list(create_default_taxonomy().resources.values())
         rules = create_default_rules()
         demand_profiles = create_default_demand_profiles()
-    
+
     return config, resources, rules, demand_profiles
 
 
 def _calculate_supply_from_capacities(capacities: List, operators: List, rules_engine) -> dict:
     """Calculate supply quantities from production capacities."""
     supply: Dict[str, Dict[str, Decimal]] = {}
-    
+
     for capacity in capacities:
         if capacity.operator_id not in supply:
             supply[capacity.operator_id] = {}
-        
+
         # Get the actual rule to access its outputs
         rule = rules_engine.get_rule(capacity.rule_id)
         if not rule:
             continue
-            
+
         # Calculate base production
         production = capacity.max_rate * capacity.efficiency
-        
+
         # Iterate through actual rule outputs (proper resource IDs)
         for resource_id, output_ratio in rule.outputs.items():
             # Scale production by output ratio
             resource_production = production * output_ratio
-            
+
             if resource_id in supply[capacity.operator_id]:
                 supply[capacity.operator_id][resource_id] += resource_production
             else:
                 supply[capacity.operator_id][resource_id] = resource_production
-    
+
     return supply
 
 
@@ -355,19 +346,19 @@ def _write_outputs(output_dir: Path, operators, capacities, demand, supply, pric
     with open(operators_file, "w") as f:
         for op in operators:
             f.write(op.model_dump_json() + "\n")
-    
+
     # Capacities
     capacities_file = output_dir / "capacities.jsonl"
     with open(capacities_file, "w") as f:
         for cap in capacities:
             f.write(cap.model_dump_json() + "\n")
-    
+
     # Trade links
     trade_file = output_dir / "trade_links.jsonl"
     with open(trade_file, "w") as f:
         for link in trade_links:
             f.write(link.model_dump_json() + "\n")
-    
+
     # Demand (JSON)
     demand_file = output_dir / "demand.json"
     demand_serializable = {
@@ -376,8 +367,8 @@ def _write_outputs(output_dir: Path, operators, capacities, demand, supply, pric
     }
     with open(demand_file, "w") as f:
         json.dump(demand_serializable, f, indent=2)
-    
-    # Supply (JSON) 
+
+    # Supply (JSON)
     supply_file = output_dir / "supply.json"
     supply_serializable = {
         op_id: {res_id: float(qty) for res_id, qty in resources.items()}
@@ -385,7 +376,7 @@ def _write_outputs(output_dir: Path, operators, capacities, demand, supply, pric
     }
     with open(supply_file, "w") as f:
         json.dump(supply_serializable, f, indent=2)
-    
+
     # Prices (JSON)
     prices_file = output_dir / "prices.json"
     prices_serializable = {
@@ -401,20 +392,20 @@ def _display_summary(operators, trade_links, capacities, elapsed_time):
     table = Table(title="Simulation Summary")
     table.add_column("Metric", style="cyan")
     table.add_column("Value", style="bold green")
-    
+
     table.add_row("Total Operators", str(len(operators)))
     table.add_row("Production Capacities", str(len(capacities)))
     table.add_row("Trade Links", str(len(trade_links)))
     table.add_row("Execution Time", f"{elapsed_time:.2f}s")
-    
+
     # Tech level breakdown
     tech_counts = {}
     for op in operators:
         tech_counts[op.tech] = tech_counts.get(op.tech, 0) + 1
-    
+
     for tech, count in tech_counts.items():
         table.add_row(f"  {str(tech).title()} Era", str(count))
-    
+
     console.print(table)
 
 

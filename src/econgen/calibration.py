@@ -45,9 +45,7 @@ def calibrate_capacities(
     factors: Dict[str, Decimal] = {}
     for resource_id, produced in raw_output.items():
         target = world_demand.get(resource_id, Decimal("0")) * supply_demand_ratio
-        factors[resource_id] = (
-            target / produced if target > 0 and produced > 0 else Decimal("1")
-        )
+        factors[resource_id] = target / produced if target > 0 and produced > 0 else Decimal("1")
         logger.debug(f"Calibration factor for {resource_id}: {factors[resource_id]}")
 
     return [
@@ -89,9 +87,7 @@ def calibrate_with_input_demand(
         calibrated = calibrate_capacities(
             capacities, rules_engine, total_demand, supply_demand_ratio
         )
-        next_total = _merge_add(
-            final_demand, calculate_input_demand(calibrated, rules_engine)
-        )
+        next_total = _merge_add(final_demand, calculate_input_demand(calibrated, rules_engine))
         if next_total == total_demand:
             break
         total_demand = next_total

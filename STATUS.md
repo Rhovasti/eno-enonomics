@@ -19,7 +19,7 @@ dropped trade to 0, and production has since been recalibrated against demand (s
 | CLI `run` on `Data/kaupungit.geojson` | 66 links (fish 21, textiles 8, jewelry 7, tools 7, stone 5, iron-ore 5, food 4, wood 4, precious-metals 2, gems 2, fiber 1) |
 | Default run vs. `--config config/econ.yaml` | Identical data outputs |
 | `uv run ruff check .` | Passing |
-| `uv run ruff format --check .` | Failing (files not yet formatted) |
+| `uv run ruff format --check .` | Passing (line length 100, set in `pyproject.toml`) |
 | `uv run mypy src/` | Passing (type stubs for networkx and scipy added as dev deps) |
 | CI | None configured |
 

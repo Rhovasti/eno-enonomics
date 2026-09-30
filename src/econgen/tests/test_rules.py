@@ -64,9 +64,7 @@ def _operator(tech: TechLevel) -> Operator:
         (TechLevel.INDUSTRIAL, INDUSTRIAL_RULES),
     ],
 )
-def test_eligible_rules_follow_tech_order(
-    tech: TechLevel, expected_rules: set[str]
-) -> None:
+def test_eligible_rules_follow_tech_order(tech: TechLevel, expected_rules: set[str]) -> None:
     """Rules unlock by tech order (tribal < medieval < industrial), not alphabetically."""
     engine = RulesEngine(create_default_rules())
 
@@ -79,12 +77,8 @@ def test_get_rules_by_tech_includes_lower_tiers() -> None:
     """Industrial tech level includes every default rule."""
     engine = RulesEngine(create_default_rules())
 
-    assert len(engine.get_rules_by_tech(TechLevel.INDUSTRIAL)) == len(
-        create_default_rules()
-    )
-    assert {
-        r.rule_id for r in engine.get_rules_by_tech(TechLevel.TRIBAL)
-    } == TRIBAL_RULES
+    assert len(engine.get_rules_by_tech(TechLevel.INDUSTRIAL)) == len(create_default_rules())
+    assert {r.rule_id for r in engine.get_rules_by_tech(TechLevel.TRIBAL)} == TRIBAL_RULES
 
 
 def test_every_rule_input_has_a_producer() -> None:

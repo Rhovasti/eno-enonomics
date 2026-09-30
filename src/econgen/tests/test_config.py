@@ -35,9 +35,7 @@ def test_resources_match_default_taxonomy(yaml_config) -> None:
 def test_rules_match_default_rules(yaml_config) -> None:
     """The YAML defines exactly the default production rules, field for field."""
     _, _, rules, _ = yaml_config
-    assert {r.rule_id: r for r in rules} == {
-        r.rule_id: r for r in create_default_rules()
-    }
+    assert {r.rule_id: r for r in rules} == {r.rule_id: r for r in create_default_rules()}
 
 
 def test_demand_profiles_match_defaults(yaml_config) -> None:
