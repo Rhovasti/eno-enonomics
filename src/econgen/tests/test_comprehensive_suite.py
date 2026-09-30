@@ -45,10 +45,12 @@ class TestSystemPerformance:
                 kind="city",
                 tech=TechLevel.MEDIEVAL if i % 2 == 0 else TechLevel.INDUSTRIAL,
                 coord=(0.0 + i * 0.01, 0.0 + i * 0.01),
+                population=5000,
+                # Rules are gated on capacity-driver endowments, not raw resources
                 endowments={
-                    "wood": Decimal("10.0"),
-                    "stone": Decimal("5.0"),
-                    "food": Decimal("20.0")
+                    "agriculture": Decimal("0.8"),
+                    "craftsmanship": Decimal("0.8"),
+                    "fishing": Decimal("0.5"),
                 }
             )
             operators.append(operator)
@@ -61,15 +63,14 @@ class TestSystemPerformance:
         # Calculate capacities
         capacities = capacity_calc.calculate_all_capacities(operators)
         
-        # Verify results
-        assert len(capacities) == 50
-        assert all(op_id in capacities for op_id in [str(i) for i in range(50)])
-        
-        # Verify capacity structure
-        for op_id, capacity_dict in capacities.items():
-            assert isinstance(capacity_dict, dict)
-            # Each operator should have some production capacity
-            assert len(capacity_dict) > 0
+        # Every operator should get at least one positive capacity
+        operators_with_capacity = {c.operator_id for c in capacities}
+        assert operators_with_capacity == {str(i) for i in range(50)}
+        assert all(c.max_rate > 0 for c in capacities)
+
+        # Tech gating: tribal-era farming is available to medieval/industrial operators
+        farming_ops = {c.operator_id for c in capacities if c.rule_id == "farming"}
+        assert len(farming_ops) == 50
     
     def test_demand_calculation_scalability(self):
         """Test demand calculation with various operator configurations"""
@@ -177,7 +178,7 @@ class TestEdgeCases:
         capacity_calc = CapacityCalculator(rules_engine)
         
         capacities = capacity_calc.calculate_all_capacities(operators)
-        assert capacities == {}
+        assert capacities == []
         
         # Test demand calculation
         taxonomy = create_default_taxonomy()
@@ -204,9 +205,8 @@ class TestEdgeCases:
         
         capacities = capacity_calc.calculate_all_capacities([operator])
         
-        # Should still work, just with minimal/zero capacity
-        assert "empty_op" in capacities
-        # Could be empty or have basic production rules that don't require resources
+        # Every default rule needs a capacity-driver endowment, so nothing is produced
+        assert capacities == []
     
     def test_extreme_coordinates(self):
         """Test operators with extreme coordinate values"""
@@ -237,7 +237,7 @@ class TestEdgeCases:
         
         # Distance between poles should be approximately half Earth's circumference
         expected_distance = 20015.086796  # km (half circumference)
-        assert abs(distance - expected_distance) < 100  # Allow 100km tolerance
+        assert abs(float(distance) - expected_distance) < 100  # Allow 100km tolerance
         
         # Test trade network with extreme distances
         config = SimulationConfig()
@@ -269,25 +269,19 @@ class TestConfigurationValidation:
         config = SimulationConfig()
         
         # Verify default values are reasonable
-        assert config.trade_cost_per_km >= 0
-        assert config.max_trade_distance > 0
-        assert config.population_demand_multiplier > 0
-        assert config.base_prices is not None
-        assert len(config.base_prices) > 0
-        
-        # Base prices should be positive
-        assert all(price > 0 for price in config.base_prices.values())
+        assert config.transport_cost_per_km >= 0
+        assert config.max_trade_radius_km > 0
+        assert config.max_trade_neighbors >= 1
+        assert config.min_trade_quantity > 0
+        assert config.price_elasticity > 0
+
+        # Base prices live on the taxonomy and should be positive
+        taxonomy = create_default_taxonomy()
+        assert all(r.base_price > 0 for r in taxonomy.resources.values())
     
     def test_tech_level_progression(self):
         """Test technology level ordering and comparisons"""
-        levels = [
-            TechLevel.STONE_AGE,
-            TechLevel.BRONZE_AGE, 
-            TechLevel.IRON_AGE,
-            TechLevel.MEDIEVAL,
-            TechLevel.RENAISSANCE,
-            TechLevel.INDUSTRIAL
-        ]
+        levels = [TechLevel.TRIBAL, TechLevel.MEDIEVAL, TechLevel.INDUSTRIAL]
         
         # Test ordering
         for i in range(len(levels) - 1):
@@ -303,20 +297,16 @@ class TestConfigurationValidation:
         """Test demand profile structure and validation"""
         demand_profiles = create_default_demand_profiles()
         
-        # Should have profiles for each tech level
-        tech_levels = [level.value for level in TechLevel]
-        for tech_level in tech_levels:
-            assert tech_level in demand_profiles, f"Missing demand profile for {tech_level}"
-        
+        # Should have exactly one profile per tech level
+        profile_techs = [profile.tech for profile in demand_profiles]
+        assert sorted(profile_techs) == sorted(level.value for level in TechLevel)
+
         # Each profile should have valid structure
-        for tech_level, profile in demand_profiles.items():
+        for profile in demand_profiles:
             assert isinstance(profile, DemandProfile)
-            assert profile.tech_level == tech_level
-            assert isinstance(profile.base_demand, dict)
-            assert len(profile.base_demand) > 0
-            
-            # All demand values should be positive
-            assert all(demand >= 0 for demand in profile.base_demand.values())
+            assert isinstance(profile.per_capita, dict)
+            assert len(profile.per_capita) > 0
+            assert all(demand >= 0 for demand in profile.per_capita.values())
 
 
 class TestUtilityFunctions:
@@ -364,11 +354,12 @@ class TestUtilityFunctions:
         """Test decimal validation utility"""
         # Valid cases
         assert validate_positive_decimal(Decimal('10.5')) == Decimal('10.5')
-        assert validate_positive_decimal(Decimal('0')) == Decimal('0')
-        assert validate_positive_decimal(10.5) == Decimal('10.5')
-        assert validate_positive_decimal(0) == Decimal('0')
-        
-        # Invalid cases should raise ValueError
+        assert validate_positive_decimal(Decimal('0.01')) == Decimal('0.01')
+
+        # Zero and negatives are not positive and should raise ValueError
+        with pytest.raises(ValueError):
+            validate_positive_decimal(Decimal('0'))
+
         with pytest.raises(ValueError):
             validate_positive_decimal(Decimal('-5'))
         
@@ -417,8 +408,8 @@ class TestDataIntegrity:
         
         # Collect all resources referenced in demand profiles
         referenced_resources = set()
-        for profile in demand_profiles.values():
-            referenced_resources.update(profile.base_demand.keys())
+        for profile in demand_profiles:
+            referenced_resources.update(profile.per_capita.keys())
         
         # Check which resources are not in taxonomy (warnings are expected for some)
         unknown_resources = referenced_resources - set(taxonomy.resources.keys())
