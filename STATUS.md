@@ -62,7 +62,7 @@ skip if pyminsky cannot be imported.
 
 | Check | Result |
 |---|---|
-| `uv run pytest` | 139 passed, 19 skipped (8 need pyminsky, run by the CI `minsky` job; 11 need the real citystate corpus) |
+| `uv run pytest` | 148 passed, 19 skipped (8 need pyminsky, run by the CI `minsky` job; 11 need the real citystate corpus) |
 | CLI `run` on `data/performance_test.geojson` | 1,006 trade links, 531 of them alchemical |
 | CLI `run` on `Data/kaupungit.geojson` | 83 links; every alchemical good produced, 17 alchemical links (few, distant producers) |
 | Default run vs. `--config config/econ.yaml` | Identical data outputs |
