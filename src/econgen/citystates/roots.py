@@ -112,7 +112,7 @@ def assign_root(spec: CitystateSpec) -> str:
     infra_lower = {i.lower() for i in spec.infrastructure}
     tags_lower = {t.lower() for t in spec.tags}
 
-    best_score = -1
+    best_score = 0  # a root must score above zero to replace the default
     best_root = "Agricultural Settlement"  # default
 
     for root in ROOTS:
