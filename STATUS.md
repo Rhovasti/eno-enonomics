@@ -48,6 +48,10 @@ vegetation and mining potential, and an element coverage pass ensures each core 
 at least one medieval+ mining city. On `kaupungit` alchemical trade stays thin: its mountain
 cities are mostly tribal, so each element comes from only 1-3 distant cities.
 
+Citystate parser/endowment invariants run in CI against six bundled synthetic profiles
+(`src/econgen/tests/fixtures/citystates/`) and, when `ENO_CITYSTATES_DIR` is set, against the
+real corpus as well; tests pinned to specific real cities still need the corpus.
+
 Minsky-dependent tests skip without a local pyminsky build; citystate-corpus tests skip
 without the Worldbuilder2 profiles folder. CI runs ruff check, ruff format, mypy and pytest.
 
@@ -55,7 +59,7 @@ without the Worldbuilder2 profiles folder. CI runs ruff check, ruff format, mypy
 
 | Check | Result |
 |---|---|
-| `uv run pytest` | 129 passed, 19 skipped (Minsky / citystate corpus) |
+| `uv run pytest` | 139 passed, 19 skipped (8 need pyminsky; 11 need the real citystate corpus) |
 | CLI `run` on `data/performance_test.geojson` | 1,006 trade links, 531 of them alchemical |
 | CLI `run` on `Data/kaupungit.geojson` | 83 links; every alchemical good produced, 17 alchemical links (few, distant producers) |
 | Default run vs. `--config config/econ.yaml` | Identical data outputs |

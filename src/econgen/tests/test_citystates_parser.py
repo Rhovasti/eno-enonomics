@@ -1,43 +1,21 @@
 """Tests for the citystate profile parser (Phase 1)."""
 
-import pytest
+from pathlib import Path
 
-from ..paths import citystates_dir
+import pytest
 
 from ..citystates.parser import (
     GROWTH_PRIOR_BY_STATE,
+    SYNTHETIC_FOUNDED_CYCLE,
     CitystateSpec,
-    load_citystates,
     parse_citystate,
 )
-
-CITYSTATES_DIR = citystates_dir()  # $ENO_CITYSTATES_DIR, see econgen.paths
-
-
-def _dir_readable(path) -> bool:
-    # CI runners cannot stat paths under /root (PermissionError), so the
-    # existence probe itself must be guarded, not just the tests.
-    try:
-        return path.is_dir()
-    except OSError:
-        return False
+from .conftest import BUNDLED_CITYSTATES_DIR
 
 
-HAS_DATA = _dir_readable(CITYSTATES_DIR)
-
-
-@pytest.fixture(scope="module")
-def all_specs():
-    if not HAS_DATA:
-        pytest.skip("citystates profile folder not present")
-    return load_citystates(CITYSTATES_DIR)
-
-
-def test_parse_new_format_aira() -> None:
+def test_parse_new_format_aira(corpus_dir: Path) -> None:
     """Aira.md (new format): founded_cycle + latitude/longitude."""
-    if not HAS_DATA:
-        pytest.skip("citystates folder not present")
-    spec = parse_citystate(CITYSTATES_DIR / "Aira.md")
+    spec = parse_citystate(corpus_dir / "Aira.md")
     assert spec.name == "Aira"
     assert spec.founded_cycle == 143
     assert spec.latitude == pytest.approx(36.24)
@@ -47,11 +25,9 @@ def test_parse_new_format_aira() -> None:
     assert spec.growth_rate == pytest.approx(-0.007, abs=1e-4)  # -0.7%
 
 
-def test_parse_old_format_aiya() -> None:
+def test_parse_old_format_aiya(corpus_dir: Path) -> None:
     """Aiya.md (old format): founded + coordinates: [lat, lon]."""
-    if not HAS_DATA:
-        pytest.skip("citystates folder not present")
-    spec = parse_citystate(CITYSTATES_DIR / "Aiya.md")
+    spec = parse_citystate(corpus_dir / "Aiya.md")
     assert spec.founded_cycle == 180
     assert spec.latitude == pytest.approx(18.77)
     assert spec.longitude == pytest.approx(85.73)
@@ -59,9 +35,9 @@ def test_parse_old_format_aiya() -> None:
     assert spec.growth_rate == pytest.approx(0.024, abs=1e-4)  # +2.4%
 
 
-def test_loads_all_citystates(all_specs) -> None:
-    assert len(all_specs) == 143
-    names = {s.name for s in all_specs}
+def test_loads_all_citystates(corpus_specs) -> None:
+    assert len(corpus_specs) == 143
+    names = {s.name for s in corpus_specs}
     assert "Aira" in names
     # The 3 cities present in the folder but not in the geojson.
     assert {"Nethys", "Valdris", "Valsang"} <= names
@@ -88,11 +64,9 @@ def test_temporal_state_normalized(all_specs) -> None:
     assert {"Day", "Night", "Dawn", "Dusk"} <= states
 
 
-def test_valsang_stub_gets_synthetic_values() -> None:
+def test_valsang_stub_gets_synthetic_values(corpus_dir: Path) -> None:
     """Valsang lacks founding + coords → synthetic defaults, still parseable."""
-    if not HAS_DATA:
-        pytest.skip("citystates folder not present")
-    spec = parse_citystate(CITYSTATES_DIR / "Valsang.md")
+    spec = parse_citystate(corpus_dir / "Valsang.md")
     assert spec.founded_cycle > 0  # synthetic
     assert spec.population == 12783
     assert spec.temporal_state == "Dusk"
@@ -102,3 +76,37 @@ def test_growth_prior_covers_known_states() -> None:
     # Every normalized temporal_state bucket we expect has a growth prior.
     for state in ["Dawn", "Day", "Dusk", "Noon", "Night", "Drifters"]:
         assert state in GROWTH_PRIOR_BY_STATE
+
+
+# --- Bundled synthetic profiles (always available, so these run in CI) ---
+
+
+def test_parse_bundled_new_format() -> None:
+    """New format with a glossed temporal state, wikilink valley and growth line."""
+    spec = parse_citystate(BUNDLED_CITYSTATES_DIR / "Highcrag.md")
+    assert spec.name == "Highcrag"
+    assert spec.founded_cycle == 120
+    assert (spec.latitude, spec.longitude) == (pytest.approx(41.5), pytest.approx(-12.25))
+    assert spec.temporal_state == "Night"
+    assert spec.valley == "Night"
+    assert spec.growth_rate == pytest.approx(-0.005)
+    assert spec.elevation == 900
+    assert spec.tags == ["location", "city", "mountain", "mine"]
+
+
+def test_parse_bundled_old_format() -> None:
+    """Old format: founded + coordinates: [lat, lon], pipe-style wikilink valley."""
+    spec = parse_citystate(BUNDLED_CITYSTATES_DIR / "Saltmere.md")
+    assert spec.founded_cycle == 210
+    assert (spec.latitude, spec.longitude) == (pytest.approx(12.75), pytest.approx(64.5))
+    assert spec.valley == "Day"
+    assert spec.growth_rate == pytest.approx(0.021)
+    assert "port" in spec.infrastructure
+
+
+def test_parse_bundled_stub_gets_synthetic_values() -> None:
+    """A stub without founding or coordinates gets synthetic defaults and a prior."""
+    spec = parse_citystate(BUNDLED_CITYSTATES_DIR / "Nowhereton.md")
+    assert spec.founded_cycle == SYNTHETIC_FOUNDED_CYCLE
+    assert (spec.latitude, spec.longitude) == (0.0, 0.0)
+    assert spec.growth_rate == GROWTH_PRIOR_BY_STATE["Dusk"]
