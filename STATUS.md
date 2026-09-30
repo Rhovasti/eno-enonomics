@@ -15,7 +15,7 @@ dropped trade to 0, and production has since been recalibrated against demand (s
 The Periodical System of Eno (`fantastical.py`, lore in `w Periodical system of Eno.md`)
 is now part of the default economy and runs through every layer:
 
-- **Catalog**: 8 alchemical components + 8 periodic elements + 4 alchemical stuffs as
+- **Catalog**: 8 alchemical components + 9 periodic elements + 9 alchemical stuffs as
   resources/rules/demand, merged into `config/econ.yaml` in lockstep (config parity test).
 - **Endowments**: inferred from geography in both input routes — GeoJSON features and the
   143 citystate `.md` profiles (Rime on the dark side vs Ash on the sun side by longitude,
@@ -36,6 +36,13 @@ is now part of the default economy and runs through every layer:
   split into `cli_common`/`cli`/`cli_dynamics`/`cli_citystates`; `governance_types` holds
   the catalog tables).
 
+Every component and element now feeds a recipe: Wardsilver (Sira + Pitch), Shapeiron
+(Feron + Mucus), Sungold (Aru + Mold), Dustglass (Sirael + Dust) and Preserver's Salt
+(Natra + Rime) follow the lore's crafter affinities, with Natra (salt) added as an element
+evaporated at coastal cities. On `data/performance_test.geojson` every city lies on the sun
+side of Eno (longitude >= 0), so it has no Rime; Preserver's Salt's Rime input goes unmet
+there, which is lore-faithful.
+
 On geography-only datasets (no worldbuilder stocks), sap and element deposits fall back to
 vegetation and mining potential, and an element coverage pass ensures each core element has
 at least one medieval+ mining city. On `kaupungit` alchemical trade stays thin: its mountain
@@ -48,9 +55,9 @@ without the Worldbuilder2 profiles folder. CI runs ruff check, ruff format, mypy
 
 | Check | Result |
 |---|---|
-| `uv run pytest` | 123 passed, 19 skipped (Minsky / citystate corpus) |
-| CLI `run` on `data/performance_test.geojson` | 793 trade links, 318 of them alchemical |
-| CLI `run` on `Data/kaupungit.geojson` | 72 links; every alchemical good produced, 6 alchemical links (few, distant producers) |
+| `uv run pytest` | 129 passed, 19 skipped (Minsky / citystate corpus) |
+| CLI `run` on `data/performance_test.geojson` | 1,006 trade links, 531 of them alchemical |
+| CLI `run` on `Data/kaupungit.geojson` | 83 links; every alchemical good produced, 17 alchemical links (few, distant producers) |
 | Default run vs. `--config config/econ.yaml` | Identical data outputs |
 | `uv run ruff check .` | Passing |
 | `uv run ruff format --check .` | Passing (line length 100, set in `pyproject.toml`) |

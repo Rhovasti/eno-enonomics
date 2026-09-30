@@ -74,20 +74,33 @@ GeoJSON Input → Operators → Production → Demand → Calibration → Pricin
 ## The Alchemical Economy (Periodical System of Eno)
 
 The fantastical layer (`fantastical.py`, lore in `w Periodical system of Eno.md`) adds
-20 resources in three tiers, merged into the default taxonomy, rules, demand and
+26 resources in three tiers, merged into the default taxonomy, rules, demand and
 `config/econ.yaml`:
 
 - **8 alchemical components** — Dust, Sap, Phos, Pitch, Ash, Rime, Mucus, Mold —
   soul/matter primitives gathered from mythic geography (Sap where vegetation;
   Rime on the dark side of Eno vs Ash pilgrimages on the sun side, split by
   longitude; Pitch at coastal depths; Phos at industrial sites; Mucus/Mold rare).
-- **8 periodic elements** — Cunu (copper), Feron (iron), Aru (gold), Sira (silver),
-  Charon (carbon), Sirael (silica), Plon (lead), Suhra (sulfur) — mined from
-  1-2 deterministic element deposits per mining city. After loading, a coverage
-  pass gives each core element at least one deposit in a medieval+ mining city, so
-  no recipe is left without its element.
-- **4 alchemical stuffs** — Living Bronze, Soulstone, Dreamfire, Grave Lead —
-  crafted from an element + a component, so their economies are coupled to both.
+- **9 periodic elements** — Cunu (copper), Feron (iron), Aru (gold), Sira (silver),
+  Charon (carbon), Sirael (silica), Plon (lead), Suhra (sulfur), Natra (salt). The
+  first eight are mined from 1-2 deterministic element deposits per mining city;
+  Natra is evaporated at coastal cities. After loading, a coverage pass gives each
+  element at least one medieval+ city that can work it, so no recipe is left
+  without its element.
+- **9 alchemical stuffs** — each crafted from an element + a component, following the
+  lore's crafter affinities, so every component and element feeds a recipe:
+
+  | Stuff | Recipe | Affinity |
+  |---|---|---|
+  | Living Bronze | Cunu + Sap | healing, renewal |
+  | Soulstone | Charon + Mold | memory, soul-binding |
+  | Dreamfire | Suhra + Phos | fire, vision |
+  | Grave Lead | Plon + Ash | death residue |
+  | Wardsilver | Sira + Pitch | wards, forgetting |
+  | Shapeiron | Feron + Mucus | forging, change |
+  | Sungold | Aru + Mold | divinity, permanence |
+  | Dustglass | Sirael + Dust | foundation |
+  | Preserver's Salt | Natra + Rime | preservation (a lore sample recipe) |
 
 The layer runs through the whole stack:
 
@@ -132,6 +145,9 @@ Cities and settlements with:
 None currently open.
 
 ### Resolved
+- **Unused alchemical materials:** dust, mucus, pitch, rime, aru and sira were produced but
+  never used. Five lore recipes (Wardsilver, Shapeiron, Sungold, Dustglass, Preserver's
+  Salt) and the Natra element give every component and element a use.
 - **Alchemical economy dead on geography-only datasets:** sap and element deposits were
   inferred only from worldbuilder stocks, which `kaupungit` and `performance_test` lack.
   They now fall back to vegetation (forestry/agriculture) and mining potential, and an
