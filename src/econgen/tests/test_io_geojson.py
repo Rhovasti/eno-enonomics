@@ -170,3 +170,25 @@ def test_basic_endowments_keep_culture_specialization():
     assert night["craftsmanship"] == Decimal("0.6")
     assert plain["agriculture"] == Decimal("0.5")
     assert plain["craftsmanship"] == Decimal("0.4")
+
+
+def test_industrial_capacity_uses_inferred_tech():
+    """Industrial capacity follows the tech inferred from population when no tech field."""
+    loader = GeoJSONLoader(strict=True)
+
+    industrial = loader._extract_endowments({"Population": 60000})
+    medieval = loader._extract_endowments({"Population": 20000})
+    tribal = loader._extract_endowments({"Population": 5000})
+
+    assert industrial["industrial_capacity"] == Decimal("0.7")
+    assert medieval["industrial_capacity"] == Decimal("0.3")
+    assert "industrial_capacity" not in tribal
+
+
+def test_industrial_capacity_respects_explicit_tech():
+    """An explicit tech field still overrides population-based inference."""
+    loader = GeoJSONLoader(strict=True)
+
+    endowments = loader._extract_endowments({"Population": 5000, "tech": "industrial"})
+
+    assert endowments["industrial_capacity"] == Decimal("0.7")

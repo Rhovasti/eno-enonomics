@@ -287,10 +287,11 @@ class GeoJSONLoader:
                 endowments[driver] = max(endowments.get(driver, Decimal("0")), Decimal(baseline))
 
         # Tech-based industrial capacity
-        tech_level = props.get("tech", "tribal")
-        if tech_level == "medieval":
+        # Reason: use the inferred tech level; most datasets have no explicit "tech" field
+        tech_level = self._infer_tech_level(props)
+        if tech_level == TechLevel.MEDIEVAL:
             endowments["industrial_capacity"] = Decimal("0.3")
-        elif tech_level == "industrial":
+        elif tech_level == TechLevel.INDUSTRIAL:
             endowments["industrial_capacity"] = Decimal("0.7")
 
         return endowments
