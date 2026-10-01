@@ -5,14 +5,19 @@ Extract city information from district files and create a GeoJSON for economic s
 
 import json
 import random
+import sys
 from collections import defaultdict
 from pathlib import Path
 
+# Reason: the script lives in scripts/; put the repository root on the path for src.econgen.
+REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT))
+
 from src.econgen.paths import worldbuilder_dir
 
-# Eno-Worldbuilder2 checkout ($ENO_WORLDBUILDER_DIR); outputs go next to this script.
+# Eno-Worldbuilder2 checkout ($ENO_WORLDBUILDER_DIR); outputs go to the repository root.
 WORLDBUILDER_DIR = worldbuilder_dir()
-OUTPUT_DIR = Path(__file__).resolve().parent
+OUTPUT_DIR = REPO_ROOT
 
 
 def get_polygon_centroid(coordinates):
