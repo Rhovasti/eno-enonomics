@@ -43,7 +43,7 @@ repository. Their locations are set with environment variables (see `src/econgen
 |---|---|---|
 | `ENO_MINSKY_ROOT` | `/root/minsky` | `simulate`, `citystate-dynamic` (the `pyminsky` build) |
 | `ENO_CITYSTATES_DIR` | `/root/Eno/Eno-Worldbuilder2/citystates for economic profiles` | `citystate-*` commands (`--citystates-dir` overrides it) |
-| `ENO_WORLDBUILDER_DIR` | `/root/Eno/Eno-Worldbuilder2` | `create_cities_from_*.py` scripts |
+| `ENO_WORLDBUILDER_DIR` | `/root/Eno/Eno-Worldbuilder2` | `scripts/create_cities_from_*.py` |
 
 Tests that need these resources skip when they are not available. The citystate parser
 and endowment tests also run against six synthetic profiles bundled in
